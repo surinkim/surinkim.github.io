@@ -1,10 +1,7 @@
-@import url("//fonts.googleapis.com/css?family=Open+Sans:400,300,700");
-// @import url("//fonts.googleapis.com/css?family=Merriweather:400,300,700");
-
 body {
   color: $base-font-color;
   font-family: $base-font-family;
-  font-feature-settings: "kern", "liga", "pnum";
+  //font-feature-settings: "kern", "liga", "pnum";
   font-size: $base-font-size;
   line-height: $base-line-height;
 }
@@ -18,8 +15,8 @@ h6 {
   font-family: $heading-font-family;
   font-size: $base-font-size;
   line-height: $heading-line-height;
-  margin: 0 0 $small-spacing;
-  font-weight: 300;
+  margin: $small-spacing 0 $small-spacing 0;
+  font-weight: 700;
 }
 
 h1 {
@@ -81,17 +78,18 @@ picture {
 blockquote {
   padding: 0 0 0 $base-spacing;
   margin: $base-spacing 0;
-  color: $medium-gray-color;
+  color: $dark-gray-color;
   line-height: 1.8;
   border-left: $small-spacing solid $light-gray-color;
+  background-color: lighten($light-gray-color, 15%)
 }
 
 code {
   background: none;
   border-radius: 0;
   border: none;
-  font-family: "Courier New", monospace;
-  font-size: 0.9em;
+  font-family: monospace;
+  font-size: 1em;
   margin: 0;
   padding: 0 5px;
   background-color: lighten($light-gray-color, 13%);
@@ -99,11 +97,36 @@ code {
 
 pre {
   -webkit-overflow-scrolling: touch;
-  font-family: "Courier New", monospace;
-  font-size: 0.9em;
+  font-family: monospace;
+  font-size: 1em;
   margin: 0;
+  padding: 5px 10px !important;
+  overflow: auto;
+  max-height: 60em;
+  white-space: pre;
+  border: 1px solid $light-gray-color;
 
   code {
     line-height: 1.75em;
+    padding: 0 !important;
   }
+}
+
+strong {
+  font-weight: bold;
+}
+
+em {
+  font-style: italic;
+}
+
+ul,
+ol,
+dl {
+    margin-top: 0;
+    margin-left: 1.2em;
+    margin-bottom: 1rem;
+    list-style-type: square;
+    list-style-position: outside;
+    list-style-image: none;
 }

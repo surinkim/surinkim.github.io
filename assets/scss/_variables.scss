@@ -1,6 +1,5 @@
 // Typography
-$base-font-family: 'Open Sans', $helvetica;
-// $base-font-family: 'Merriweather', "Georgia", serif;
+$base-font-family: consolas, monaco, courier, "courier new", fixed-width;
 $heading-font-family: $base-font-family;
 
 // Font Sizes
@@ -17,11 +16,11 @@ $small-spacing: $base-spacing / 2;
 $base-z-index: 0;
 
 // Colors
-$primary-color: #ec2028;
+$primary-color: #000;
 $action-color: $primary-color;
 $white-color: #fff;
 $black-color: #000;
-$blue-color: #477dca;
+$blue-color: #0086B3;
 $dark-gray-color: #333;
 $medium-gray-color: #999;
 $light-gray-color: #ccc;
