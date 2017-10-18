@@ -10,7 +10,7 @@ title: 윈도우에서 MinGW 64bit/Code::Blocks 설치
  
  2.아래 그림처럼 Architecture 항목을 **x86_64**로 설정합니다.
  
- ![MinGW64_1](https://surinkim.github.io/assets/img/2017_10_16/MinGW_1.jpg)
+ ![MinGW64_1](https://surinkim.github.io/img/2017_10_16/MinGW_1.jpg)
  
  
  3.나머지는 그대로 두고 Next를 눌러 설치를 완료합니다.
@@ -34,9 +34,9 @@ title: 윈도우에서 MinGW 64bit/Code::Blocks 설치
  
  
  
- ![CodeBlocks 1](https://surinkim.github.io/assets/img/2017_10_16/codeblocks_1.jpg)
+ ![CodeBlocks 1](https://surinkim.github.io/img/2017_10_16/codeblocks_1.jpg)
  
- ![CodeBlocks 2](https://surinkim.github.io/assets/img/2017_10_16/codeblocks_2.jpg)
+ ![CodeBlocks 2](https://surinkim.github.io/img/2017_10_16/codeblocks_2.jpg)
  
  4.아래 그림처럼 컴파일러를 설정합니다. 컴파일러 설치 디렉토리 경로에 bin 폴더가 들어가지 않도록 주의하세요.
   
@@ -44,7 +44,7 @@ title: 윈도우에서 MinGW 64bit/Code::Blocks 설치
 ex)C:\Program Files\mingw-w64\x86_64-7.1.0-posix-seh-rt_v5-rev2\mingw64\
 ```
 
-![CodeBlocks 3](https://surinkim.github.io/assets/img/2017_10_16/codeblocks_3.jpg)
+![CodeBlocks 3](https://surinkim.github.io/img/2017_10_16/codeblocks_3.jpg)
 
 
 
