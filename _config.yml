@@ -1,57 +1,45 @@
+# Dependencies
+markdown:     kramdown
+highlighter:  rouge
 
-# SEO settings
-title: "CoreCode"
-title2: "" # default: ""
-description: "프로그래밍 블로그"
-keywords: "Jekyll, theme, free, download, SEO, blog, web, minimalist, thinkspace"
-url: http://surinkim.github.io # site url
-baseurl: "" # apply repo name if use it under gh-pages branch
-# baseurl: null # apply null if repo name is something like username.github.io
-github_username:  surinkim
 
-google_analytics: UA-XXXXX-XX
-repo: http://github.com/heiswayi/thinkspace
-disqus_shortname: "hnbloggithub"
-twitter_username: "HeiswayiNrird"
-comments: false
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+#relative_permalinks: true
 
-# Build settings
-permalink   : /:year/:title/
-markdown    : kramdown
-highlighter : rouge
+# Setup
+title:               'Hyun 블로그'
+tagline:             ''
+#description:         'A reserved <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+description:         'Hyun 블로그'
+url:                 http://lanyon.getpoole.com
+baseurl:             ''
+paginate:            1
+plugins:             [jekyll-paginate]
+disqus_shortname:    hyunblog
+disqus_url:          https://corecode.pe.kr
 
-source: ./
-destination: ./_site
-
-# Sass configuration
-sass:
-  sass_dir: assets/scss
-  style: compressed # expanded
-
-# Author settings
+# About/contact
 author:
-  name     : "Hyunuk Kim"
-  job      : "Software Engineer"
-  bio      : ""
-  thumb    : /images/author.jpg
-  email    : nnhope@hotmail.com
-  url      : http://corecode.pe.kr
-  github   : http://github.com/surinkim
-  
-# social settings
-og_locale: "en_US"
-twitter_card: "summary_large_image"
-twitter_site: "@HeiswayiNrird"
+  name:              Mark Otto
+  url:               https://twitter.com/mdo
+  email:             markdotto@gmail.com
 
-plugins:
-  - bourbon
-  - jekyll-paginate
+# Custom vars
+version:             1.0.0
 
-# navbar pages
-navbar:
-  - slug : about me
-    title: About me
-  - slug : blog
-    title: Blog
 
-exclude: ["gulp", "node_modules", "bower", "bower_components", "config.rb", "src", "Gemfile", "Gemfile.lock", ".rvmrc", ".rbenv-version", "package.json", "gulpfile.js", "README.md", "Rakefile", "changelog.md"]
+pages_list:       
+  About: '/about'
+  Archive: '/archive'
+  Feed: '/atom.xml'
+
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      comments: true
