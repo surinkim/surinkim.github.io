@@ -11,7 +11,7 @@ title: 소개
 
 <a href="https://github.com/poole/lanyon" target="_blank">lanyon </a> 테마를 사용했습니다.
 
-<hr>
+
 
 <ul>
   <li>

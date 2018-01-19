@@ -27,4 +27,3 @@ abort(code=400, description="Invalid destination name")
 <script src="https://gist.github.com/surinkim/b9ffb01a395405ea601cc927085d7e4c.js"></script>
 
 
-<hr>

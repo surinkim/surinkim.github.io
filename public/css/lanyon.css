@@ -46,6 +46,8 @@ html {
   font-family: "Helvetica Neue", "Apple SD Gothic Neo", "Nanum Gothic", Helvetica, Arial, sans-serif;
   font-size: 14px;
 }
+
+
 @media (min-width: 36em) {
   html {
     font-size: 16px;
@@ -58,7 +60,6 @@ h1, h2, h3, h4, h5, h6 {
   color: #313131;
   letter-spacing: -.025rem;
 }
-
 
 /* Lists */
 ul, ol, dl {
@@ -86,7 +87,7 @@ ul, ol, dl {
  * Center the page content.
  */
 
-.container {
+ .container {
   max-width: 36rem;
 }
 @media (min-width: 44em) {
@@ -119,6 +120,7 @@ ul, ol, dl {
   margin-bottom: 0.5rem;
 }
 
+
 /*
  * Masthead
  *
@@ -129,11 +131,9 @@ ul, ol, dl {
   padding-top:    1rem;
   padding-bottom: 1rem;
   margin-bottom: 1rem;
-  /* border-bottom: 1px solid #eee; */
+  /*border-bottom: 1px solid #eee;*/
 }
 .masthead-title {
-  font-family: Inconsolata, Consolas, Courier New;
-  text-align: center;
   margin-top: 0;
   margin-bottom: 0;
   color: #505050;
@@ -147,16 +147,7 @@ ul, ol, dl {
   color: #c0c0c0;
   letter-spacing: 0;
 }
-.masthead-menu {
-  font-weight: normal;
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: #c0c0c0;
-}
-.masthead-menu a {
-  color: #808080;
-}
+
 @media (max-width: 48em) {
   .masthead-title {
     text-align: center;
@@ -166,18 +157,7 @@ ul, ol, dl {
   }
 }
 
-.footer-copyright {
-  font-size: 75%;
-  font-family: Inconsolata, Consolas, Courier New;
-  text-align: center;
-  color: #c0c0c0;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-/*
- * minjang: CSS override for the Rouge syntax highlight
- */
+/* CODE */
 td.code {
   border: 0rem;
 }
@@ -194,6 +174,7 @@ pre.lineno {
   border: 0rem;
   padding: 0rem;
   margin-left: -.25rem;
+  text-align: right;
   color: rgba(0, 0, 0, .3);
 }
 pre code table {
@@ -278,12 +259,12 @@ figure.highlight {
   position: fixed;
   top: 0;
   bottom: 0;
-  left: -10rem;
-  width: 10rem;
+  left: -14rem;
+  width: 14rem;
   visibility: hidden;
   overflow-y: auto;
-  /*font-family: "PT Sans", Helvetica, Arial, sans-serif;*/
-  font-size: .75rem; /* 15px */
+  font-family: "PT Sans", Helvetica, Arial, sans-serif;
+  font-size: .875rem; /* 15px */
   color: rgba(255,255,255,.6);
   background-color: #202020;
   -webkit-transition: all .3s ease-in-out;
@@ -346,8 +327,8 @@ a.sidebar-nav-item:focus {
 /* Style the `label` that we use to target the `.sidebar-checkbox` */
 .sidebar-toggle {
   position: absolute;
-  top:  .7rem;
-  left: .3rem;
+  top:  .8rem;
+  left: 1rem;
   display: block;
   padding: .25rem .75rem;
   color: #505050;
@@ -428,9 +409,9 @@ a.sidebar-nav-item:focus {
 #sidebar-checkbox:checked ~ .sidebar,
 #sidebar-checkbox:checked ~ .wrap,
 #sidebar-checkbox:checked ~ .sidebar-toggle {
-  -webkit-transform: translateX(10rem);
-      -ms-transform: translateX(10rem);
-          transform: translateX(10rem);
+  -webkit-transform: translateX(14rem);
+      -ms-transform: translateX(14rem);
+          transform: translateX(14rem);
 }
 
 
@@ -443,7 +424,8 @@ a.sidebar-nav-item:focus {
 
 .page,
 .post {
-  margin-bottom: 2em;
+  margin-bottom: 1em;
+  border-bottom: 1px solid #eee;
 }
 
 /* Blog post or page title */
@@ -455,17 +437,14 @@ a.sidebar-nav-item:focus {
 .page-title,
 .post-title {
   margin-top: 0;
-  margin-bottom: 1rem;
 }
 
 /* Meta data line below post title */
-.post-meta {
+.post-date {
+  display: block;
+  margin-top: -.5rem;
   margin-bottom: 1rem;
-  margin-top: -0.5rem;
-  color: #808080;
-}
-.post-meta a {
-  color: #808080;
+  color: #9a9a9a;
 }
 
 /* Related posts */
@@ -486,7 +465,7 @@ a.sidebar-nav-item:focus {
   color: #999;
 }
 .related-posts li a:hover {
-  color: #268bd2;
+  color: #268AD2;
   text-decoration: none;
 }
 .related-posts li a:hover small {
@@ -505,7 +484,7 @@ a.sidebar-nav-item:focus {
   overflow: hidden; /* clearfix */
   margin-left: -1rem;
   margin-right: -1rem;
-  font-family: "Helvetica Neue", "Apple SD Gothic Neo", "Nanum Gothic", Helvetica, Arial, sans-serif;
+  font-family: "PT Sans", Helvetica, Arial, sans-serif;
   color: #ccc;
   text-align: center;
 }
@@ -513,18 +492,9 @@ a.sidebar-nav-item:focus {
 /* Pagination items can be `span`s or `a`s */
 .pagination-item {
   display: block;
-  padding: 0.5rem;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  border-left-width: 0px;
-  border-right-width: 0px;
+  padding: 1rem;
+  border: 1px solid #eee;
 }
-
-a.pagination-item.older,
-a.pagination-item.newer {
-  color: #808080;
-}
-
 .pagination-item:first-child {
   margin-bottom: -1px;
 }
@@ -536,7 +506,7 @@ a.pagination-item:hover {
 
 @media (min-width: 30em) {
   .pagination {
-    margin: 1rem 0;
+    margin: 3rem 0;
   }
   .pagination-item {
     float: left;
@@ -564,7 +534,7 @@ a.pagination-item:hover {
 
 .layout-reverse .sidebar {
   left: auto;
-  right: -10rem;
+  right: -14rem;
 }
 .layout-reverse .sidebar-toggle {
   left: auto;
@@ -574,9 +544,9 @@ a.pagination-item:hover {
 .layout-reverse #sidebar-checkbox:checked ~ .sidebar,
 .layout-reverse #sidebar-checkbox:checked ~ .wrap,
 .layout-reverse #sidebar-checkbox:checked ~ .sidebar-toggle {
-  -webkit-transform: translateX(-10rem);
-      -ms-transform: translateX(-10rem);
-          transform: translateX(-10rem);
+  -webkit-transform: translateX(-14rem);
+      -ms-transform: translateX(-14rem);
+          transform: translateX(-14rem);
 }
 
 
@@ -706,4 +676,19 @@ a.pagination-item:hover {
 /* Only one tweak for a reverse layout */
 .layout-reverse.sidebar-overlay #sidebar-checkbox:checked ~ .sidebar {
   box-shadow: -.25rem 0 .5rem rgba(0,0,0,.1);
+}
+
+/* for tag cloud and archives*/
+ul.tag-cloud {
+  list-style: none;
+  padding: 0;
+  text-align: justify; 
+  font-size: 16px;
+}
+ul.tag-cloud li {
+  display: inline-block;
+  margin: 0 12px 12px 0; 
+  background: #ECF0F3;
+  padding: 3px 5px;
+  border-radius: 5px;
 }

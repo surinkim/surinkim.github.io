@@ -15,6 +15,8 @@ Tox는 파이썬의 테스트 자동화, 표준화를 위한 도구다.  Tox를 
 여기서는 Tox에서 pytest 실행 방법을 정리한다.
 pytest 확장인 pytest-cov, pytest-flake8도 사용해본다.
 
+<hr>
+
 ### hello_flask.py
 먼저, virtualenv로 dev_tox 환경을 만들고, hello_flask.py 플라스크 소스를 추가했다.
 
@@ -231,4 +233,4 @@ ___________________________________ summary ___________________________________
 pytest-flake8은 디폴트 로그 레벨이 DEBUG라서 warning 하나만 발생해도 어마무시한 로그가 출력된다. 뭔가 이상하다 싶으면, `flake8` 명령만 실행해서 warning을 먼저 해결한 다음,pytest-flake8을 실행하는게 좋다. [디폴트 로그 레벨을 WARN으로 설정한 PR](https://github.com/tholo/pytest-flake8/pull/43/files)이 5일전에 올라왔으니 조만간 해결되지 싶다.
 
 
-<hr>
+
