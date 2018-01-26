@@ -7,7 +7,7 @@ layout: null
 	<channel>
 		<title>{{ site.title | xml_escape }}</title>
 		<description>{% if site.description %}{{ site.description | xml_escape }}{% endif %}</description>		
-		<link>http://surinkim.github.io/</link>
+		<link>http://corecode.pe.kr/</link>
 		{% for post in site.posts limit:100 %}
 			<item>
 				<title>{{ post.title | xml_escape }}</title>
