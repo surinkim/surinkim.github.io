@@ -17,7 +17,9 @@ description:         'Hyun 블로그'
 url:                 http://surinkim.github.io
 baseurl:             ''
 paginate:            1
-plugins:             [jekyll-paginate]
+#plugins:             [jekyll-paginate]
+plugins:
+  - jekyll-paginate
 disqus_shortname:    hyunblog
 disqus_url:          https://corecode.pe.kr
 
