@@ -16,3 +16,5 @@ cef는 chrome과 동일하게 멀티 프로세스로 동작한다. 만약, all.e
 디버그 버전 libcef.dll 크기가 100M가 넘기 때문에 clone 할 때, 조금 기다려야 한다.  
 
  > github에는 50M가 넘어가는 파일은 올릴 수 없는데, [Git LFS](https://git-lfs.github.com/)를 사용하면 소스 코드처럼 빈번하게 변경되는 파일들과 구분해서, 덩치 큰 바이너리 파일도 올릴 수 있다.
+
+ > sub.exe 빌드 후, post build event로 manifest를 추가하는 과정이 있는데, 이 과정을 skip 하면 윈도우 10에서는 웹 페이지가 보이지 않는다. 윈도우 7에서는 제대로 보인다.
