@@ -24,3 +24,4 @@ title: gen-cef-vsproj, gen-grpc-vsproj
 ```
 
 > grpc는 [vcpkg](https://github.com/Microsoft/vcpkg/tree/master/ports)에서 지원하지만, cef는 아직 포함돼있지 않다. 그래서 이렇게 아까운 시간을...
+> 02/19 추가: NuGet package로 지원하는 [cef-binary](https://github.com/cefsharp/cef-binary)는 `libcef_dll_wrapper.lib`를 별도로 빌드해야 하고, include 폴더도 직접 가져와야 하는 것 같다.
