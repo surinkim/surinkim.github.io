@@ -16,7 +16,7 @@ tagline:             ''
 description:         'Hyun 블로그'
 url:                 http://surinkim.github.io
 baseurl:             ''
-paginate:            1
+paginate:            5
 #plugins:             [jekyll-paginate]
 plugins:
   - jekyll-paginate

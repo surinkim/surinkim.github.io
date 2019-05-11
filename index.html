@@ -14,7 +14,8 @@ title: Home
 
     <span class="post-date">{{ post.date | date_to_string }}</span>
 
-    {{ post.content }}
+    {{ post.excerpt }}
+    <p class="text-rigth"><a href="{{post.url }}">더 읽어 보기 ...</a></p>
   </div>
   {% endfor %}
 </div>
