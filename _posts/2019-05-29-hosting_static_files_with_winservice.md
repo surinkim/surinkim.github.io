@@ -70,6 +70,7 @@ node setup_win_service.js
 ```
 
 윈도우 서비스 관리자에 `YourServiceName` 서비스가 등록되고 자동 실행된다.
+브라우저에서 `http://localhost:3000/your.html`로 열 수 있다.
 
 #### 참고:  
 [StackOverFlow 1](https://stackoverflow.com/questions/10547974/how-to-install-node-js-as-windows-service)  
