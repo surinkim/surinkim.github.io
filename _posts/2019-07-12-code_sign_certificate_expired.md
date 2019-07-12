@@ -6,7 +6,7 @@ title: code sign 인증서 만료
 아래처럼 -t 옵션을 주고 code sign을 했다면, 인증서 만료 시간이 도래한다고 해서, 이미 배포한 바이너리를 새로 sign하고 다시 배포할 필요는 없다.  
 그러니까, code sign했던 시점에 유효한 인증서였다면, 인증서 기간이 만료되어도 계속 유효한 게시자로 표시된다.
  
-```bash
+``` bash
 -t http://timestamp.verisign.com/scripts/timstamp.dl
 ```
 
@@ -23,5 +23,5 @@ title: code sign 인증서 만료
 
   
 > Timestamping ensures that code will not expire when the certificate expires because the browser validates the timestamp.
-> The timestamping service is provided courtesy of VeriSign. If you use the timestamping service when signing code, a hash of your code is sent to VeriSign’s server to record a timestamp for your code.
+> The timestamping service is provided courtesy of VeriSign. If you use the timestamping service when signing code, a hash of your code is sent to VeriSign’s server to record a timestamp for your code.  
 > https://search.thawte.com/support/ssl-digital-certificates/index?page=content&id=AR1119
