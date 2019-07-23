@@ -11,6 +11,7 @@ title: paho mqtt c/cpp 빌드
 ``` cpp
 # SSL=TRUE
 # STATIC=TRUE
+# paho.mqtt.c와 동일 레벨에 openssl 폴더가 있다고 가정한다.
 mkdir build
 cd build
 cmake -G "Visual Studio 14 2015" -DOPENSSL_INCLUDE_DIR=../../openssl/include -DOPENSSL_LIB=../../openssl/lib -DOPENSSLCRYPTO_LIB=../../openssl/lib -DPAHO_BUILD_STATIC=TRUE -DPAHO_WINDOWS_BUILD_BIT="x86" -DPAHO_WITH_SSL=TRUE ..
