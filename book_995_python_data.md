@@ -1,6 +1,6 @@
 ---
 layout: page
-title: (번역서)데이터를 다루며 배우는 파이썬(예약판매 시작)
+title: (번역서)데이터를 다루며 배우는 파이썬
 comments: true
 ---
 
