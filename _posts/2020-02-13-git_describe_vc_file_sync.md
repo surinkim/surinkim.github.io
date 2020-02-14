@@ -10,9 +10,9 @@ title: git describe로, git 소스 버전을 VC++에서 빌드한 파일 버전�
 $ git describe
 v1.0.9-8-gbab53f6
 ```
-`v1.0.9-8-gbab53f6`에서 `v1.0.9`은 현재 태그, `8-gbab53f6`은 해당 태그부터 8번째 commit이며, 축약된 commit 이름이 `bab53f6`이라는 뜻이다. 이 명령을 이용하면 git 저장소의 소스 버전을 VC++ 프로젝트에서 빌드한 파일 버전으로 자동 연동시킬 수 있다.
+`v1.0.9-8-gbab53f6`에서 `v1.0.9`은 현재 태그, `8-gbab53f6`은 해당 태그부터 8번째 commit이며, 축약된 commit 이름이 `bab53f6`이라는 뜻이다. 접두사 `g`는 `git`을 뜻하며 어떤 SCM을 사용하느냐에 따라 달라질 수 있다. 이 명령을 이용하면 git 저장소의 소스 버전을 VC++ 프로젝트에서 빌드한 파일 버전으로 자동 연동시킬 수 있다.
 
-이렇게 하려면, git describe 결과를 얻고 적당한 파일에 버전 정보를 써주는 과정이 필요하다.  이런 역할을 해주는 스크립트는 쉽게 구할 수 있는데 여기서는 [이곳의 배치 파일]([https://github.com/Thell/git-vs-versioninfo-gen/blob/master/GIT-VS-VERSION-GEN.bat](https://github.com/Thell/git-vs-versioninfo-gen/blob/master/GIT-VS-VERSION-GEN.bat))을 사용한다.
+이렇게 하려면, git describe 결과를 얻고 적당한 파일에 버전 정보를 써주는 과정이 필요하다. 이런 역할을 해주는 스크립트는 쉽게 구할 수 있는데 여기서는 [이곳의 배치 파일]([https://github.com/Thell/git-vs-versioninfo-gen/blob/master/GIT-VS-VERSION-GEN.bat](https://github.com/Thell/git-vs-versioninfo-gen/blob/master/GIT-VS-VERSION-GEN.bat))을 사용한다.
 
 로컬의 git 저장소 폴더에서 아래와 같이 실행하면
 ```bash
