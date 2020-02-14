@@ -18,7 +18,7 @@ v1.0.9-8-gbab53f6
 ```bash
 .\git-vs-version-get.bat .\versioninfo.h
 ```
-아래와 같은 `versioninfo.h` 파일을 생성해 준다.
+`versioninfo.h` 파일을 생성해 준다.
 ```c++
 //GIT-VS-VERSION-GEN.bat generated resource header.
 #define  GEN_VER_VERSION_STRING  "1.0.9.8.gbab53\0"
@@ -31,7 +31,7 @@ v1.0.9-8-gbab53f6
 #define  GEN_VER_PRERELEASE_FLAG  0
 ```
 
-이제 VC++ 프로젝트에서 이 파일을 사용하면 된다.
+VC++ 프로젝트에서 이 파일을 사용하도록 설정한다.
 `.rc`파일에 `versioninfo.h`를 include하고, `FILEVERSION`, `PRODUCTION`의 값을 `GEN_VER_DIGITAL_VERSION` 매크로 변수로 대체한다.
 ```rc
 /////////////////////////////////////////////////////////////////////////////
@@ -60,5 +60,8 @@ BEGIN
 ...
 ...
 ```
-이렇게 해두고 VC++의 `빌드 전 이벤트`에, `git-vs-version-get.bat`으로 `versioninfo.h`를 생성하는 과정을 추가하면, 자동으로 git 저장소의 소스 버전을 빌드한 파일 버전으로 연동할 수 있다.
+이제 VC++의 `빌드 전 이벤트`에, `git-vs-version-get.bat`으로 `versioninfo.h`를 생성하는 과정을 추가해주면, git 저장소의 소스 버전이 VC++ 빌드 파일 버전에 자동 연동된다.
+
+
+
 
