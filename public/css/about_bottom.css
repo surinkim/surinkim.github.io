@@ -28,6 +28,16 @@ transform:scale(1.4);
 opacity:1;
 }
 
+.fa-hackerrank {
+font-size: 40px;
+color:orange;
+opacity:0.5;
+}
+.fa-hackerrank:hover {
+transform:scale(1.4);
+opacity:1;
+}
+
 
 
 /* reset */
