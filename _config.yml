@@ -14,7 +14,7 @@ title:               'Hyun 블로그'
 tagline:             ''
 #description:         'A reserved <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
 description:         'Hyun 블로그'
-url:                 http://surinkim.github.io
+url:                 http://corecode.pe.kr
 baseurl:             ''
 paginate:            5
 #plugins:             [jekyll-paginate]
@@ -33,7 +33,7 @@ author:
 version:             1.0.0
 
 
-pages_list:       
+pages_list:
   About: '/about'
   Archive: '/archive'
   Feed: '/atom.xml'

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: http://surinkim.github.io/sitemap.xml
+Sitemap: http://corecode.pe.kr/sitemap.xml
