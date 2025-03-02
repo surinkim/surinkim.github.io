@@ -31,3 +31,5 @@ group :jekyll_plugins do
   gem "jekyll-paginate"
   gem "jekyll-graphviz"
 end
+
+gem 'rexml'
