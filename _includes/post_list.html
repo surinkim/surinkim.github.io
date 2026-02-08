@@ -1,0 +1,16 @@
+{%- assign date_format = site.theme_config.date_format | default: "%Y-%m-%d" -%}
+{%- if include.category -%}
+  {%- assign posts = site.categories[include.category] -%}
+{%- else -%}
+  {%- assign posts = site.posts -%}
+{%- endif -%}
+{%- assign limit = include.limit | default: 9999 -%}
+
+<ul class="post-list">
+  {%- for post in posts limit: limit -%}
+  <li>
+    <span class="post-date">{{ post.date | date: date_format }}</span>
+    <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+  </li>
+  {%- endfor -%}
+</ul>

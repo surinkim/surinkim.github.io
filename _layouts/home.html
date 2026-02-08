@@ -1,0 +1,37 @@
+---
+layout: default
+---
+
+<header>
+  <h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>
+  {%- if site.theme_config.show_description -%}
+  <p>{{ site.description }}</p>
+  {%- endif -%}
+</header>
+
+{%- assign date_format = site.theme_config.date_format | default: "%Y-%m-%d" -%}
+
+{% for item in site.data.menu %}
+  {% if item.url %}
+    <p><a href="{{ item.url | relative_url }}">{{ item.title }}</a></p>
+  {% elsif item.post_list %}
+    <h2>{{ item.title }}</h2>
+    {%- assign cat = item.post_list.category -%}
+    {%- assign lim = item.post_list.limit | default: 5 -%}
+    {%- if cat -%}
+      {%- assign posts = site.categories[cat] -%}
+    {%- else -%}
+      {%- assign posts = site.posts -%}
+    {%- endif -%}
+    <ul class="post-list">
+      {%- for post in posts limit: lim -%}
+      <li>
+        <span class="post-date">{{ post.date | date: date_format }}</span>
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </li>
+      {%- endfor -%}
+    </ul>
+  {% endif %}
+{% endfor %}
+
+{{ content }}

@@ -1,0 +1,19 @@
+{%- if item.url -%}
+  - [{{ item.title }}]({{ item.url | relative_url }})
+{%- endif -%}
+
+{%- if item.post_list -%}
+  **{{ item.title }}**
+
+  {%- assign cat = item.post_list.category -%}
+  {%- assign lim = item.post_list.limit | default: 5 -%}
+  {%- assign date_format = site.theme_config.date_format | default: "%Y-%m-%d" -%}
+  {%- if cat -%}
+    {%- assign posts = site.categories[cat] -%}
+  {%- else -%}
+    {%- assign posts = site.posts -%}
+  {%- endif -%}
+  {%- for post in posts limit: lim -%}
+  - {{ post.date | date: date_format }} [{{ post.title }}]({{ post.url | relative_url }})
+  {%- endfor -%}
+{%- endif -%}

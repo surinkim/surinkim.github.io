@@ -42,6 +42,12 @@ pages_list:
   Feed: '/atom.xml'
 
 
+theme_config:
+  appearance: "auto"
+  back_home_text: ".."
+  date_format: "%Y-%m-%d"
+  show_description: false
+
 defaults:
   - scope:
       path: ""
