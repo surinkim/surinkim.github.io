@@ -1,0 +1,52 @@
+categories:
+  AI:
+    - llm
+    - gpt
+    - agent
+    - openai
+    - anthropic
+    - claude
+    - gemini
+    - copilot
+    - machine learning
+    - deep learning
+    - neural
+    - transformer
+  Backend:
+    - api
+    - database
+    - postgres
+    - mysql
+    - redis
+    - graphql
+    - rest
+    - microservice
+    - server
+    - django
+    - flask
+    - spring
+    - node
+  InfraCloud:
+    - kubernetes
+    - aws
+    - gcp
+    - azure
+    - docker
+    - terraform
+    - ci/cd
+    - devops
+    - cloud
+    - serverless
+    - linux
+  Tools:
+    - github
+    - vscode
+    - cli
+    - git
+    - ide
+    - editor
+    - terminal
+    - vim
+    - neovim
+    - cursor
+default: Etc

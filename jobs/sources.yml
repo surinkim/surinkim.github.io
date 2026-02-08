@@ -1,0 +1,188 @@
+sources:
+  # - id: hn_hada
+  #   name: "GeekNews (hada)"
+  #   type: rss
+  #   url: https://news.hada.io/rss
+  #   trust: 0.9
+  #   language: ko
+  #   curl_fallback: true
+  #   headers:
+  #     Referer: "https://news.hada.io/"
+  #     Origin: "https://news.hada.io"
+  #   enabled: true  # 403 차단됨
+
+  - id: lobsters
+    name: "Lobsters"
+    type: rss
+    url: https://lobste.rs/rss
+    trust: 0.8
+    language: en
+    enabled: true
+
+  # - id: r_programming
+  #   name: "r/programming"
+  #   type: rss
+  #   url: https://www.reddit.com/r/programming/.rss
+  #   trust: 0.7
+  #   language: en
+  #   enabled: true
+
+  # - id: openai_blog
+  #   name: "OpenAI Blog"
+  #   type: rss
+  #   url: https://openai.com/blog/rss.xml
+  #   trust: 0.9
+  #   language: en
+  #   enabled: true
+
+  - id: techcrunch_ai
+    name: "TechCrunch AI"
+    type: rss
+    url: https://techcrunch.com/category/artificial-intelligence/feed/
+    trust: 0.75
+    language: en
+    include_keywords: ["ai", "llm", "openai", "anthropic", "claude", "gpt", "gemini", "model", "agent", "coding", "developer", "open source", "startup"]
+    enabled: true
+
+  - id: r_claudecode
+    name: "r/ClaudeCode"
+    type: rss
+    url: https://www.reddit.com/r/ClaudeCode/top/.rss?t=week
+    trust: 0.75
+    language: en
+    headers:
+      User-Agent: "weekly-digest-bot/1.0"
+    enabled: true
+
+  # - id: r_claudeai
+  #   name: "r/ClaudeAI"
+  #   type: rss
+  #   url: https://www.reddit.com/r/ClaudeAI/top/.rss?t=week
+  #   trust: 0.75
+  #   language: en
+  #   headers:
+  #     User-Agent: "weekly-digest-bot/1.0"
+  #   enabled: true
+
+  # - id: aladin_dev
+  #   name: "Aladin 프로그래밍 신간"
+  #   type: rss
+  #   url: http://www.aladin.co.kr/rss/new_all/7396
+  #   trust: 0.7
+  #   language: ko
+  #   enabled: true
+
+  - id: yozm_wishket
+    name: "요즘IT"
+    type: rss
+    url: https://yozm.wishket.com/magazine/feed/
+    trust: 0.8
+    language: ko
+    include_keywords: ["개발", "코딩", "프로그래밍", "ai", "llm", "프론트엔드", "백엔드", "인프라", "클라우드", "devops", "릴리즈", "오픈소스", "api", "개발자"]
+    enabled: true
+
+  - id: d2_naver
+    name: "NAVER D2"
+    type: atom
+    url: https://d2.naver.com/d2.atom
+    trust: 0.9
+    language: ko
+    include_keywords: ["개발", "frontend", "backend", "infra", "클라우드", "ai", "llm", "데이터", "python", "java", "javascript", "typescript", "kubernetes"]
+    enabled: true
+
+  - id: woowa_techblog
+    name: "Woowahan Tech Blog"
+    type: rss
+    url: https://techblog.woowahan.com/feed/
+    trust: 0.85
+    language: ko
+    include_keywords: ["개발", "engineering", "backend", "frontend", "infra", "devops", "테스트", "아키텍처", "데이터", "서비스"]
+    enabled: true
+
+  - id: toss_tech
+    name: "Toss Tech"
+    type: rss
+    url: https://toss.tech/rss.xml
+    trust: 0.85
+    language: ko
+    include_keywords: ["개발", "engineering", "backend", "frontend", "infra", "devops", "보안", "데이터", "아키텍처"]
+    enabled: true
+
+  - id: hyperconnect
+    name: "Hyperconnect Tech Blog"
+    type: rss
+    url: https://hyperconnect.github.io/feed.xml
+    trust: 0.8
+    language: ko
+    include_keywords: ["개발", "engineering", "ai", "ml", "데이터", "backend", "frontend", "infra"]
+    enabled: true
+
+  - id: kurly_helloworld
+    name: "Kurly Tech Blog"
+    type: rss
+    url: https://helloworld.kurly.com/feed.xml
+    trust: 0.8
+    language: ko
+    include_keywords: ["개발", "engineering", "backend", "frontend", "infra", "아키텍처", "데이터", "python", "java"]
+    enabled: true
+
+  - id: devsisters_tech
+    name: "Devsisters Tech"
+    type: rss
+    url: https://tech.devsisters.com/rss.xml
+    trust: 0.8
+    language: ko
+    include_keywords: ["개발", "engineering", "backend", "frontend", "infra", "게임", "서버", "클라이언트", "데이터"]
+    enabled: true
+
+  - id: banksalad_blog
+    name: "Banksalad Tech"
+    type: rss
+    url: https://blog.banksalad.com/rss.xml
+    trust: 0.75
+    language: ko
+    include_keywords: ["개발", "engineering", "backend", "frontend", "infra", "데이터", "보안", "아키텍처"]
+    enabled: true
+
+  - id: aitimes
+    name: "AI Times"
+    type: rss
+    url: https://www.aitimes.com/rss/allArticle.xml
+    trust: 0.7
+    language: ko
+    include_keywords: ["ai", "인공지능", "llm", "모델", "agent", "에이전트", "openai", "anthropic", "gemini", "gpu", "mlops", "프롬프트"]
+    exclude_keywords: ["축산", "농산물", "청소년", "공연", "명절", "드론쇼", "고흥", "순천", "지역", "모집", "광양", "노인", "보건", "복지", "공모", "채용", "입찰", "조례"]
+    enabled: true
+
+  - id: github_blog
+    name: "GitHub Blog"
+    type: rss
+    url: https://github.blog/feed/
+    trust: 0.8
+    language: en
+    enabled: true
+
+  - id: google_dev
+    name: "Google Developers"
+    type: atom
+    url: https://developers.googleblog.com/feeds/posts/default
+    trust: 0.8
+    language: en
+    enabled: true
+
+  - id: infoq
+    name: "InfoQ"
+    type: rss
+    url: https://feed.infoq.com/
+    trust: 0.8
+    language: en
+    enabled: true
+
+  - id: itworld_kr
+    name: "ITWorld Korea"
+    type: rss
+    url: https://www.itworld.co.kr/rss/
+    trust: 0.7
+    language: ko
+    include_keywords: ["개발", "코드", "엔지니어", "ai", "인공지능", "클라우드", "보안", "데이터", "kubernetes", "linux", "database", "api"]
+    enabled: true

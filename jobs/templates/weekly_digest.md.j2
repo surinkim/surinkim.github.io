@@ -1,0 +1,28 @@
+---
+layout: post
+title: "{{ title }}"
+date: {{ date }}
+categories: [normal]
+tags: [weekly, links, dev-news]
+---
+
+{% for section_name, items in sections.items() %}
+{% if items %}
+## {{ section_name }}
+
+{% for item in items %}
+- [{{ item.title }}]({{ item.url }})
+{% if item.summary %}  <br>{{ item.summary }}{% endif %}
+
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+---
+
+> **검수 체크리스트**
+> - [ ] 링크 100% 클릭 확인
+> - [ ] 중복 이슈 제거 확인
+> - [ ] 과장/낚시 제목 수정
+> - [ ] 카테고리 오분류 수정
+> - [ ] 최종 링크 수 10~25개 범위 확인

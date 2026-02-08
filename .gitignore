@@ -40,3 +40,10 @@ validation-report.json
 # Folders to ignore
 node_modules
 bower_components
+
+# Python
+__pycache__/
+
+# Weekly digest job
+jobs/data/
+jobs/.venv/
