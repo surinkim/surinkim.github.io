@@ -36,8 +36,14 @@ title: 소개
     </a>
   </li>
   <li>
-    <a href='/img/cka.jpg' target="_blank">
+    <a href='https://www.credly.com/badges/59b96f23-d13d-40c5-9c69-41ca53079327/public_url' target="_blank">
       <img src='https://simpleicons.org/icons/kubernetes.svg' width='40' height='40' />
+    </a>
+  </li>
+  <li>
+    <a href='https://www.credly.com/badges/faa92801-39e4-4aad-aea4-3eddb904a67b/public_url' target="_blank">
+      <i class="fab fa-aws fa-2x" style="color:#63E6BE;
+      font-size:40px;" aria-hidden="true"></i>
     </a>
   </li>
 </ul>
