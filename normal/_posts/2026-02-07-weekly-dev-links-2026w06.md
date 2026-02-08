@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "주간 개발 소식 #2026 2/1 ~ 2/7"
+title: "주간 테크/개발 뉴스 #2026 2/1 ~ 2/7"
 date: 2026-02-07
 categories: [normal]
 tags: [weekly, links, dev-news]

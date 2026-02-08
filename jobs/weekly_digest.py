@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""주간 개발 소식 링크 모음 자동 큐레이션 도구.
+"""주간 테크/개발 뉴스 링크 모음 자동 큐레이션 도구.
 
 RSS 피드를 수집하고, 정규화/중복제거/품질필터/분류를 거쳐
 Jekyll 블로그용 Markdown 초안을 생성한다.
@@ -745,7 +745,7 @@ def render_markdown(
     if date_from is None:
         date_from = date_to - timedelta(days=6)
     title = (
-        f"주간 개발 소식 #{date_to.year} "
+        f"주간 테크/개발 뉴스 #{date_to.year} "
         f"{date_from.month}/{date_from.day} ~ {date_to.month}/{date_to.day}"
     )
 
@@ -832,7 +832,7 @@ def append_history(items: list[NormalizedItem], history_path: Path) -> None:
 # CLI
 # ---------------------------------------------------------------------------
 def main():
-    parser = argparse.ArgumentParser(description="주간 개발 소식 링크 모음 생성")
+    parser = argparse.ArgumentParser(description="주간 테크/개발 뉴스 링크 모음 생성")
     today = date.today()
     parser.add_argument(
         "--from", dest="date_from",
