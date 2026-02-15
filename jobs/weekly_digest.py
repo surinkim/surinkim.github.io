@@ -339,6 +339,25 @@ def fetch_rss(source: dict, timeout: int = 10, retries: int = 2) -> list[RawItem
         updated = entry.get("updated") or ""
         title = (entry.get("title") or "").strip()
 
+        # 타이틀에서 개행 제거 및 길이 제한 (트위터/Nitter 대응)
+        title = re.sub(r'\s+', ' ', title)  # 개행/연속 공백을 단일 공백으로
+        # 마크다운 테이블 구문 방지: 파이프 문자를 슬래시로 대체
+        title = title.replace('|', '/')
+        if len(title) > 150:
+            # 150자 이후 첫 문장 종료 지점 또는 단어 경계에서 자르기
+            truncated = title[:150]
+            # 문장 종료 지점 찾기
+            sentence_end = max(truncated.rfind('.'), truncated.rfind('。'), truncated.rfind('!'), truncated.rfind('?'))
+            if sentence_end > 50:
+                title = truncated[:sentence_end + 1]
+            else:
+                # 마지막 공백에서 자르기
+                last_space = truncated.rfind(' ')
+                if last_space > 50:
+                    title = truncated[:last_space] + '...'
+                else:
+                    title = truncated + '...'
+
         # published가 있으면 그것을 사용, 없으면 updated를 사용하되
         # 제목에 날짜 힌트가 있으면 updated와 교차 검증한다.
         if published:
