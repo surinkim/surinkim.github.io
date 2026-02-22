@@ -12,7 +12,7 @@ bash jobs/run_weekly_digest.sh
 bash jobs/run_weekly_digest.sh --dry-run
 
 # 옵션 지정
-bash jobs/run_weekly_digest.sh --from 2026-02-01 --to 2026-02-07 --max-links 25 --verbose
+bash jobs/run_weekly_digest.sh --from 2026-02-01 --to 2026-02-07 --max-links 40 --verbose
 ```
 
 ## CLI 옵션
