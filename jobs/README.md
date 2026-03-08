@@ -1,6 +1,6 @@
 # 주간 테크/개발 뉴스 링크 모음 자동화
 
-RSS 피드를 수집하여 Jekyll 블로그용 Markdown 초안을 생성하는 CLI 도구.
+RSS 피드와 GitHub Trending(주간)를 수집하여 Jekyll 블로그용 Markdown 초안을 생성하는 CLI 도구.
 
 ## 사용법
 
@@ -12,7 +12,7 @@ bash jobs/run_weekly_digest.sh
 bash jobs/run_weekly_digest.sh --dry-run
 
 # 옵션 지정
-bash jobs/run_weekly_digest.sh --from 2026-02-22 --to 2026-02-28 --max-links 40 --verbose
+bash jobs/run_weekly_digest.sh --from 2026-03-01 --to 2026-03-07 --max-links 50 --verbose   
 ```
 
 ## CLI 옵션
@@ -21,7 +21,7 @@ bash jobs/run_weekly_digest.sh --from 2026-02-22 --to 2026-02-28 --max-links 40 
 |------|--------|------|
 | `--from` | today - 6일 | 수집 시작일 (YYYY-MM-DD) |
 | `--to` | today | 수집 종료일 (YYYY-MM-DD) |
-| `--max-links` | 50 | 최종 선택 링크 수 상한 |
+| `--max-links` | 50 | GitHub Trending을 제외한 최종 선택 링크 수 상한 |
 | `--output-dir` | `normal/_posts` | MD 파일 저장 경로 |
 | `--dry-run` | - | 파일 미생성, 콘솔 출력만. 히스토리에도 기록하지 않음 |
 | `--sources` | `jobs/sources.yml` | 소스 설정 파일 경로 |
@@ -35,9 +35,16 @@ bash jobs/run_weekly_digest.sh --from 2026-02-22 --to 2026-02-28 --max-links 40 
 ## 파이프라인
 
 ```
-RSS 수집 → URL 정규화 → URL 중복제거 → 제목 유사도 중복제거
+RSS/GitHub Trending 수집 → URL 정규화 → URL 중복제거 → 제목 유사도 중복제거
 → 히스토리 중복제거 → 품질 필터 → 카테고리 분류 → 점수화/선택 → Markdown 렌더링
 ```
+
+기본 `jobs/sources.yml`에는 아래 소스가 활성화되어 있다.
+- GitHub Trending Repositories (`this week`, 10개)
+- GitHub Trending Developers (`this week`, 10개)
+- 수집된 항목은 `GitHub Trending` 섹션으로 별도 분리됨
+- GitHub Trending Repositories 설명은 원문(영문) 그대로 링크 다음 줄에 표시됨
+- `--max-links`는 GitHub Trending을 제외한 일반 소스에만 적용됨
 
 ## 출력물
 
@@ -52,10 +59,13 @@ RSS 수집 → URL 정규화 → URL 중복제거 → 제목 유사도 중복제
 ```yaml
 - id: my_source
   name: "My Source"
-  type: rss          # rss | atom | json | manual
+  type: rss          # rss | atom | json | manual | github_trending
   url: https://example.com/feed
   trust: 0.8         # 0.0~1.0 (점수화에 사용)
   language: en        # ko | en
+  mode: repositories  # github_trending 전용: repositories | developers
+  max_items: 10       # github_trending 전용: 수집 개수
+  source_cap: 10      # 점수화 선택 단계에서 소스별 최대 선택 수
   curl_fallback: false  # true면 httpx 실패 시 curl로 1회 재시도
   headers:              # 필요 시 소스별 커스텀 헤더
     Referer: "https://example.com/"

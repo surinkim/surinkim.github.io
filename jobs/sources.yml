@@ -35,6 +35,30 @@ sources:
     include_keywords: ["개발", "코드", "엔지니어", "ai", "인공지능", "클라우드", "보안", "데이터", "kubernetes", "linux", "database", "api"]
     enabled: true
 
+  - id: github_trending_repositories
+    name: "GitHub Trending Repositories"
+    type: github_trending
+    mode: repositories
+    url: https://github.com/trending?since=weekly
+    trust: 0.95
+    language: en
+    max_items: 10
+    source_cap: 10
+    curl_fallback: true
+    enabled: true
+
+  - id: github_trending_developers
+    name: "GitHub Trending Developers"
+    type: github_trending
+    mode: developers
+    url: https://github.com/trending/developers?since=weekly
+    trust: 0.95
+    language: en
+    max_items: 10
+    source_cap: 10
+    curl_fallback: true
+    enabled: true
+
 
   # - id: techcrunch_ai
   #   name: "TechCrunch AI"
@@ -193,6 +217,5 @@ sources:
   #   language: ko
   #   include_keywords: ["개발", "engineering", "backend", "frontend", "infra", "데이터", "보안", "아키텍처"]
   #   enabled: true
-
 
 

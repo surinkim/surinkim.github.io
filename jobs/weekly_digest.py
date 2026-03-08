@@ -44,8 +44,8 @@ TRACKING_PARAMS = {
 }
 AD_KEYWORDS = {"sponsored", "promo", "광고", "제휴", "advertisement"}
 CATEGORY_PRIORITY = ["AI", "Backend", "InfraCloud", "Tools"]
-SECTION_ORDER = ["AI", "Backend", "Infra/Cloud", "Tools", "Etc"]
-CATEGORY_DISPLAY = {"InfraCloud": "Infra/Cloud"}
+SECTION_ORDER = ["AI", "Backend", "Infra/Cloud", "Tools", "GitHub Trending", "Etc"]
+CATEGORY_DISPLAY = {"InfraCloud": "Infra/Cloud", "GitHubTrending": "GitHub Trending"}
 
 logger = logging.getLogger("weekly_digest")
 
@@ -195,7 +195,17 @@ def postprocess_summaries(
     """선택된 항목의 요약을 번역(옵션) + 길이 제한 처리."""
     for item in items:
         summary = item.summary or ""
-        if translate_en_to_ko and translator and _is_probably_english(summary):
+        # GitHub Trending 요약은 원문(영문) 유지
+        if item.source_id.startswith("github_trending"):
+            item.summary = _compress_summary(summary, max_sentences, max_chars)
+            continue
+
+        should_translate = (
+            translate_en_to_ko
+            and translator is not None
+            and _is_probably_english(summary)
+        )
+        if should_translate:
             summary = translator.translate_to_korean(summary)
         item.summary = _compress_summary(summary, max_sentences, max_chars)
     return items
@@ -429,6 +439,108 @@ def fetch_json_feed(source: dict, timeout: int = 10, retries: int = 2) -> list[R
     return items
 
 
+def fetch_github_trending(
+    source: dict, timeout: int = 10, retries: int = 2,
+) -> list[RawItem]:
+    """GitHub Trending 페이지에서 저장소/개발자 목록을 수집한다."""
+    text = _http_get(
+        source["url"],
+        timeout,
+        retries,
+        extra_headers=source.get("headers"),
+        use_curl_fallback=bool(source.get("curl_fallback", True)),
+    )
+    if text is None:
+        return []
+
+    now = datetime.now(timezone.utc)
+    now_iso = now.isoformat()
+    max_items = int(source.get("max_items", 10))
+    mode = str(source.get("mode", "repositories")).lower()
+    items: list[RawItem] = []
+
+    # Trending 카드 단위 블록 추출 (리포/개발자 공용)
+    blocks = re.findall(
+        r"<article[^>]*class=\"[^\"]*Box-row[^\"]*\"[^>]*>.*?</article>",
+        text,
+        flags=re.IGNORECASE | re.DOTALL,
+    )
+
+    if mode == "developers":
+        for block in blocks:
+            if len(items) >= max_items:
+                break
+
+            dev_match = re.search(
+                r"<h1[^>]*>\s*<a[^>]*href=\"/([^\"/]+)\"[^>]*>(.*?)</a>",
+                block,
+                flags=re.IGNORECASE | re.DOTALL,
+            ) or re.search(
+                r"<h2[^>]*>\s*<a[^>]*href=\"/([^\"/]+)\"[^>]*>(.*?)</a>",
+                block,
+                flags=re.IGNORECASE | re.DOTALL,
+            )
+            if not dev_match:
+                continue
+
+            username = dev_match.group(1).strip()
+            display_name = _strip_html(dev_match.group(2)).strip() or username
+
+            repo_match = re.search(
+                r"href=\"/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)\"",
+                block,
+                flags=re.IGNORECASE,
+            )
+            popular_repo = repo_match.group(1).strip() if repo_match else ""
+            summary = "GitHub 트렌딩 개발자 (이번 주)."
+            if popular_repo:
+                summary = f"{summary} 주요 저장소: {popular_repo}"
+
+            items.append(RawItem(
+                source_id=source["id"],
+                source_name=source["name"],
+                title=f"GitHub Developer: {display_name} (@{username})",
+                url=f"https://github.com/{username}",
+                published_at="",
+                summary=summary,
+                fetched_at=now_iso,
+            ))
+    else:
+        for block in blocks:
+            if len(items) >= max_items:
+                break
+
+            repo_match = re.search(
+                r"<h2[^>]*>\s*<a[^>]*href=\"/([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)\"",
+                block,
+                flags=re.IGNORECASE | re.DOTALL,
+            )
+            if not repo_match:
+                continue
+            repo = repo_match.group(1).strip()
+
+            desc_match = re.search(
+                r"<p[^>]*>(.*?)</p>",
+                block,
+                flags=re.IGNORECASE | re.DOTALL,
+            )
+            summary = _strip_html(desc_match.group(1)) if desc_match else ""
+            if not summary:
+                summary = "GitHub 트렌딩 저장소 (이번 주)."
+
+            items.append(RawItem(
+                source_id=source["id"],
+                source_name=source["name"],
+                title=repo,
+                url=f"https://github.com/{repo}",
+                published_at="",
+                summary=summary,
+                fetched_at=now_iso,
+            ))
+
+    return items
+
+
 def load_manual_items(path: Path) -> list[RawItem]:
     if not path.exists():
         return []
@@ -506,6 +618,8 @@ def collect(
                 raw = fetch_rss(src)
             elif src_type == "json":
                 raw = fetch_json_feed(src)
+            elif src_type == "github_trending":
+                raw = fetch_github_trending(src)
             elif src_type == "manual":
                 raw = load_manual_items(SCRIPT_DIR / "data" / "manual_items.yml")
             else:
@@ -620,6 +734,9 @@ def dedup_by_history(
 ) -> tuple[list[NormalizedItem], int]:
     if not history_path.exists():
         return items, 0
+    sticky = [item for item in items if item.source_id.startswith("github_trending")]
+    candidates = [item for item in items if not item.source_id.startswith("github_trending")]
+
     known_ids: set[str] = set()
     with open(history_path, encoding="utf-8") as f:
         for line in f:
@@ -630,7 +747,7 @@ def dedup_by_history(
                 except (json.JSONDecodeError, KeyError):
                     pass
     before = len(items)
-    result = [item for item in items if item.id not in known_ids]
+    result = sticky + [item for item in candidates if item.id not in known_ids]
     removed = before - len(result)
     logger.info("History dedup: %d → %d (removed %d)", before, len(result), removed)
     return result, removed
@@ -646,6 +763,11 @@ def quality_filter(
     result: list[NormalizedItem] = []
     source_filter_map = source_filter_map or {}
     for item in items:
+        # GitHub Trending 항목은 이미 상위 큐레이션 결과라 기본 품질 필터를 우회한다.
+        if item.source_id.startswith("github_trending"):
+            result.append(item)
+            continue
+
         title_lower = item.title.lower()
         summary_lower = item.summary.lower()
         text_lower = f"{title_lower} {summary_lower}"
@@ -677,6 +799,9 @@ def classify(items: list[NormalizedItem], rules: dict) -> list[NormalizedItem]:
     categories = rules.get("categories", {})
     default = rules.get("default", "Etc")
     for item in items:
+        if item.source_id.startswith("github_trending"):
+            item.category = "GitHubTrending"
+            continue
         text = (item.title + " " + item.summary).lower()
         matched = None
         for cat in CATEGORY_PRIORITY:
@@ -698,6 +823,7 @@ def score_and_select(
     items: list[NormalizedItem],
     max_links: int,
     source_trust_map: dict[str, float],
+    source_cap_map: dict[str, int] | None = None,
 ) -> list[NormalizedItem]:
     if not items:
         return items
@@ -706,6 +832,8 @@ def score_and_select(
     valid_dates = [d for d in pub_dates if d]
     latest = max(valid_dates) if valid_dates else date.today()
     recent_cutoff = latest - timedelta(days=3)
+
+    source_cap_map = source_cap_map or {}
 
     for item in items:
         item.score = source_trust_map.get(item.source_name, 0.5)
@@ -737,7 +865,8 @@ def score_and_select(
     overflow: list[NormalizedItem] = []
     for item in items:
         cnt = source_taken.get(item.source_name, 0)
-        if cnt < per_source_cap:
+        cap = source_cap_map.get(item.source_name, per_source_cap)
+        if cnt < cap:
             selected.append(item)
             source_taken[item.source_name] = cnt + 1
         else:
@@ -921,6 +1050,7 @@ def main():
     sources = load_sources(sources_path)
     rules = load_category_rules(rules_path)
     source_trust_map = {s["name"]: s.get("trust", 0.5) for s in sources}
+    source_cap_map = {s["name"]: int(s["source_cap"]) for s in sources if s.get("source_cap") is not None}
     source_filter_map = {
         s["id"]: {
             "include_keywords": s.get("include_keywords", []),
@@ -962,7 +1092,19 @@ def main():
     classified = classify(filtered, rules)
 
     # 7. Score & select
-    selected = score_and_select(classified, args.max_links, source_trust_map)
+    trending_selected = [
+        item for item in classified if item.source_id.startswith("github_trending")
+    ]
+    regular_candidates = [
+        item for item in classified if not item.source_id.startswith("github_trending")
+    ]
+    regular_selected = score_and_select(
+        regular_candidates,
+        args.max_links,
+        source_trust_map,
+        source_cap_map=source_cap_map,
+    )
+    selected = regular_selected + trending_selected
 
     # 7.5 Summary postprocess (translate + compress)
     translator = None

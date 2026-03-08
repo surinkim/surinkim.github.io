@@ -9,10 +9,12 @@ tags: [weekly, links, dev-news]
 {% for section_name, items in sections.items() %}
 {% if items %}
 ## {{ section_name }}
-
 {% for item in items %}
+{% if section_name == "GitHub Trending" and item.source_id == "github_trending_repositories" and item.summary %}
+- [{{ item.title }}]({{ item.url }})<br>{{ item.summary }}
+{% else %}
 - [{{ item.title }}]({{ item.url }})
-
+{% endif %}
 {% endfor %}
 {% endif %}
 {% endfor %}
