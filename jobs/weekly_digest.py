@@ -195,9 +195,9 @@ def postprocess_summaries(
     """선택된 항목의 요약을 번역(옵션) + 길이 제한 처리."""
     for item in items:
         summary = item.summary or ""
-        # GitHub Trending 요약은 원문(영문) 유지
+        # GitHub Trending 요약은 Claude로 생성된 한국어 요약이므로 넉넉한 제한 적용
         if item.source_id.startswith("github_trending"):
-            item.summary = _compress_summary(summary, max_sentences, max_chars)
+            item.summary = _compress_summary(summary, max_sentences=3, max_chars=350)
             continue
 
         should_translate = (
@@ -439,6 +439,59 @@ def fetch_json_feed(source: dict, timeout: int = 10, retries: int = 2) -> list[R
     return items
 
 
+def _fetch_github_readme(repo: str, timeout: int = 10) -> str:
+    """GitHub API를 통해 저장소의 README.md 원문을 가져온다."""
+    url = f"https://api.github.com/repos/{repo}/readme"
+    try:
+        with httpx.Client(follow_redirects=True, timeout=timeout) as client:
+            resp = client.get(url, headers={
+                "Accept": "application/vnd.github.raw+json",
+                "User-Agent": USER_AGENT,
+            })
+            resp.raise_for_status()
+            text = resp.text
+            # 8000자까지만 사용 (요약에 충분)
+            return text[:8000] if len(text) > 8000 else text
+    except Exception as exc:
+        logger.debug("Failed to fetch README for %s: %s", repo, exc)
+        return ""
+
+
+def _summarize_readme_with_claude(repo: str, readme: str, fallback: str = "") -> str:
+    """Claude CLI를 사용해 README를 3문장 한국어 요약으로 변환한다."""
+    if not readme.strip():
+        return fallback
+
+    prompt = (
+        f"다음은 GitHub 저장소 '{repo}'의 README.md 내용이다.\n"
+        "이 프로젝트를 3문장 이내의 한국어로 요약해줘.\n"
+        "단순 번역이 아니라 주요 기능과 특징, 왜 주목할 만한지를 정리해줘.\n"
+        "기술 용어(라이브러리명, 프레임워크명 등)는 영문 그대로 유지해.\n"
+        "요약만 출력해. 다른 설명은 붙이지 마.\n"
+        "---\n"
+        f"{readme}"
+    )
+
+    try:
+        proc = subprocess.run(
+            ["claude", "-p", prompt],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        if proc.returncode == 0 and proc.stdout.strip():
+            return proc.stdout.strip()
+        logger.warning("Claude summarization failed for %s (rc=%d)", repo, proc.returncode)
+    except FileNotFoundError:
+        logger.warning("claude CLI not found; skipping README summarization")
+    except subprocess.TimeoutExpired:
+        logger.warning("Claude summarization timed out for %s", repo)
+    except Exception as exc:
+        logger.warning("Claude summarization error for %s: %s", repo, exc)
+
+    return fallback
+
+
 def fetch_github_trending(
     source: dict, timeout: int = 10, retries: int = 2,
 ) -> list[RawItem]:
@@ -524,9 +577,17 @@ def fetch_github_trending(
                 block,
                 flags=re.IGNORECASE | re.DOTALL,
             )
-            summary = _strip_html(desc_match.group(1)) if desc_match else ""
-            if not summary:
-                summary = "GitHub 트렌딩 저장소 (이번 주)."
+            fallback_summary = _strip_html(desc_match.group(1)) if desc_match else ""
+            if not fallback_summary:
+                fallback_summary = "GitHub 트렌딩 저장소 (이번 주)."
+
+            # README를 가져와 Claude로 한국어 요약 생성
+            readme = _fetch_github_readme(repo)
+            if readme:
+                logger.info("Summarizing README for %s with Claude...", repo)
+                summary = _summarize_readme_with_claude(repo, readme, fallback=fallback_summary)
+            else:
+                summary = fallback_summary
 
             items.append(RawItem(
                 source_id=source["id"],
