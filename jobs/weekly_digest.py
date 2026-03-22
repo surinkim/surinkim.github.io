@@ -945,11 +945,81 @@ def score_and_select(
 
 
 # ---------------------------------------------------------------------------
+# Weekly Picks (r/ProgrammerHumor, HN, r/programming)
+# ---------------------------------------------------------------------------
+
+def _fetch_reddit_top(subreddit: str, limit: int = 3) -> list[dict]:
+    """Fetch top weekly posts from a subreddit."""
+    url = f"https://www.reddit.com/r/{subreddit}/top/.json?t=week&limit={limit}"
+    try:
+        resp = httpx.get(url, headers={"User-Agent": "weekly-digest-bot/1.0"}, timeout=15)
+        resp.raise_for_status()
+        data = resp.json()
+        results = []
+        for post in data["data"]["children"]:
+            d = post["data"]
+            results.append({
+                "title": d["title"],
+                "url": f"https://reddit.com{d['permalink']}",
+                "external_url": d.get("url_overridden_by_dest", ""),
+                "upvotes": d["ups"],
+                "comments": d["num_comments"],
+                "source": f"r/{subreddit}",
+            })
+        return results
+    except Exception as exc:
+        logger.warning("Failed to fetch r/%s: %s", subreddit, exc)
+        return []
+
+
+def _fetch_hn_top_commented(limit: int = 3) -> list[dict]:
+    """Fetch most-commented HN stories from the past week."""
+    week_ago = int((datetime.now(timezone.utc) - timedelta(days=7)).timestamp())
+    url = (
+        f"https://hn.algolia.com/api/v1/search?"
+        f"tags=story&numericFilters=created_at_i>{week_ago}"
+        f"&hitsPerPage={limit}"
+    )
+    try:
+        resp = httpx.get(url, timeout=15)
+        resp.raise_for_status()
+        data = resp.json()
+        # Sort by num_comments descending
+        hits = sorted(data.get("hits", []), key=lambda h: h.get("num_comments", 0), reverse=True)
+        results = []
+        for hit in hits[:limit]:
+            results.append({
+                "title": hit.get("title", ""),
+                "url": f"https://news.ycombinator.com/item?id={hit['objectID']}",
+                "external_url": hit.get("url", ""),
+                "upvotes": hit.get("points", 0),
+                "comments": hit.get("num_comments", 0),
+                "source": "Hacker News",
+            })
+        return results
+    except Exception as exc:
+        logger.warning("Failed to fetch HN top commented: %s", exc)
+        return []
+
+
+def fetch_weekly_picks() -> dict[str, list[dict]]:
+    """Fetch weekly pick candidates from multiple sources."""
+    picks = {}
+    picks["r/ProgrammerHumor"] = _fetch_reddit_top("ProgrammerHumor", 3)
+    picks["Hacker News"] = _fetch_hn_top_commented(3)
+    picks["r/programming"] = _fetch_reddit_top("programming", 3)
+    total = sum(len(v) for v in picks.values())
+    logger.info("Weekly picks: fetched %d candidates from %d sources", total, len(picks))
+    return picks
+
+
+# ---------------------------------------------------------------------------
 # Output
 # ---------------------------------------------------------------------------
 def render_markdown(
     items: list[NormalizedItem], template_path: Path, date_to: date,
     date_from: date | None = None,
+    weekly_picks: dict[str, list[dict]] | None = None,
 ) -> str:
     if date_from is None:
         date_from = date_to - timedelta(days=6)
@@ -980,6 +1050,7 @@ def render_markdown(
         total_count=len(items),
         range_from=date_from.isoformat(),
         range_to=date_to.isoformat(),
+        weekly_picks=weekly_picks or {},
     )
 
 
@@ -1190,8 +1261,11 @@ def main():
         translator=translator,
     )
 
-    # 8. Render
-    markdown = render_markdown(selected, template_path, date_to, date_from)
+    # 8. Weekly Picks
+    weekly_picks = fetch_weekly_picks()
+
+    # 9. Render
+    markdown = render_markdown(selected, template_path, date_to, date_from, weekly_picks)
 
     # Category breakdown for report
     cat_breakdown = dict(Counter(it.category for it in selected))

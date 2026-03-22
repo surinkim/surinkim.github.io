@@ -35,6 +35,16 @@ sources:
     include_keywords: ["개발", "코드", "엔지니어", "ai", "인공지능", "클라우드", "보안", "데이터", "kubernetes", "linux", "database", "api"]
     enabled: true
 
+  - id: console_dev
+    name: "Console.dev (Open Source Tools)"
+    type: rss
+    url: https://console.dev/rss.xml
+    trust: 0.85
+    language: en
+    include_keywords: ["cli", "tool", "developer", "open source", "terminal", "api", "database", "devops", "ai", "agent", "framework", "library", "rust", "go", "python", "typescript"]
+    enabled: true
+
+
   - id: github_trending_repositories
     name: "GitHub Trending Repositories"
     type: github_trending

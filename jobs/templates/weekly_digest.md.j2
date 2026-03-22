@@ -19,6 +19,23 @@ tags: [weekly, links, dev-news]
 {% endif %}
 {% endfor %}
 
+{% if weekly_picks %}
+---
+
+## 이번 주의 픽 (후보)
+
+> 아래에서 하나를 골라 상단으로 옮겨주세요. 나머지는 삭제.
+
+{% for source_name, picks in weekly_picks.items() %}
+{% if picks %}
+### {{ source_name }}
+{% for pick in picks %}
+- [{{ pick.title }}]({{ pick.url }}) — {{ pick.upvotes }} upvotes, {{ pick.comments }} comments
+{% endfor %}
+{% endif %}
+{% endfor %}
+{% endif %}
+
 ---
 
 > **검수 체크리스트**
@@ -26,4 +43,5 @@ tags: [weekly, links, dev-news]
 > - [ ] 중복 이슈 제거 확인
 > - [ ] 과장/낚시 제목 수정
 > - [ ] 카테고리 오분류 수정
+> - [ ] 이번 주의 픽 1개 선택, 나머지 삭제
 > - [ ] 최종 링크 수 10~25개 범위 확인
