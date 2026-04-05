@@ -152,43 +152,43 @@ tags: [weekly, links, dev-news]
 ## GitHub Trending
 
 
-- [Yeachan-Heo/oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex)<br>Sponsor Star Yeachan-Heo / oh-my-codex OmX - Oh My codeX: Your codex is not alone. Add hooks, agent teams, HUDs, and so much more.
+- [Yeachan-Heo/oh-my-codex](https://github.com/Yeachan-Heo/oh-my-codex)<br>OpenAI Codex CLI 위에 워크플로우 레이어를 추가하는 도구로, `$deep-interview`, `$ralplan`, `$ralph`, `$team` 등의 스킬을 통해 요구사항 명확화부터 병렬 실행까지 일관된 개발 워크플로우를 제공한다. Codex의 실행 엔진은 그대로 유지하면서 프로젝트 가이던스, 계획, 로그, 상태를 `.omx/` 디렉토리에 체계적으로 관리한다. tmux 기반 팀 런타임을 통해 여러 에이전트의 병렬 협업 작업도 지원한다.
 
 
 
-- [luongnv89/claude-howto](https://github.com/luongnv89/claude-howto)<br>Sponsor Star luongnv89 / claude-howto A visual, example-driven guide to Claude Code — from basic concepts to advanced agents, with copy-paste templates that bring immediate value.
+- [luongnv89/claude-howto](https://github.com/luongnv89/claude-howto)<br>Claude Code의 모든 기능을 체계적으로 학습할 수 있는 시각적 튜토리얼 가이드로, Slash Commands, Memory, Hooks, MCP, Subagents 등 10개 모듈을 단계별로 다룬다. 공식 문서와 달리 Mermaid 다이어그램, 복사-붙여넣기 가능한 실전 템플릿, 자가진단 퀴즈를 제공하여 초보자도 빠르게 파워 유저가 될 수 있도록 설계되었다.
 
 
 
-- [microsoft/VibeVoice](https://github.com/microsoft/VibeVoice)<br>Star microsoft / VibeVoice Open-Source Frontier Voice AI
+- [microsoft/VibeVoice](https://github.com/microsoft/VibeVoice)<br>Microsoft가 개발한 오픈소스 음성 AI 모델 패밀리로, TTS와 ASR 모델을 모두 포함한다. ASR 모델은 60분 길이의 오디오를 한 번에 처리하며 화자 구분, 타임스탬프, 50개 이상 언어를 지원하고, TTS 모델은 최대 90분 길이의 다화자 음성을 생성할 수 있다. 7.5Hz 초저 프레임레이트의 연속 음성 토크나이저와 next-token diffusion 프레임워크를 활용하여 높은 품질과 효율성을 동시에 달성한다.
 
 
 
-- [siddharthvaddem/openscreen](https://github.com/siddharthvaddem/openscreen)<br>Star siddharthvaddem / openscreen Create stunning demos for free. Open-source, no subscriptions, no watermarks, and free for commercial use. An alternative to Screen Studio.
+- [siddharthvaddem/openscreen](https://github.com/siddharthvaddem/openscreen)<br>Screen Studio의 무료 오픈소스 대안으로, 제품 데모 및 워크스루 영상을 쉽게 제작할 수 있는 화면 녹화 앱이다. 자동/수동 줌, 모션 블러, 주석, 구간별 속도 조절, 다양한 배경 커스터마이징 등 핵심 편집 기능을 제공한다. Electron + React + TypeScript로 구축되어 macOS, Windows, Linux를 모두 지원하며 MIT 라이선스로 무료 사용 가능하다.
 
 
 
-- [google-research/timesfm](https://github.com/google-research/timesfm)<br>Star google-research / timesfm TimesFM (Time Series Foundation Model) is a pretrained time-series foundation model developed by Google Research for time-series forecasting.
+- [google-research/timesfm](https://github.com/google-research/timesfm)<br>Google Research에서 개발한 사전학습된 시계열 예측 Foundation Model로, ICML 2024에 발표되었다. 최신 버전인 TimesFM 2.5는 200M 파라미터로 최대 16K 컨텍스트 길이를 지원하며, 연속 분위수 예측이 가능하다. PyTorch와 Flax 백엔드를 모두 지원하고, BigQuery에서도 공식 제품으로 사용할 수 있어 실무 시계열 예측에 즉시 적용 가능하다.
 
 
 
-- [Yeachan-Heo/oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode)<br>Sponsor Star Yeachan-Heo / oh-my-claudecode Teams-first Multi-agent orchestration for Claude Code
+- [Yeachan-Heo/oh-my-claudecode](https://github.com/Yeachan-Heo/oh-my-claudecode)<br>Claude Code를 위한 멀티 에이전트 오케스트레이션 도구로, 설정 없이 즉시 사용 가능한 자동화된 개발 워크플로우를 제공한다. Team 모드를 통해 Claude, Codex, Gemini CLI 워커를 tmux 기반으로 병렬 실행할 수 있으며, deep-interview 기능으로 요구사항을 소크라테스식 질문법으로 명확히 한다. 자동 병렬화, 지속적 실행, 스마트 모델 라우팅으로 토큰 비용을 30~50% 절감하는 것이 특징이다.
 
 
 
-- [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)<br>Star NousResearch / hermes-agent The agent that grows with you
+- [NousResearch/hermes-agent](https://github.com/NousResearch/hermes-agent)<br>Nous Research가 만든 자기 개선형 AI 에이전트로, 경험에서 스킬을 자동 생성하고 세션 간 학습을 지속하는 내장 학습 루프가 핵심이다. Telegram, Discord, Slack, WhatsApp 등 다양한 메시징 플랫폼과 CLI를 통해 접근 가능하며, OpenRouter를 통한 200개 이상의 모델을 지원한다. Docker, SSH, Modal 등 6가지 터미널 백엔드를 지원하여 5달러 VPS부터 GPU 클러스터까지 어디서든 실행할 수 있다.
 
 
 
-- [onyx-dot-app/onyx](https://github.com/onyx-dot-app/onyx)<br>Star onyx-dot-app / onyx Open Source AI Platform - AI Chat with advanced features that works with every LLM
+- [onyx-dot-app/onyx](https://github.com/onyx-dot-app/onyx)<br>LLM을 위한 오픈소스 AI 플랫폼으로, RAG, 웹 검색, 코드 실행, Deep Research, 파일 생성 등 고급 기능을 통합 제공한다. 50개 이상의 데이터 커넥터와 MCP를 통해 다양한 애플리케이션과 연동되며, 커스텀 에이전트 빌더와 음성 모드도 지원한다. SSO, RBAC, 감사 로그 등 엔터프라이즈 기능을 갖추고 있으며, Docker 한 줄 명령어로 셀프 호스팅이 가능하다.
 
 
 
-- [sherlock-project/sherlock](https://github.com/sherlock-project/sherlock)<br>Star sherlock-project / sherlock Hunt down social media accounts by username across social networks
+- [sherlock-project/sherlock](https://github.com/sherlock-project/sherlock)<br>사용자 이름으로 400개 이상의 소셜 네트워크에서 계정을 추적하는 OSINT(오픈소스 인텔리전스) 도구이다. pip, Docker, dnf 등 다양한 방식으로 설치 가능하며, Tor 프록시 지원, CSV/XLSX 내보내기, 여러 사용자 동시 검색 등의 기능을 제공한다. Apify를 통해 클라우드에서 설치 없이 실행할 수도 있어 접근성이 높다.
 
 
 
-- [vas3k/TaxHacker](https://github.com/vas3k/TaxHacker)<br>Sponsor Star vas3k / TaxHacker Self-hosted AI accounting app. LLM analyzer for receipts, invoices, transactions with custom prompts and categories
+- [vas3k/TaxHacker](https://github.com/vas3k/TaxHacker)<br>프리랜서와 소규모 사업자를 위한 셀프 호스팅 AI 회계 앱으로, 영수증이나 인보이스 사진을 업로드하면 AI가 자동으로 금액, 날짜, 항목 등을 인식하여 구조화된 데이터베이스에 저장한다. 170개 이상의 통화와 14개 암호화폐의 과거 환율 기반 자동 환전을 지원하며, OpenAI, Gemini, Ollama 등 원하는 LLM을 자유롭게 선택할 수 있다. Docker Compose로 간편하게 배포 가능하고, 커스텀 필드와 AI 프롬프트를 직접 설정하여 업종별 맞춤 사용이 가능하다.
 
 
 
