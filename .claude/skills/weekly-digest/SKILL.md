@@ -27,17 +27,26 @@ allowed-tools: Bash Read Edit Grep Glob WebFetch AskUserQuestion
 
 ## 2단계: 스크립트 실행
 
-확정된 날짜로 다이제스트 생성 스크립트를 실행한다:
+확정된 날짜로 다이제스트 생성 스크립트를 **한 번만** 실행한다:
 
 ```
-bash jobs/run_weekly_digest.sh --from {시작일} --to {종료일} --verbose
+bash jobs/run_weekly_digest.sh --from {시작일} --to {종료일} --verbose 2>&1 | tee /tmp/weekly_digest_run.log
 ```
 
-실행 결과 로그에서 다음 정보를 추출한다:
-- 수집된 소스 수, 총 항목 수
-- 최종 선택된 항목 수
-- 생성된 마크다운 파일 경로
-- 오류/경고 메시지
+**중요: 절대 옵션 없이 두 번 실행하지 말 것.**
+- 첫 실행 시 선택된 항목 70개가 `jobs/data/history/url_history.jsonl`에 자동 저장된다
+- 옵션 없이 재실행하면 history dedup으로 이번 주 항목이 모두 제외되어 빈약한 `_v2.md` 부산물이 생성된다 (스크립트는 파일명 충돌 시 자동으로 `_v2`, `_v3` 접미사를 붙임)
+- 따라서 단 한 번의 실행 결과(`/tmp/weekly_digest_run.log`)에서 필요한 모든 정보를 추출해야 한다
+
+부득이하게 재실행해야 한다면 반드시 다음 옵션 중 하나를 사용한다:
+- `--dry-run`: 파일 생성·history 업데이트 없이 미리보기만
+- `--no-history`: history dedup을 건너뛰어 이번 주 항목이 다시 수집되게 함
+
+실행 결과 로그에서 다음 정보를 추출한다 (`grep`이나 `tail`로 한 번에 처리):
+- 수집된 소스 수, 총 항목 수: `grep -E "Collected|Source.*collected"`
+- 최종 선택된 항목 수: `grep "Selected"`
+- 생성된 마크다운 파일 경로: `grep "Markdown saved"`
+- 오류/경고 메시지: `grep -iE "warning|failed|error"`
 
 ## 3단계: GitHub Trending 한국어 요약 보정
 
@@ -56,7 +65,29 @@ bash jobs/run_weekly_digest.sh --from {시작일} --to {종료일} --verbose
      - 요약만 작성, 부가 설명 없음
 5. `Edit` 도구로 영문 텍스트를 한국어 요약으로 교체한다
 
-## 4단계: 결과 보고
+## 4단계: 직전 다이제스트와 URL 중복 검증
+
+**왜 필요한가:** 일부 RSS 피드(특히 요즘IT `yozm_wishket`)는 `<pubDate>` 태그가 없어서 `published_at`이 fetch 시점(=오늘)으로 fallback된다. 이로 인해 매주 같은 글이 "이번 주 발행"으로 분류되어 다이제스트에 반복 등장한다. history dedup이 정상 작동하면 막히지만, 누락된 run이 있으면 그대로 통과한다. 따라서 출고 전 직전 다이제스트와 직접 교차 비교가 필수다.
+
+직전 2개 주간 다이제스트와 URL을 비교한다:
+
+```bash
+# 직전 2주 포스트의 URL 추출
+prev_urls=$(grep -hoE 'https?://[^)]+' normal/_posts/$(ls normal/_posts/*weekly-dev-links* | sort | tail -3 | head -2 | xargs -n1 basename | tr '\n' ' ') | sort -u)
+
+# 이번 주 포스트와 교차 비교
+this_urls=$(grep -oE 'https?://[^)]+' normal/_posts/{이번주_파일} | sort -u)
+
+# 중복 URL 출력
+comm -12 <(echo "$prev_urls") <(echo "$this_urls")
+```
+
+중복이 발견되면:
+1. 중복 항목 목록을 사용자에게 보여준다 (URL과 제목)
+2. `Edit` 도구로 중복된 항목을 마크다운 파일에서 제거한다
+3. 제거 결과를 4단계 보고에 포함한다
+
+## 5단계: 결과 보고
 
 사용자에게 다음을 보고한다:
 - 생성된 파일 경로
