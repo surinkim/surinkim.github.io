@@ -87,7 +87,15 @@ comm -12 <(echo "$prev_urls") <(echo "$this_urls")
 2. `Edit` 도구로 중복된 항목을 마크다운 파일에서 제거한다
 3. 제거 결과를 4단계 보고에 포함한다
 
-## 5단계: 결과 보고
+## 5단계: VS Code로 작업 폴더 열기
+
+마크다운 페이지 작업(생성·요약 보정·중복 검증)이 완료되면 작업 폴더를 VS Code로 연다:
+
+```bash
+code /Users/kimhyunukkim/work/surinkim.github.io
+```
+
+## 6단계: 결과 보고
 
 사용자에게 다음을 보고한다:
 - 생성된 파일 경로
