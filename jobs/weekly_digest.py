@@ -1019,7 +1019,6 @@ def fetch_weekly_picks() -> dict[str, list[dict]]:
 def render_markdown(
     items: list[NormalizedItem], template_path: Path, date_to: date,
     date_from: date | None = None,
-    weekly_picks: dict[str, list[dict]] | None = None,
 ) -> str:
     if date_from is None:
         date_from = date_to - timedelta(days=6)
@@ -1050,7 +1049,6 @@ def render_markdown(
         total_count=len(items),
         range_from=date_from.isoformat(),
         range_to=date_to.isoformat(),
-        weekly_picks=weekly_picks or {},
     )
 
 
@@ -1261,11 +1259,8 @@ def main():
         translator=translator,
     )
 
-    # 8. Weekly Picks
-    weekly_picks = fetch_weekly_picks()
-
-    # 9. Render
-    markdown = render_markdown(selected, template_path, date_to, date_from, weekly_picks)
+    # 8. Render
+    markdown = render_markdown(selected, template_path, date_to, date_from)
 
     # Category breakdown for report
     cat_breakdown = dict(Counter(it.category for it in selected))
