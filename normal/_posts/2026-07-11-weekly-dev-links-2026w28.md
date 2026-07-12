@@ -166,10 +166,6 @@ Claude에게 터미널 제어, 파일 검색, diff 기반 편집 권한을 부�
 ## Tools
 
 
-- [Bonnie Tyler, 75세로 사망](https://news.hada.io/topic?id=31312)
-
-
-
 - [좋은 도구는 보이지 않는다](https://news.hada.io/topic?id=31306)
 
 
