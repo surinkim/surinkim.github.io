@@ -25,6 +25,9 @@ disqus_url:          https://corecode.pe.kr
 exclude:
   - jobs
   - .job
+  - vendor
+  - Gemfile
+  - Gemfile.lock
 
 # About/contact
 author:
