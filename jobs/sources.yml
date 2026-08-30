@@ -67,7 +67,7 @@ sources:
     max_items: 10
     source_cap: 10
     curl_fallback: true
-    enabled: true
+    enabled: false
 
 
   # - id: techcrunch_ai
