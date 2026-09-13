@@ -1,4 +1,38 @@
-# 주간 테크/개발 뉴스 링크 모음 자동화
+# 주간 다이제스트 자동화
+
+## 후보 수집: weekly_radar.py (현재 사용)
+
+주간 포스트의 3개 섹션(테크 뉴스 / Indie Radar / 도서) 후보와 인기 신호를 수집한다.
+선정과 요약 작성은 `weekly-digest` 스킬(`.claude/skills/weekly-digest/SKILL.md`)이 담당한다.
+
+```bash
+bash jobs/run_weekly_radar.sh --from 2026-09-06 --to 2026-09-12
+bash jobs/run_weekly_radar.sh --from 2026-09-06 --to 2026-09-12 --sections books --out-dir /tmp/radar
+```
+
+| 옵션 | 기본값 | 설명 |
+|------|--------|------|
+| `--from` / `--to` | 최근 7일 | 수집 기간 (YYYY-MM-DD) |
+| `--sections` | `news,indie,books` | 수집할 섹션 |
+| `--out-dir` | `jobs/data/runs/<to>/` | 결과 저장 경로 |
+| `--verbose` | - | DEBUG 로그 |
+
+출력: `radar_news.md`, `radar_indie.md`, `radar_books.md`(섹션별 후보), `radar_candidates.json`(원본)
+
+| 섹션 | 소스 | 신호 |
+|------|------|------|
+| 테크 뉴스 | HN(Algolia), GeekNews 일자별 페이지, aitimes Most Popular, Techmeme, `sources.yml` RSS | 점수·댓글·순위 |
+| Indie Radar | Show HN, Show GN, Product Hunt, BetaList, itch.io, GitHub Trending, Reddit(r/SideProject, r/SaaS), TrustMRR | 점수·순위·스타·매출 |
+| 도서 | 알라딘 주간 베스트셀러(지난주 대비 새 진입), 주목할 만한 신간 (소설/IT/인문) | 순위·세일즈포인트 |
+
+참고:
+- GeekNews는 짧은 User-Agent에 403을 반환한다 (`weekly_digest.USER_AGENT` 사용).
+- Reddit은 연속 요청 시 429를 반환해 대기 후 재시도한다.
+- aitimes 인기 목록은 조회 시점 스냅샷이라 과거 주차는 다시 받을 수 없다.
+
+---
+
+## (레거시) 링크 모음: weekly_digest.py
 
 RSS 피드와 GitHub Trending(주간)를 수집하여 Jekyll 블로그용 Markdown 초안을 생성하는 CLI 도구.
 
