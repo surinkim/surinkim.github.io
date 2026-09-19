@@ -3,13 +3,14 @@ layout: post
 title: "주간 테크/개발 뉴스 #2026 9/13 ~ 9/19"
 date: 2026-09-19
 categories: [normal]
-tags: [weekly, dev-news, indie-radar, books]
+tags: [weekly, dev-news, indie-radar, observability, books]
 ---
 
 **바로가기**
 
 - [📰 테크 뉴스 (10)](#tech-news) — 문장 대신 확률을 내는 Jev, 370년 암호 푼 Fable 5.1, 코딩 에이전트 스킬 제로클릭 RCE
 - [🚀 Indie Radar (6)](#indie-radar) — 새소리를 듣고 그림을 그리는 e-ink 액자, 승객 전용 비행 시뮬레이터
+- [📡 Observability Radar (5)](#observability) — Grafana 플러그인 RCE 패치, Telegraf 1.40 옵션 제거
 - [📚 도서](#books) — 소설 · IT · 인문 베스트 새 진입과 신간
 
 ---
@@ -127,6 +128,58 @@ Capacitor 앱을 앱스토어 심사 없이 라이브 업데이트할 수 있게
 
 콘텐츠 하나를 여러 소셜 미디어에 한 번에 올려주는 서비스입니다. 기능만 보면 흔한 도구지만 요금제를 월 $29~$99로 단순하게 가져가며 꾸준히 커지고 있습니다.
 최근 30일 매출은 $48,848, 누적 매출은 $49.7만, 30일 성장률은 +27.3%입니다. MRR과 실제 30일 매출이 거의 일치하는, 안정적인 구독 구조입니다.
+
+---
+
+## 📡 Observability Radar
+{: #observability}
+
+### [Grafana 보안 업데이트: 플러그인 설치 경로로 원격 코드 실행 등 CVE 3건 수정](https://github.com/grafana/grafana/releases/tag/v13.2.2)
+
+9월 15일 Grafana 13.2.2, 13.1.6, 13.0.9, 12.4.11이 동시에 나왔습니다. 가장 심각한 CVE-2026-15815(CVSS 8.8)는 플러그인 압축 파일 속 심볼릭 링크를 제대로 검사하지 않아, 설치 디렉터리 밖에 실행 파일을 써서 Grafana 서버 권한으로 실행시킬 수 있는 문제입니다.
+압축을 먼저 풀고 서명을 나중에 검증하는 구조라, 서명이 유효한 플러그인이라도 막지 못했습니다. 함께 고쳐진 CVE-2026-76154는 Geomap 패널의 MapLibre 기본 레이어에 있는 stored XSS로, Editor 권한 사용자가 다른 사용자의 세션에서 스크립트를 실행해 Org Admin까지 권한을 올릴 수 있습니다.
+같은 주에 Loki 3.7.8, 3.6.17도 gRPC 등 의존성 보안 업데이트(HIGH 포함)를 담아 나왔습니다.
+
+관련: [CVE-2026-76154 권고](https://grafana.com/security/security-advisories/cve-2026-76154/) · [CVE-2026-15815 상세](https://www.strix.ai/cve/CVE-2026-15815)
+
+### [Telegraf 1.40: kafka_consumer·procstat·tail의 deprecated 옵션 제거](https://github.com/influxdata/telegraf/releases/tag/v1.40.0)
+
+9월 7일 나온 Telegraf 1.40의 릴리스 노트가 이번 주 공개됐습니다. 오래 deprecated 상태였던 옵션들이 실제로 제거돼, 업그레이드 전에 설정 파일을 점검해야 합니다.
+`inputs.kafka_consumer`의 `connection_strategy`, `inputs.tail`의 `from_beginning`, `inputs.procstat`의 deprecated 옵션이 빠졌고, `inputs.aerospike`, `inputs.sflow`, `outputs.amon` 플러그인은 통째로 삭제됐습니다. `inputs.smart`의 `power_on_hours` 단위가 초에서 시간으로 바뀌는 등 기존 지표 값이 달라지는 수정도 있습니다.
+새 기능으로는 시크릿 저장소에서 값을 지우는 agent 명령, aggregator 앞의 processor를 건너뛰는 설정, Elasticsearch 7/8/9를 지원하는 `inputs.elasticsearch_query` 등이 추가됐습니다.
+
+관련: [InfluxData 릴리스 노트 해설](https://www.influxdata.com/blog/telegraf-1-40-release-notes-influxdb/)
+
+### [Java 27 출시: G1이 모든 환경의 기본 GC로, Compact Object Headers 기본 적용](https://inside.java/2026/09/15/jdk-27-available/)
+
+9월 15일 JDK 27이 정식 출시됐습니다. 모니터링 관점에서 눈여겨볼 변화는 기본값 두 가지입니다. 작은 컨테이너에서 자동으로 Serial GC가 선택되던 동작이 사라지고 어디서나 G1이 기본이 되며(JEP 523), 객체 헤더를 96비트에서 64비트로 줄이는 Compact Object Headers가 기본으로 켜집니다(JEP 534).
+업그레이드하면 GC 지표와 힙 사용량 패턴이 바뀔 수 있어, JVM 대시보드와 알림 임계값을 함께 살펴볼 필요가 있습니다. JFR이 민감한 커맨드라인 인자와 환경 변수를 프로세스 밖으로 내보내기 전에 가리는 기능(JEP 536)도 들어갔습니다.
+LTS가 아닌 버전이라 운영 환경 도입보다는 다음 LTS를 대비해 영향도를 미리 파악해 두는 용도에 가깝습니다.
+
+관련: [JDK 27 보안 개선 정리](https://inside.java/2026/09/16/jdk27-security-enhancements/) · [HN 토론](https://news.ycombinator.com/item?id=49712041)
+
+### [재시작 없이 설정 바꾸기: OpenTelemetry Telemetry Policy](https://www.elastic.co/observability-labs/blog/opentelemetry-java-agent-telemetry-policy)
+
+OpenTelemetry에서 진행 중인 Telemetry Policy 프로젝트를 Elastic이 소개했습니다. 트레이스 샘플링 비율, 로그 레벨, 계측 on/off, exporter 설정을 컴포넌트 재시작 없이 바꾸는 것이 목표이고, 정책은 OpAMP, HTTP, 로컬 파일로 전달할 수 있습니다. 첫 실험 구현은 Java SDK에 있으며 지금은 샘플링 비율 변경만 지원합니다.
+같은 주 나온 Prometheus 3.15.0-rc.0도 설정 리로드만으로 로그 레벨을 바꾸는 `runtime.log_level`을 추가하고 `--log.level`을 deprecated 했습니다. 장애 대응 중에 디버그 로그를 켜려고 재시작하는 일을 줄이는 방향입니다.
+Prometheus RC에는 컨테이너 메모리 한도에 맞춰 `GOMEMLIMIT`를 주기적으로 갱신하는 옵션, OpenMetrics 2.0 스크레이프, XOR2 청크 인코딩 안정화(Thanos 등 TSDB를 직접 읽는 도구의 지원 여부 확인 필요)도 들어 있습니다.
+
+관련: [Prometheus 3.15.0-rc.0](https://github.com/prometheus/prometheus/releases/tag/v3.15.0-rc.0)
+
+### [4B 모델에 강화학습을 시켜 Postgres 쿼리 플랜을 1.81배 빠르게](https://rohanbansal.com/qorl)
+
+작은 모델로 인프라 튜닝을 자동화한 실험으로, HN에서 692점을 받았습니다. Qwen 계열 4B 모델에 GPT-6 Astra의 풀이를 증류한 뒤 강화학습(GRPO)을 더해, Postgres가 더 나은 조인 순서와 실행 전략을 고르도록 쿼리 힌트를 생성하게 했습니다.
+Join Order Benchmark 113개 쿼리에서 기하평균 1.81배 빨라졌고(지연 44.7% 감소), 학습 비용은 약 $1,200이었습니다.
+다만 쿼리마다 세 번 추론해 가장 좋은 결과를 쓴 수치이고, 한 번만 추론하면 1.16~1.41배였습니다. IMDb 데이터셋 하나에서만 검증했다는 한계도 있습니다.
+
+#### 릴리스 체크
+
+- [grpc-go 취약점 3건](https://pkg.go.dev/vuln/GO-2026-6348) · HTTP/2 DATA 프레임을 잘게 쪼개 보내 힙을 고갈시키는 OOM(CVE-2026-84304) 외에 xDS 사용 시 RBAC 헤더 매칭 우회, Host 헤더 누락 panic. 1.83.2 이상이면 모두 해결
+- [Tempo 3.1.0-rc.1](https://github.com/grafana/tempo/releases/tag/v3.1.0-rc.1) · TraceQL 셀렉터로 트레이스 redaction, 새 블록 기본 형식 vParquet5, 테넌트 간 redaction 보안 수정 (RC)
+- [OpenTelemetry Collector 0.161.0](https://github.com/open-telemetry/opentelemetry-collector-releases/releases/tag/v0.161.0) · [Kubernetes attributes processor v1.0](https://opentelemetry.io/blog/2026/k8s-attributes-processor-v1/) 반영, 설정·속성 이름이 바뀌어 마이그레이션 가이드 확인 필요
+- [Datadog Agent 7.83.2](https://github.com/DataDog/datadog-agent/releases/tag/7.83.2) · SSI 트레이서 설정에 `OTEL_` 환경 변수 지원, Agent Data Plane 사전 점검이 설정한 site 대신 datadoghq.com으로 메트릭과 API 키를 보내던 버그 수정
+- [Elasticsearch 9.5.4 / 9.4.7](https://github.com/elastic/elasticsearch/releases/tag/v9.5.4) · 패치 릴리스. Elastic Cloud Hosted는 9.5.3부터 [OTLP 메트릭을 네이티브로 수집](https://www.elastic.co/observability-labs/blog/opentelemetry-histograms-elastic-cloud-hosted)
+- [Loki 3.7.8 / 3.6.17](https://github.com/grafana/loki/releases/tag/v3.7.8) · gRPC 등 의존성 보안 업데이트
 
 ---
 

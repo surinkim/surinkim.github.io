@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""주간 다이제스트 후보 수집기 (테크뉴스 / Indie Radar / 도서).
+"""주간 다이제스트 후보 수집기 (테크뉴스 / Indie Radar / Observability Radar / 도서).
 
 기존 weekly_digest.py가 "선택·렌더링"까지 하던 것과 달리, 이 스크립트는
 섹션별 후보와 인기 신호(점수·순위·매출)만 모아 JSON/Markdown으로 저장한다.
@@ -11,7 +11,10 @@ import argparse
 import html
 import json
 import logging
+import os
 import re
+import shutil
+import subprocess
 import sys
 import time
 from datetime import date, datetime, timedelta, timezone
@@ -46,6 +49,71 @@ ALADIN_NEW_URL = (
 
 REDDIT_SUBS = ["SideProject", "SaaS"]
 ALADIN_CATEGORIES = {"소설": 1, "IT": 351, "인문": 656}
+
+# Observability Radar: 운영 중인 모니터링 스택(Telegraf→Kafka→Mimir, PostgreSQL, Go/Java)과
+# 주요 모니터링 벤더의 릴리스·블로그. Apache Kafka는 GitHub 릴리스가 없어 Confluent 블로그로 대신한다.
+GITHUB_RELEASES_URL = "https://api.github.com/repos/{repo}/releases?per_page=10"
+OBS_GITHUB_REPOS = [
+    "influxdata/telegraf",
+    "grafana/mimir",
+    "prometheus/prometheus",
+    "grafana/grafana",
+    "grafana/loki",
+    "grafana/alloy",
+    "grafana/tempo",
+    "open-telemetry/opentelemetry-collector-releases",
+    "open-telemetry/opentelemetry-java-instrumentation",
+    "open-telemetry/opentelemetry-go",
+    "elastic/elasticsearch",
+    "DataDog/datadog-agent",
+    # Go 웹 API 프레임워크
+    "gin-gonic/gin",
+    "danielgtaylor/huma",
+]
+# Go 취약점 DB에서 이번 주 공개된 취약점을 볼 모듈 (표준 라이브러리, 웹 API, gRPC, Kafka·Postgres 클라이언트)
+GO_VULN_MODULES_URL = "https://vuln.go.dev/index/modules.json"
+GO_VULN_URL = "https://vuln.go.dev/ID/{id}.json"
+OBS_GO_MODULES = {
+    "stdlib",
+    "toolchain",
+    "github.com/gin-gonic/gin",
+    "github.com/danielgtaylor/huma/v2",
+    "golang.org/x/net",
+    "golang.org/x/crypto",
+    "google.golang.org/grpc",
+    "google.golang.org/protobuf",
+    "github.com/jackc/pgx/v5",
+    "github.com/IBM/sarama",
+    "github.com/twmb/franz-go",
+    "github.com/segmentio/kafka-go",
+    "github.com/confluentinc/confluent-kafka-go/v2",
+}
+# (피드 URL, 키워드 필터 적용 여부). 주제가 넓은 피드만 키워드로 거른다
+OBS_FEEDS = {
+    "grafana": ("https://grafana.com/blog/index.xml", False),
+    "grafana_security": ("https://grafana.com/security/security-advisories/index.xml", False),
+    "datadog": ("https://www.datadoghq.com/blog/index.xml", False),
+    "elastic": ("https://www.elastic.co/observability-labs/rss/feed.xml", False),
+    "opentelemetry": ("https://opentelemetry.io/blog/index.xml", False),
+    "prometheus": ("https://prometheus.io/blog/feed.xml", False),
+    "influxdata": ("https://www.influxdata.com/feed/", False),
+    "confluent": ("https://www.confluent.io/rss.xml", False),
+    "postgresql": ("https://www.postgresql.org/news.rss", False),
+    "go": ("https://go.dev/blog/feed.atom", False),
+    "inside_java": ("https://inside.java/feed.xml", False),
+    "cncf": ("https://www.cncf.io/feed/", True),
+}
+OBS_KEYWORDS = re.compile(
+    r"observab|monitoring|모니터링|옵저버빌리티|관측성|telemetry|텔레메트리|"
+    r"grafana|prometheus|promql|mimir|\bloki\b|\btempo\b|thanos|cortex|victoriametrics|"
+    r"datadog|new relic|dynatrace|splunk|honeycomb|sentry|"
+    r"elasticsearch|kibana|logstash|opensearch|clickhouse|"
+    r"telegraf|influxdb|kafka|postgres|pgsql|"
+    r"golang|\bgo 1\.\d+|\bjdk\b|\bjvm\b|openjdk|\bjava \d+|"
+    r"gin-gonic|\bgin framework|\bhuma\b|openapi|net/http|\bgrpc\b|"
+    r"\bsre\b|postmortem|post-mortem|outage|장애|on-?call|\balerting\b|tracing|\bebpf\b",
+    re.IGNORECASE,
+)
 
 # 뉴스 섹션에서 기존 RSS 소스 중 GitHub Trending은 Indie Radar로 보낸다
 NEWS_SOURCE_TYPES = {"rss", "atom", "json"}
@@ -294,7 +362,129 @@ def collect_indie(date_from: date, date_to: date) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# 3) 도서 (알라딘)
+# 3) Observability Radar
+# ---------------------------------------------------------------------------
+@lru_cache(maxsize=1)
+def _github_headers() -> dict:
+    """비인증 GitHub API는 시간당 60회로 제한되므로 토큰이 있으면 사용한다."""
+    headers = {"Accept": "application/vnd.github+json"}
+    token = os.environ.get("GITHUB_TOKEN")
+    if not token and shutil.which("gh"):
+        proc = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True, check=False)
+        token = proc.stdout.strip() if proc.returncode == 0 else ""
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    return headers
+
+
+def _release_summary(body: str) -> tuple[str, bool]:
+    """릴리스 노트에서 보안 관련 줄을 우선해 짧은 요약을 만든다."""
+    lines = [_text(line.lstrip("-*# ")) for line in (body or "").splitlines()]
+    # 다운로드·changelog 링크만 있는 줄은 버리고 "[CHANGE] ..." 같은 항목은 남긴다
+    lines = [
+        line for line in lines
+        if line and not re.match(r"\[[^\]]+\]\(", line) and not line.startswith("Full Changelog")
+    ]
+    security = [
+        line for line in lines
+        if re.search(r"CVE-\d{4}-\d+|\[security\]|security[:/]|security fix", line, re.IGNORECASE)
+    ]
+    # "Security fixes" 같은 소제목만으로는 내용을 알 수 없으므로 요약에는 본문 줄만 쓴다
+    detail = [line for line in security if len(line.split()) > 3]
+    return " / ".join((detail or lines)[:4])[:300], bool(security)
+
+
+def fetch_github_releases(date_from: date, date_to: date) -> list[dict]:
+    items = []
+    for repo in OBS_GITHUB_REPOS:
+        text = _get(GITHUB_RELEASES_URL.format(repo=repo), extra_headers=_github_headers())
+        if not text:
+            logger.warning("github releases failed: %s", repo)
+            continue
+        for rel in json.loads(text):
+            # opentelemetry-collector-releases의 cmd/builder 같은 하위 모듈 태그는 제외한다
+            if rel.get("draft") or "/" in rel["tag_name"] or not rel.get("published_at"):
+                continue
+            published = datetime.fromisoformat(rel["published_at"].replace("Z", "+00:00"))
+            if not date_from <= published.astimezone(KST).date() <= date_to:
+                continue
+            summary, security = _release_summary(rel.get("body") or "")
+            items.append({
+                "title": f"{repo} {rel['tag_name']}",
+                "url": rel["html_url"],
+                "date": published.astimezone(KST).date().isoformat(),
+                "summary": summary,
+                "signals": {"security": security, "prerelease": bool(rel.get("prerelease"))},
+            })
+    items.sort(key=lambda x: (not x["signals"]["security"], x["title"]))
+    return items
+
+
+def fetch_go_vulns(date_from: date, date_to: date) -> list[dict]:
+    """Go 취약점 DB에서 관심 모듈의 취약점 중 이번 주 공개된 것을 모은다."""
+    text = _get(GO_VULN_MODULES_URL, extra_headers={"Accept": "application/json"})
+    if not text:
+        logger.warning("go vulndb index failed")
+        return []
+    items = []
+    for module in json.loads(text):
+        if module["path"] not in OBS_GO_MODULES:
+            continue
+        for vuln in module.get("vulns", []):
+            # modified가 범위 밖이면 published도 범위 밖이므로 상세 조회를 건너뛴다
+            if vuln["modified"][:10] < date_from.isoformat():
+                continue
+            detail = _get(GO_VULN_URL.format(id=vuln["id"]), extra_headers={"Accept": "application/json"})
+            if not detail:
+                continue
+            data = json.loads(detail)
+            published = datetime.fromisoformat(data["published"].replace("Z", "+00:00"))
+            if not date_from <= published.astimezone(KST).date() <= date_to:
+                continue
+            cves = [a for a in data.get("aliases", []) if a.startswith("CVE-")]
+            items.append({
+                "title": f"{vuln['id']} {module['path']}: {data.get('summary', '')}",
+                "url": f"https://pkg.go.dev/vuln/{vuln['id']}",
+                "date": published.astimezone(KST).date().isoformat(),
+                "summary": _text(data.get("details", ""))[:300],
+                "signals": {"fixed": vuln.get("fixed", ""), "cve": ", ".join(cves)},
+            })
+    return items
+
+
+def fetch_obs_feeds(date_from: date, date_to: date) -> list[dict]:
+    items = []
+    for name, (url, keyword_only) in OBS_FEEDS.items():
+        for it in fetch_feed(url, date_from, date_to, limit=30):
+            if keyword_only and not OBS_KEYWORDS.search(f"{it['title']} {it['summary']}"):
+                continue
+            it["source"] = f"{name} {it['date']}"
+            it["signals"] = {}
+            items.append(it)
+    return items
+
+
+def collect_observability(date_from: date, date_to: date, news: dict) -> dict:
+    """릴리스·벤더 블로그를 모으고, 뉴스 후보(HN·GeekNews·RSS)에서 관련 글을 키워드로 골라낸다."""
+    def matches(it: dict) -> bool:
+        return bool(OBS_KEYWORDS.search(f"{it['title']} {it.get('summary', '')}"))
+
+    # 뉴스 섹션(점수 300 이상)보다 문턱을 낮춰 모니터링 관련 HN 글을 더 넓게 본다
+    hn = [h for h in fetch_hn("story", date_from, date_to, min_points=50, limit=100) if matches(h)]
+    geeknews = [g for g in fetch_geeknews_week(date_from, date_to) if matches(g)]
+    rss = [r for r in news.get("rss", []) if matches(r)]
+    return {
+        "github_releases": fetch_github_releases(date_from, date_to),
+        "go_vulns": fetch_go_vulns(date_from, date_to),
+        "vendor_blogs": fetch_obs_feeds(date_from, date_to),
+        "hn": hn[:30],
+        "geeknews": geeknews[:30],
+        "rss": rss[:30],
+    }
+
+
+# ---------------------------------------------------------------------------
+# 4) 도서 (알라딘)
 # ---------------------------------------------------------------------------
 def _parse_aladin_list(text: str, limit: int) -> list[dict]:
     books = []
@@ -365,7 +555,10 @@ def _signals_str(signals: dict) -> str:
 
 def render_section_md(data: dict, section: str) -> str:
     """스킬이 섹션별로 나눠 읽을 수 있도록 후보 목록을 Markdown으로 만든다."""
-    titles = {"news": "테크 뉴스", "indie": "Indie Radar", "books": "도서"}
+    titles = {
+        "news": "테크 뉴스", "indie": "Indie Radar",
+        "observability": "Observability Radar", "books": "도서",
+    }
     lines = [f"# {titles[section]} 후보 {data['date_from']} ~ {data['date_to']}", ""]
     if section == "books":
         for cat, lists in data["books"].items():
@@ -391,11 +584,15 @@ def render_section_md(data: dict, section: str) -> str:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="주간 다이제스트 후보 수집 (뉴스/Indie Radar/도서)")
+    parser = argparse.ArgumentParser(
+        description="주간 다이제스트 후보 수집 (뉴스/Indie Radar/Observability Radar/도서)"
+    )
     today = date.today()
     parser.add_argument("--from", dest="date_from", default=(today - timedelta(days=6)).isoformat())
     parser.add_argument("--to", dest="date_to", default=today.isoformat())
-    parser.add_argument("--sections", default="news,indie,books", help="수집할 섹션 (쉼표 구분)")
+    parser.add_argument(
+        "--sections", default="news,indie,observability,books", help="수집할 섹션 (쉼표 구분)"
+    )
     parser.add_argument("--out-dir", default=None, help="기본: jobs/data/runs/<to>/")
     parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args()
@@ -415,16 +612,19 @@ def main():
         "date_from": date_from.isoformat(),
         "date_to": date_to.isoformat(),
         "collected_at": datetime.now(KST).isoformat(),
-        "news": {}, "indie": {}, "books": {},
+        "news": {}, "indie": {}, "observability": {}, "books": {},
     }
     if "news" in sections:
         data["news"] = collect_news(date_from, date_to)
     if "indie" in sections:
         data["indie"] = collect_indie(date_from, date_to)
+    if "observability" in sections:
+        # news를 함께 수집하지 않았으면 RSS 후보 없이 HN·GeekNews만 키워드로 거른다
+        data["observability"] = collect_observability(date_from, date_to, data["news"])
     if "books" in sections:
         data["books"] = collect_books()
 
-    for section in ("news", "indie"):
+    for section in ("news", "indie", "observability"):
         for group, items in data[section].items():
             if group != "warnings":
                 logger.info("%s/%s: %d", section, group, len(items))
@@ -436,7 +636,7 @@ def main():
     (out_dir / "radar_candidates.json").write_text(
         json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8",
     )
-    for section in sections & {"news", "indie", "books"}:
+    for section in sections & {"news", "indie", "observability", "books"}:
         path = out_dir / f"radar_{section}.md"
         path.write_text(render_section_md(data, section), encoding="utf-8")
         logger.info("Candidates saved: %s", path)
