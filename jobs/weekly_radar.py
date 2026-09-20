@@ -69,6 +69,14 @@ OBS_GITHUB_REPOS = [
     # Go 웹 API 프레임워크
     "gin-gonic/gin",
     "danielgtaylor/huma",
+    # 쿠버네티스와 배포 도구
+    "kubernetes/kubernetes",
+    "helm/helm",
+    "prometheus-operator/prometheus-operator",
+    "open-telemetry/opentelemetry-operator",
+    "grafana/k8s-monitoring-helm",
+    "argoproj/argo-cd",
+    "rancher/rancher",
 ]
 # Go 취약점 DB에서 이번 주 공개된 취약점을 볼 모듈 (표준 라이브러리, 웹 API, gRPC, Kafka·Postgres 클라이언트)
 GO_VULN_MODULES_URL = "https://vuln.go.dev/index/modules.json"
@@ -101,6 +109,7 @@ OBS_FEEDS = {
     "postgresql": ("https://www.postgresql.org/news.rss", False),
     "go": ("https://go.dev/blog/feed.atom", False),
     "inside_java": ("https://inside.java/feed.xml", False),
+    "kubernetes": ("https://kubernetes.io/feed.xml", False),
     "cncf": ("https://www.cncf.io/feed/", True),
 }
 OBS_KEYWORDS = re.compile(
@@ -111,6 +120,8 @@ OBS_KEYWORDS = re.compile(
     r"telegraf|influxdb|kafka|postgres|pgsql|"
     r"golang|\bgo 1\.\d+|\bjdk\b|\bjvm\b|openjdk|\bjava \d+|"
     r"gin-gonic|\bgin framework|\bhuma\b|openapi|net/http|\bgrpc\b|"
+    r"kubernetes|쿠버네티스|\bk8s\b|kubelet|kube-|containerd|\bhelm\b|argo ?cd|argocd|rancher|"
+    r"istio|cilium|envoy|service mesh|서비스 메시|"
     r"\bsre\b|postmortem|post-mortem|outage|장애|on-?call|\balerting\b|tracing|\bebpf\b",
     re.IGNORECASE,
 )
@@ -387,7 +398,8 @@ def _release_summary(body: str) -> tuple[str, bool]:
     ]
     security = [
         line for line in lines
-        if re.search(r"CVE-\d{4}-\d+|\[security\]|security[:/]|security fix", line, re.IGNORECASE)
+        # "step-security/harden-runner" 같은 의존성 이름이 걸리지 않도록 앞 글자를 제한한다
+        if re.search(r"CVE-\d{4}-\d+|\[security\]|(?<![\w-])security[:/]|security fix", line, re.IGNORECASE)
     ]
     # "Security fixes" 같은 소제목만으로는 내용을 알 수 없으므로 요약에는 본문 줄만 쓴다
     detail = [line for line in security if len(line.split()) > 3]

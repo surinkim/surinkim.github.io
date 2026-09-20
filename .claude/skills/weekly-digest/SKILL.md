@@ -106,13 +106,13 @@ bash jobs/run_weekly_radar.sh --from {시작일} --to {종료일} 2>&1 | tee /tm
 
 ### 📡 Observability Radar
 
-`radar_observability.md`에서 고른다. 블로그 주인은 게임 서버 모니터링 시스템을 개발·운영한다. 스택은 Telegraf(수집) → Kafka(버퍼) → Mimir(저장), 메타데이터는 PostgreSQL, 언어는 Go·Java다. 주로 Go 웹 API를 개발하며 gin, huma 프레임워크를 쓴다. 또 Grafana·Datadog·Prometheus·ELK 동향과 모니터링에 AI를 쓰는 방식에 관심이 많다.
+`radar_observability.md`에서 고른다. 블로그 주인은 게임 서버 모니터링 시스템을 개발·운영한다. 스택은 Telegraf(수집) → Kafka(버퍼) → Mimir(저장), 메타데이터는 PostgreSQL, 언어는 Go·Java다. 주로 Go 웹 API를 개발하며 gin, huma 프레임워크를 쓴다. 쿠버네티스 위에서 Helm 차트와 오퍼레이터로 운영하고, Argo CD와 Rancher도 쓴다(직접 설치·운영하지는 않아 보안 이슈와 큰 변경 위주로 본다). 또 Grafana·Datadog·Prometheus·ELK 동향과 모니터링에 AI를 쓰는 방식에 관심이 많다.
 
 | 그룹 | 내용 | 신호·참고 |
 |---|---|---|
-| `github_releases` | 주요 저장소의 이번 주 릴리스 (Telegraf, Mimir, Prometheus, Grafana, Loki, Alloy, Tempo, OTel, Elasticsearch, Datadog Agent, gin, huma) | `security=True`면 보안 패치, `prerelease=True`면 RC |
+| `github_releases` | 주요 저장소의 이번 주 릴리스 (Telegraf, Mimir, Prometheus, Grafana, Loki, Alloy, Tempo, OTel Collector·Operator, Elasticsearch, Datadog Agent, gin, huma, Kubernetes, Helm, Prometheus Operator, k8s-monitoring-helm, Argo CD, Rancher) | `security=True`면 보안 패치, `prerelease=True`면 RC |
 | `go_vulns` | Go 취약점 DB에서 이번 주 공개된 취약점 (표준 라이브러리, gin, huma, x/net, x/crypto, gRPC, protobuf, pgx, Kafka 클라이언트) | `fixed`는 인덱스 기준 첫 수정 버전이라 버전 라인별 수정 버전은 `https://vuln.go.dev/ID/{id}.json`의 `ranges`로 확인한다 |
-| `vendor_blogs` | Grafana·Datadog·Elastic·OTel·Prometheus·InfluxData·Confluent·PostgreSQL·Go·Inside Java·CNCF 블로그 | `source`에 출처와 날짜. 벤더 블로그는 홍보 글이 많으니 새 기능·변경이 있는 글만 고른다 |
+| `vendor_blogs` | Grafana·Datadog·Elastic·OTel·Prometheus·InfluxData·Confluent·PostgreSQL·Go·Inside Java·Kubernetes·CNCF 블로그 | `source`에 출처와 날짜. 벤더 블로그는 홍보 글이 많으니 새 기능·변경이 있는 글만 고른다 |
 | `hn`, `geeknews`, `rss` | 뉴스 후보 중 모니터링 키워드에 걸린 글 | 키워드 필터라 무관한 글이 섞일 수 있다 |
 
 - Apache Kafka는 GitHub 릴리스를 쓰지 않는다. Kafka 소식은 `confluent` 블로그와 HN·GeekNews에서 찾고, 릴리스 여부는 필요하면 https://kafka.apache.org/community/downloads/ 에서 확인한다.
@@ -120,7 +120,7 @@ bash jobs/run_weekly_radar.sh --from {시작일} --to {종료일} 2>&1 | tee /tm
   - 우선순위: 운영 스택의 보안 이슈(`go_vulns`의 표준 라이브러리·gin·huma·gRPC 포함) > 메이저·마이너 릴리스와 동작 변화 > 표준(OpenTelemetry 등)과 벤더 동향 > AI 활용 사례 > 대규모 서비스의 모니터링 운영 사례
   - 릴리스는 노트 원문을 확인해 운영자가 신경 쓸 변화(기본값 변경, deprecated, 호환성)를 짚는다.
   - 보안 이슈는 CVE 번호, 심각도, 영향 버전, 수정 버전을 확인해 쓴다. Grafana는 `grafana_security` 피드에 권고문이 있다.
-- **릴리스 체크 5개 안팎:** 주요 소식에서 다루지 않은 릴리스를 한 줄씩 적는다. 패치 릴리스는 같은 제품의 여러 버전 라인을 한 줄로 묶는다(예: `Grafana 13.2.2 / 13.1.6 / 13.0.9`).
+- **릴리스 체크 5개 안팎:** 주요 소식에서 다루지 않은 릴리스를 한 줄씩 적는다. 패치 릴리스는 같은 제품의 여러 버전 라인을 한 줄로 묶는다(예: `Grafana 13.2.2 / 13.1.6 / 13.0.9`). Kubernetes와 Argo CD는 여러 마이너 버전에 패치가 동시에 나오므로 특히 한 줄로 묶고, 보안 수정이 있는지부터 확인한다.
 - 테크 뉴스와 같은 소식은 한 섹션에만 싣는다. 모니터링 운영자에게 더 의미 있는 이야기(예: JDK 기본 GC 변경)면 이 섹션으로 보낸다.
 
 ### 📚 도서
