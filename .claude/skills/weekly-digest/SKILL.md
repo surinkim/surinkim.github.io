@@ -76,13 +76,14 @@ bash jobs/run_weekly_radar.sh --from {시작일} --to {종료일} 2>&1 | tee /tm
 |---|---|---|
 | `hn_top` | `hn_points`, `hn_comments` | 댓글이 많을수록 논쟁적인 주제 |
 | `geeknews_top` | `geeknews_points`, `geeknews_comments` | 국내 개발자 반응 |
-| `aitimes_popular` | `aitimes_rank` (1~10) | 조회 시점 스냅샷. AI 기사만 있으므로 가산점으로만 쓴다 |
+| `aitimes_popular` | `aitimes_rank` (1~10) | 조회 시점 스냅샷. 최소 3개는 제목 기사로 싣는다 (아래 규칙) |
 | `techmeme` | `feed_rank` | 해외 테크 업계 흐름 |
 | `rss` | 없음 | 기존 RSS 소스. 국내 이슈 보강용 |
 
 - 같은 이야기가 여러 그룹에 나오면(예: HN + GeekNews + aitimes) 우선 선정한다.
 - 관련된 후속 기사는 한 항목으로 묶고 "관련:" 링크로 붙인다.
 - AI 기사만 10개가 되지 않도록 한다. 보안, 플랫폼, 언어, 국내 이슈를 섞는다.
+- `aitimes_popular`에서 최소 3개는 제목 기사(제목 링크가 aitimes 기사인 항목)로 싣는다. 순위가 높은 것부터 고르되, 직전 포스트와 겹치는 주제는 후속 소식이 있을 때만 싣는다. "관련:" 링크로만 붙인 것은 개수에 넣지 않는다.
 
 ### 🚀 Indie Radar 5~7개
 

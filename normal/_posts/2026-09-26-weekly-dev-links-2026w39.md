@@ -53,39 +53,41 @@ NYT는 Hugging Face 사건에서 에이전트가 CAPTCHA를 풀려고 단축 URL
 해킹 그룹 ShinyHunters가 FBI 관련 서비스를 침해해 FBI 전 직원과 지원자의 이름, 집 주소, 전화번호, 배우자 정보까지 확보했다고 주장했습니다. 404 Media는 요원 5,000명 분량의 샘플을 받아 이런 정보가 담겨 있음을 확인했습니다.
 어떤 시스템이 어떻게 뚫렸는지는 아직 밝혀지지 않았고, FBI의 공식 입장도 나오지 않았습니다. 사실이라면 범죄 조직이 요원을 추적하거나 외국 정보기관이 자료를 손에 넣을 수 있다는 점에서 파장이 큽니다. HN에서 댓글 600개 넘게 달렸습니다.
 
-### 6. [F-Droid 2.0, Kotlin·Compose로 다시 쓴 10년 만의 최대 업데이트](https://f-droid.org/2026/09/24/f-droid-2.0-a-new-chapter-for-android-freedom.html)
-
-오픈소스 Android 앱 스토어 F-Droid가 1년 넘는 작업과 14번의 테스트 릴리스를 거쳐 2.0을 내놓았습니다. 앱 전체를 Kotlin과 Jetpack Compose로 다시 작성했고, 화면을 발견·검색·내 앱 세 영역으로 단순화했습니다.
-Android의 사전 승인 API를 쓰는 통합 설치 관리자가 들어가 백그라운드 업데이트 확인이 기본으로 켜졌고, 검색은 앱 설명과 카테고리까지 찾으며 한국어·중국어·일본어 지원이 크게 좋아졌습니다. Android 6 지원은 중단했습니다.
-F-Droid는 이런 변화가 EU 디지털시장법(DMA)의 압박 덕분에 가능했다고 밝혔습니다. Android 개방성에 대한 우려가 커지는 가운데 HN 1,435점을 받았습니다.
-
-### 7. [네덜란드 정부, NixOS 기반 Microsoft 대안 'DAWO' 구축](https://www.dawo.community/en/)
-
-네덜란드 정부가 산업계, 시민사회와 함께 정부용 디지털 자율 업무 환경을 만드는 공개 커뮤니티 DAWO를 운영하고 있습니다. 단일 제품이 아니라 서로 교체할 수 있는 구성 요소를 엮는 방식이고, 운영체제 계층으로 NixOS 기반 DAWO-NixOS를 씁니다.
-디지털 자율성, 보안, 정부 IT 시스템의 검사 가능성 등을 목표로 내걸었고, 프랑스·독일 등 다른 유럽 국가의 비슷한 프로젝트와도 협력한다고 밝혔습니다. 여러 조직으로 나뉜 구조가 오히려 파편화를 부를 수 있다는 지적도 있습니다.
-미국 빅테크 의존을 줄이려는 유럽의 '디지털 주권' 움직임이 구체적인 OS 선택으로 이어졌다는 점에서 HN 922점, 댓글 539개로 크게 주목받았습니다.
-
-관련: [GeekNews](https://news.hada.io/topic?id=34262)
-
-### 8. ["내가 거절했는데 Apple은 켰다"…macOS 업그레이드 후 되살아난 Apple Intelligence](https://dbushell.com/2026/09/22/apple-intelligence/)
+### 6. ["내가 거절했는데 Apple은 켰다"…macOS 업그레이드 후 되살아난 Apple Intelligence](https://dbushell.com/2026/09/22/apple-intelligence/)
 
 개발자 David Bushell은 macOS 15.3 시절 Apple Intelligence와 Siri가 15분마다 개인 데이터를 보낸다는 것을 알고 모두 꺼 두었습니다. 그런데 macOS 27로 업그레이드하자 Apple Intelligence를 완전히 끄는 토글 자체가 사라졌고, 꺼 둔 기능이 모두 다시 켜졌다고 합니다.
 Siri를 꺼도 종료되지 않는 Siri 프로세스가 여러 개 남아 메모리를 쓰고 데이터를 기록했고, 동의 없이 디스크 22.28GB를 차지했다는 설명입니다. 그는 AI 업계가 사용자의 거절을 존중하는 대신 거절할 선택지를 없애 버린다고 비판했습니다.
 HN에서 875점, 댓글 695개가 달렸고, 같은 주 Apple이 iOS에 계속 떠 있는 '광고'를 넣었다는 TechRadar 기사도 상위권에 올라 Apple의 기본값 정책에 대한 불만이 이어졌습니다.
 
-### 9. [Claude Code, 텔레메트리를 끄면 AGENTS.md를 읽지 않던 버그](https://blog.szypowi.cz/p/claude-code-reads-agents.md-only-when-telemetry-is-on/)
+### 7. ["문장 생성 버렸다"…판단 전용 AI Jev에 개발자 반응 폭발](https://www.aitimes.com/news/articleView.html?idxno=215506)
 
-Claude Code 2.1.277부터 프로젝트 지침 파일 `AGENTS.md`를 읽는 기능이 들어갔는데, 텔레메트리를 끄면 이 파일이 조용히 무시된다는 사실이 드러났습니다. 로컬 파일이라 네트워크가 필요 없는데도, 로더가 원격 기능 플래그를 확인하고 가져오지 못하면 `false`로 처리했기 때문입니다.
-작성자는 `AGENTS.md`에 확인용 단어만 넣고 `DISABLE_TELEMETRY=1`, `CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1` 설정별로 실행해 차이를 재현했습니다. 경고 없이 건너뛴다는 점이 특히 문제로 지적됐습니다.
-보안이나 사내 정책 때문에 텔레메트리를 끄고 쓰는 팀이라면 지침이 적용되지 않은 채 작업했을 수 있습니다. HN 제목에는 이후 수정됐다는 `[fixed]` 표시가 붙었습니다.
+지난주 소개한 TypeSafe AI의 Jev가 공개 일주일 만에 개발자 커뮤니티에서 가장 뜨거운 주제가 됐습니다. 단어를 하나씩 생성하는 디코더 없이 한 번의 패스로 선택지, 확률 분포, 신뢰도 점수만 돌려주는 의사결정 전용 모델로, 응답 속도는 70~500ms, 입력 100만 토큰당 $0.042에 출력은 무료입니다.
+공개 48시간 만에 GitHub와 X에 오픈소스 클론이 6개 넘게 나왔고, Diogo Almeida 대표의 X 게시물은 3,700만 회 넘게 조회됐습니다. 한 개발자는 StarCraft 유닛 제어에 붙여 초당 10번씩 움직임을 결정하게 했습니다. 이번 주에도 Qwen3.5 기반의 Jev 방식 모델 Kev, 이런 모델을 로컬에서 돌리는 Ollaya, 파이썬 25줄로 흉내 낸 구현 등이 HN과 GeekNews 상위권을 채웠습니다.
+다만 출력 형식이 절대 깨지지 않는다는 것과 판단이 정확하다는 것은 별개라는 지적도 나왔습니다. 신뢰도 점수에 임계값을 두는 식으로 시스템을 설계해야 한다는 것입니다. 빠른 판단은 Jev 같은 경량 모델이, 깊은 추론은 대형 LLM이 나눠 맡는 'System 1 / System 2' 구조가 자리 잡을 것이라는 전망이 많습니다.
 
-### 10. [DHH, Rails World에서 "HEY를 Rust와 네이티브 앱으로 다시 쓴다"](https://jardo.dev/what-about-rails)
+관련: [Kev](https://github.com/jaredpalmer/kev/tree/main) · [Ollaya (GeekNews)](https://news.hada.io/topic?id=34288) · [Jev in 25 Lines of Python](https://www.nobodywho.ai/posts/jev-in-25-lines/)
 
-DHH가 Rails World 2026 기조연설에서 AI 중심 개발을 강조하며 대표 제품 HEY를 Rust 서버와 네이티브 앱으로 다시 쓰고 있다고 밝혔습니다. LLM 덕분에 영어가 최고의 프로그래밍 언어가 됐다며, 생성된 코드를 일일이 검토할 필요가 없다는 주장도 했습니다.
-CPU 99%, 메모리 95% 절감이라는 수치도 내놨지만, Rust 전환 효과와 웹 앱을 없앤 효과가 섞여 있다는 지적이 나왔습니다. 이를 분석한 글은 Rails 창시자가 Rails 밖으로 나가는 상황에서, 정작 Rails를 계속 쓰는 개발자에게는 안정성을 택할지 새 기술을 좇을지 방향이 제시되지 않았다고 비판했습니다.
-Rails 생태계의 미래뿐 아니라 '코드를 읽지 않는 개발'을 보안 검증과 어떻게 양립할지도 논쟁거리가 됐습니다.
+### 8. [구글 '제미나이 4 프로' 테스트 포착…"UI·웹 디자인 성능 도약"](https://www.aitimes.com/news/articleView.html?idxno=215631)
 
-관련: [GeekNews 요약](https://news.hada.io/topic?id=34268) · [DHH 기조연설 영상 소개](https://news.hada.io/topic?id=34243)
+구글이 코드네임 'Argon'으로 Gemini 4 Pro를 내부 테스트 중인 것이 포착됐습니다. X의 유출 계정 Lentils80이 처음 알렸고, 벤치마크 플랫폼에는 'Gemini 3.8 Flash'라는 이름으로 위장해 올라와 있었다고 합니다.
+눈에 띄는 건 프론트엔드 코드 생성입니다. 한 개발자는 모노그래픽 웹사이트를 14분 만에 깔끔하게 만들어 냈다고 했고, Xbox·PS5 컨트롤러를 곡선과 음영까지 살린 SVG로 그려 낸 사례도 공유됐습니다. 출력 토큰 한도는 64,000에서 256,000으로 늘어난 것으로 알려졌고, 구글은 3.5 Pro를 건너뛰고 4에 집중했다고 합니다.
+출시 시점도 앞당겨질 전망입니다. 구글 딥마인드의 Koray Kavukcuoglu 수석 부사장은 첫 공식 인터뷰에서 Gemini 4를 연말보다 "훨씬 더 일찍" 내놓고 싶다며, 현재 사후 학습 초기 단계라고 밝혔습니다. 업계는 10월 출시를 점치고 있어, Opus 5.5와 GPT-6에 이은 모델 경쟁이 한 차례 더 이어질 것으로 보입니다.
+
+관련: [AI타임스: 딥마인드 수장 "제미나이 4 조기 출시"](https://www.aitimes.com/news/articleView.html?idxno=215646)
+
+### 9. [GPT-6 Astra, '통설' 뒤집고 108년 된 독일군 암호 해독](https://www.aitimes.com/news/articleView.html?idxno=215511)
+
+독립 개발자 Prinz가 OpenAI의 GPT-6 Astra로 1918년 11월 29일 독일군이 보낸 ADFGVX 암호문을 풀었습니다. 세계 50대 미해결 암호 목록에 올라 있던 문제입니다.
+그동안 연구자들은 암호 키 'TRUPPENVERSCHIEBUNG(부대 이동)'이 12월 9일부터 쓰였다고 보고, 그 전인 11월 29일 암호문에는 이 키가 쓰이지 않았다고 단정해 왔습니다. Astra는 이 전제를 의심해 더 이른 시점에도 같은 키가 쓰였을 가능성을 열어 두고 대입했고, 해독에 성공했습니다. 풀린 내용은 영국 순양함 HMS Canterbury의 세바스토폴 도착(11월 24일)과 연합군 함대 추적(11월 26일)에 관한 정보로, 역사 기록과 정확히 맞았습니다.
+같은 주에는 2005년부터 풀리지 않던 1941년 독일군 Enigma 메시지 MVUEH도 Astra가 약 이틀 만에 스스로 시뮬레이터를 짜서 풀어냈습니다. 지난주 Claude Fable 5.1의 17세기 암호 해독에 이어, AI가 오래된 미해결 문제의 전제 자체를 다시 검토하는 사례가 이어지고 있습니다.
+
+관련: [MVUEH Enigma 해독 (HN 734점)](https://www.cryptocellar.org/bgac/the-mvueh-break.html)
+
+### 10. [메타 에이전트 '뮤즈', 출시 초기 ChatGPT 기록 넘어섰다](https://www.aitimes.com/news/articleView.html?idxno=215566)
+
+메타가 9월 8일 미국·캐나다에 내놓은 개인형 AI 에이전트 앱 Muse가 빠르게 퍼지고 있습니다. 웹 검색, 이메일 정리, 일정 관리, 온라인 양식 작성, 상품 검색과 구매까지 대신 해 주고, Facebook, Instagram, Gmail, Apple·Google 캘린더와 연결됩니다.
+Apptopia 조사에서 Muse는 출시 13일 동안 iOS 다운로드 180만 건, 일일 활성 사용자(DAU) 64만 2천 명을 기록했습니다. ChatGPT 앱의 같은 기간 기록(130만 건, DAU 23만 1천 명)을 넘어선 수치이고, 센서타워는 다운로드를 250만 건 이상으로 추정했습니다. 메타 주가는 21일 하루에 11% 올랐습니다.
+반면 Amazon은 제3자 AI 에이전트는 사업자 동의가 필요하다며 Muse의 자동 쇼핑을 막았습니다. 에이전트가 사람 대신 사이트를 쓰기 시작하면서, 서비스 업체와 에이전트 운영사 사이의 이용 규칙이 새로운 쟁점으로 떠오르고 있습니다.
 
 ---
 
