@@ -38,6 +38,22 @@ transform:scale(1.4);
 opacity:1;
 }
 
+.icon-kubernetes {
+opacity:0.5;
+}
+.icon-kubernetes:hover {
+transform:scale(1.4);
+opacity:1;
+}
+
+.fa-aws {
+opacity:0.5;
+}
+.fa-aws:hover {
+transform:scale(1.4);
+opacity:1;
+}
+
 
 
 /* reset */
@@ -45,7 +61,7 @@ opacity:1;
 ol,ul { list-style: none;}
 /* reset end */
 
-ul {width:785px; margin:0px auto 0;}
+ul {width:785px; max-width:100%; margin:0px auto 0; padding-left:0;}
 ul:after {
     content:'';
     clear:both;

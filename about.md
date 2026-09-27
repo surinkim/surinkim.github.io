@@ -37,7 +37,7 @@ title: 소개
   </li>
   <li>
     <a href='https://www.credly.com/badges/59b96f23-d13d-40c5-9c69-41ca53079327/public_url' target="_blank">
-      <img src='https://simpleicons.org/icons/kubernetes.svg' width='40' height='40' />
+      <img class="icon-kubernetes" src='https://simpleicons.org/icons/kubernetes.svg' width='40' height='40' />
     </a>
   </li>
   <li>
