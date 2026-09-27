@@ -3,7 +3,6 @@ layout: page
 title: 소개
 ---
 
-<link rel="stylesheet" href="{{ site.baseurl }}/public/css/about_bottom.css">
 
 <!-- 이 블로그는 보통의 블로그 처럼, 하고 싶은 얘기 적고 공부한 내용 정리하기 위해 만들었습니다. 그리고, 책이 출간된 후에 잘못된 곳 바로 잡고 궁금한 점 답변하기 위한 목적도 있습니다.
 
@@ -13,37 +12,4 @@ title: 소개
 
 
 
-<ul>
-  <li>
-    <a href='https://github.com/surinkim' target="_blank">
-      <i class="fab fa-github fa-2x" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a href='https://stackoverflow.com/users/2231098/hyun' target="_blank">
-      <i class="fab fa-stack-overflow fa-2x" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a href='https://hub.docker.com/u/surinkim/' target="_blank">
-      <i class="fab fa-docker fa-2x" style="color:blue;
-      font-size:40px;" aria-hidden="true"></i>
-    </a>
-  </li>
-  <li>
-    <a href='https://www.hackerrank.com/nnhope/' target="_blank">
-      <i class="fab fa-hackerrank fa-2x" style="color:green;"></i>
-    </a>
-  </li>
-  <li>
-    <a href='https://www.credly.com/badges/59b96f23-d13d-40c5-9c69-41ca53079327/public_url' target="_blank">
-      <img class="icon-kubernetes" src='https://simpleicons.org/icons/kubernetes.svg' width='40' height='40' />
-    </a>
-  </li>
-  <li>
-    <a href='https://www.credly.com/badges/faa92801-39e4-4aad-aea4-3eddb904a67b/public_url' target="_blank">
-      <i class="fab fa-aws fa-2x" style="color:#63E6BE;
-      font-size:40px;" aria-hidden="true"></i>
-    </a>
-  </li>
-</ul>
+{% include badges.html %}

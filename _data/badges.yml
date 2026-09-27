@@ -1,0 +1,35 @@
+# 소개 페이지 아이콘 목록. 위에서부터 순서대로 나온다.
+# 아이콘은 둘 중 하나로 지정한다.
+#   fa:   Font Awesome 클래스 (예: "fab fa-github")
+#   icon: Simple Icons 이름 (https://simpleicons.org 에서 검색, 예: prometheus)
+# color는 아이콘 색. hover 효과는 자동으로 붙는다.
+
+- name: GitHub
+  fa: fab fa-github
+  color: purple
+  url: https://github.com/surinkim
+
+- name: Stack Overflow
+  fa: fab fa-stack-overflow
+  color: orange
+  url: https://stackoverflow.com/users/2231098/hyun
+
+- name: Docker Hub
+  fa: fab fa-docker
+  color: blue
+  url: https://hub.docker.com/u/surinkim/
+
+- name: HackerRank
+  fa: fab fa-hackerrank
+  color: green
+  url: https://www.hackerrank.com/nnhope/
+
+- name: Certified Kubernetes Administrator (CKA)
+  icon: kubernetes
+  color: "#326CE5"
+  url: https://www.credly.com/badges/59b96f23-d13d-40c5-9c69-41ca53079327/public_url
+
+- name: AWS Certified Solutions Architect – Associate (SAA)
+  fa: fab fa-aws
+  color: "#63E6BE"
+  url: https://www.credly.com/badges/faa92801-39e4-4aad-aea4-3eddb904a67b/public_url

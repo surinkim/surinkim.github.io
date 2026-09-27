@@ -1,0 +1,14 @@
+{%- comment -%} 소개 페이지 아이콘 목록. 항목은 _data/badges.yml에서 관리한다. {%- endcomment -%}
+<ul class="badges">
+  {%- for badge in site.data.badges %}
+  <li>
+    <a href="{{ badge.url }}" target="_blank" rel="noopener" title="{{ badge.name }}" aria-label="{{ badge.name }}">
+      {%- if badge.fa %}
+      <i class="{{ badge.fa }}" style="color: {{ badge.color }};" aria-hidden="true"></i>
+      {%- else %}
+      <span class="badge-icon" style="--icon: url('https://cdn.jsdelivr.net/npm/simple-icons@16/icons/{{ badge.icon }}.svg'); background-color: {{ badge.color }};" aria-hidden="true"></span>
+      {%- endif %}
+    </a>
+  </li>
+  {%- endfor %}
+</ul>

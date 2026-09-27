@@ -278,6 +278,47 @@ p.post-date {
   margin: 0 auto;
 }
 
+// -------------- ABOUT BADGES --------------- //
+
+.badges {
+  list-style: none;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 15px;
+  margin: 1em 0;
+}
+
+.badges li + li {
+  margin-top: 0;
+}
+
+.badges a {
+  display: block;
+  opacity: 0.5;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.badges a:hover {
+  opacity: 1;
+  transform: scale(1.4);
+  text-decoration: none;
+}
+
+.badges i {
+  display: block;
+  font-size: 40px;
+}
+
+.badge-icon {
+  display: block;
+  width: 40px;
+  height: 40px;
+  -webkit-mask: var(--icon) center / contain no-repeat;
+  mask: var(--icon) center / contain no-repeat;
+}
+
 // -------------- SYNTAX HIGHLIGHTING --------------- //
 
 .highlight  { background: var(--code-bg); overflow-x: auto; padding: 0.5em; }
