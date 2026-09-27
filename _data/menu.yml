@@ -4,13 +4,21 @@
     limit: 10
 
 - title: "전체 글목록"
+  nav: "archive"
   url: /archive
 
+- title: "주간 테크 뉴스"
+  nav: "weekly"
+  url: /weekly
+
 - title: "번역서"
+  nav: "books"
   url: /book
 
 - title: "소개"
+  nav: "about"
   url: /about
 
 - title: "RSS"
+  nav: "rss"
   url: /atom.xml
