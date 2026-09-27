@@ -3,17 +3,21 @@
     category: normal
     limit: 10
 
-- title: "전체 글목록"
-  nav: "archive"
+- title: "전체 글"
+  nav: "all"
   url: /archive
 
-- title: "주간 테크 뉴스"
-  nav: "weekly"
-  url: /weekly
+- title: "노트"
+  nav: "notes"
+  url: /notes
 
 - title: "번역서"
-  nav: "books"
+  nav: "translations"
   url: /book
+
+- title: "주간 테크 뉴스"
+  nav: "tech news"
+  url: /weekly
 
 - title: "소개"
   nav: "about"

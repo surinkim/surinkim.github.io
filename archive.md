@@ -1,7 +1,7 @@
 ---
 layout: page
-title: 글목록
+title: 전체 글
 comments: false
 ---
 
-{% include post_list.html category="normal" %}
+{% include post_list.html %}
