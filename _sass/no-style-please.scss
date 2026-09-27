@@ -45,6 +45,7 @@ a {
 pre {
   overflow-x: auto;
   padding: 1em;
+  tab-size: 4; // Go 코드처럼 탭으로 들여쓴 코드가 8칸으로 넓게 보이지 않게
 }
 
 code {
@@ -71,6 +72,11 @@ table {
 th, td {
   padding: 0.5em;
   border: 1px solid;
+}
+
+// 머리글 행과 첫 열(행 제목)에 연한 음영
+th, td:first-child {
+  background-color: #eef5fc;
 }
 
 // -------------- LISTS --------------- //
@@ -105,6 +111,10 @@ body[a="dark"] {
 
   th, td {
     border-color: #30363d;
+  }
+
+  th, td:first-child {
+    background-color: #161f2e;
   }
 
   hr {
@@ -147,6 +157,10 @@ body[a="auto"] {
 
     th, td {
       border-color: #30363d;
+    }
+
+    th, td:first-child {
+      background-color: #161f2e;
     }
 
     hr {
