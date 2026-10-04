@@ -112,6 +112,20 @@ OBS_FEEDS = {
     "kubernetes": ("https://kubernetes.io/feed.xml", False),
     "cncf": ("https://www.cncf.io/feed/", True),
 }
+# 국내 기술 블로그: 주제가 넓어 운영·관측성 관련 글만 KR_BLOG_KEYWORDS로 고른다
+KR_TECH_FEEDS = {
+    "toss": "https://toss.tech/rss.xml",
+    "woowahan": "https://techblog.woowahan.com/feed/",
+    "kakao": "https://tech.kakao.com/feed/",
+    "naver_d2": "https://d2.naver.com/d2.atom",
+    "lycorp": "https://techblog.lycorp.co.jp/ko/feed/index.xml",
+    "daangn": "https://medium.com/feed/daangn",
+    "musinsa": "https://medium.com/feed/musinsa-tech",
+    "oliveyoung": "https://oliveyoung.tech/rss.xml",
+    "devsisters": "https://tech.devsisters.com/rss.xml",
+    "nhn_cloud": "https://meetup.nhncloud.com/rss",
+    "gccompany": "https://techblog.gccompany.co.kr/feed",
+}
 OBS_KEYWORDS = re.compile(
     r"observab|monitoring|모니터링|옵저버빌리티|관측성|telemetry|텔레메트리|"
     r"grafana|prometheus|promql|mimir|\bloki\b|\btempo\b|thanos|cortex|victoriametrics|"
@@ -123,6 +137,15 @@ OBS_KEYWORDS = re.compile(
     r"kubernetes|쿠버네티스|\bk8s\b|kubelet|kube-|containerd|\bhelm\b|argo ?cd|argocd|rancher|"
     r"istio|cilium|envoy|service mesh|서비스 메시|"
     r"\bsre\b|postmortem|post-mortem|outage|장애|on-?call|\balerting\b|tracing|\bebpf\b",
+    re.IGNORECASE,
+)
+
+# OBS_KEYWORDS에 더해 국내 블로그의 장애 회고·성능 분석 글에 자주 나오는 표현
+# ("로그"는 "블로그"와 겹치므로 로깅·로그 수집처럼 좁혀 쓴다)
+KR_BLOG_KEYWORDS = re.compile(
+    OBS_KEYWORDS.pattern + r"|로깅|로그 ?수집|로그량|trace_?id|트레이싱|트레이스|메트릭|지표|알람|"
+    r"부하 ?테스트|커넥션 ?풀|스레드 ?덤프|힙 ?덤프|레이턴시|지연 ?시간|\bp99\b|병목|회고|"
+    r"가용성|안정성|트러블슈팅|성능 ?개선|\bgc\b|메모리 ?누수",
     re.IGNORECASE,
 )
 
@@ -476,6 +499,18 @@ def fetch_obs_feeds(date_from: date, date_to: date) -> list[dict]:
     return items
 
 
+def fetch_kr_tech_blogs(date_from: date, date_to: date) -> list[dict]:
+    items = []
+    for name, url in KR_TECH_FEEDS.items():
+        for it in fetch_feed(url, date_from, date_to, limit=30):
+            if not KR_BLOG_KEYWORDS.search(f"{it['title']} {it['summary']}"):
+                continue
+            it["source"] = f"{name} {it['date']}"
+            it["signals"] = {}
+            items.append(it)
+    return items
+
+
 def collect_observability(date_from: date, date_to: date, news: dict) -> dict:
     """릴리스·벤더 블로그를 모으고, 뉴스 후보(HN·GeekNews·RSS)에서 관련 글을 키워드로 골라낸다."""
     def matches(it: dict) -> bool:
@@ -489,6 +524,7 @@ def collect_observability(date_from: date, date_to: date, news: dict) -> dict:
         "github_releases": fetch_github_releases(date_from, date_to),
         "go_vulns": fetch_go_vulns(date_from, date_to),
         "vendor_blogs": fetch_obs_feeds(date_from, date_to),
+        "kr_tech_blogs": fetch_kr_tech_blogs(date_from, date_to),
         "hn": hn[:30],
         "geeknews": geeknews[:30],
         "rss": rss[:30],

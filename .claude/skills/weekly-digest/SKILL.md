@@ -1,6 +1,6 @@
 ---
 name: weekly-digest
-description: 주간 다이제스트 포스트를 생성한다. 테크 뉴스 10개, Indie Radar(1인 개발·마이크로 SaaS·게임), Observability Radar(모니터링 스택 소식·릴리스), 도서(알라딘 소설/IT/인문) 4개 섹션의 후보를 수집하고 선정·요약해 마크다운 포스트로 작성.
+description: 주간 다이제스트 포스트를 생성한다. 테크 뉴스 10개, Indie Radar(1인 개발·마이크로 SaaS·게임), 모니터링 사례 & 강좌(관련 스택의 운영 사례·짧은 강좌), 도서(알라딘 소설/IT/인문) 4개 섹션의 후보를 수집하고 선정·요약해 마크다운 포스트로 작성.
 disable-model-invocation: false
 allowed-tools: Bash Read Write Edit Grep Glob WebFetch AskUserQuestion
 ---
@@ -16,7 +16,7 @@ allowed-tools: Bash Read Write Edit Grep Glob WebFetch AskUserQuestion
 
 1. 📰 테크 뉴스 10개
 2. 🚀 Indie Radar 5~7개
-3. 📡 Observability Radar (주요 소식 3~5개 + 릴리스 체크)
+3. 🔭 모니터링 사례 & 강좌 (3~5개)
 4. 📚 도서 (소설 · IT · 인문)
 
 ## 1단계: 날짜 확인
@@ -105,7 +105,7 @@ bash jobs/run_weekly_radar.sh --from {시작일} --to {종료일} 2>&1 | tee /tm
   - `mrr_usd`와 `last30d_revenue_usd`가 크게 어긋나는 곳(예: MRR은 큰데 30일 매출 0)은 피한다.
 - Reddit 후기의 수익 수치는 "본인 공개"임을 전제로, 원문에 적힌 대로만 옮긴다.
 
-### 📡 Observability Radar
+### 🔭 모니터링 사례 & 강좌
 
 `radar_observability.md`에서 고른다. 블로그 주인은 게임 서버 모니터링 시스템을 개발·운영한다. 스택은 Telegraf(수집) → Kafka(버퍼) → Mimir(저장), 메타데이터는 PostgreSQL, 언어는 Go·Java다. 주로 Go 웹 API를 개발하며 gin, huma 프레임워크를 쓴다. 쿠버네티스 위에서 Helm 차트와 오퍼레이터로 운영하고, Argo CD와 Rancher도 쓴다(직접 설치·운영하지는 않아 보안 이슈와 큰 변경 위주로 본다). 또 Grafana·Datadog·Prometheus·ELK 동향과 모니터링에 AI를 쓰는 방식에 관심이 많다.
 
@@ -114,14 +114,18 @@ bash jobs/run_weekly_radar.sh --from {시작일} --to {종료일} 2>&1 | tee /tm
 | `github_releases` | 주요 저장소의 이번 주 릴리스 (Telegraf, Mimir, Prometheus, Grafana, Loki, Alloy, Tempo, OTel Collector·Operator, Elasticsearch, Datadog Agent, gin, huma, Kubernetes, Helm, Prometheus Operator, k8s-monitoring-helm, Argo CD, Rancher) | `security=True`면 보안 패치, `prerelease=True`면 RC |
 | `go_vulns` | Go 취약점 DB에서 이번 주 공개된 취약점 (표준 라이브러리, gin, huma, x/net, x/crypto, gRPC, protobuf, pgx, Kafka 클라이언트) | `fixed`는 인덱스 기준 첫 수정 버전이라 버전 라인별 수정 버전은 `https://vuln.go.dev/ID/{id}.json`의 `ranges`로 확인한다 |
 | `vendor_blogs` | Grafana·Datadog·Elastic·OTel·Prometheus·InfluxData·Confluent·PostgreSQL·Go·Inside Java·Kubernetes·CNCF 블로그 | `source`에 출처와 날짜. 벤더 블로그는 홍보 글이 많으니 새 기능·변경이 있는 글만 고른다 |
+| `kr_tech_blogs` | 국내 기술 블로그(토스, 우아한형제들, 카카오, NAVER D2, LY, 당근, 무신사, 올리브영, 데브시스터즈, NHN Cloud, 여기어때) 중 운영·관측성 키워드(`KR_BLOG_KEYWORDS`)에 걸린 글 | 장애 회고·실습형 글이 많아 이 섹션의 1순위 후보. 키워드 필터라 무관한 글도 섞인다 |
 | `hn`, `geeknews`, `rss` | 뉴스 후보 중 모니터링 키워드에 걸린 글 | 키워드 필터라 무관한 글이 섞일 수 있다 |
 
 - Apache Kafka는 GitHub 릴리스를 쓰지 않는다. Kafka 소식은 `confluent` 블로그와 HN·GeekNews에서 찾고, 릴리스 여부는 필요하면 https://kafka.apache.org/community/downloads/ 에서 확인한다.
-- **주요 소식 3~5개:** 요약할 가치가 있는 것만 싣는다. 채울 게 없으면 3개로 줄인다.
-  - 우선순위: 운영 스택의 보안 이슈(`go_vulns`의 표준 라이브러리·gin·huma·gRPC 포함) > 메이저·마이너 릴리스와 동작 변화 > 표준(OpenTelemetry 등)과 벤더 동향 > AI 활용 사례 > 대규모 서비스의 모니터링 운영 사례
-  - 릴리스는 노트 원문을 확인해 운영자가 신경 쓸 변화(기본값 변경, deprecated, 호환성)를 짚는다.
-  - 보안 이슈는 CVE 번호, 심각도, 영향 버전, 수정 버전을 확인해 쓴다. Grafana는 `grafana_security` 피드에 권고문이 있다.
-- **릴리스 체크 5개 안팎:** 주요 소식에서 다루지 않은 릴리스를 한 줄씩 적는다. 패치 릴리스는 같은 제품의 여러 버전 라인을 한 줄로 묶는다(예: `Grafana 13.2.2 / 13.1.6 / 13.0.9`). Kubernetes와 Argo CD는 여러 마이너 버전에 패치가 동시에 나오므로 특히 한 줄로 묶고, 보안 수정이 있는지부터 확인한다.
+- **목적은 학습이다.** 블로그 주인은 모니터링 분야의 깊은 지식이나 경험이 많지 않아, 이 섹션은 실력을 키우는 글 위주로 고른다. 대상 주제는 k8s, Grafana, Prometheus, Telegraf, Mimir, Kafka, Go와 모니터링 일반(지표 읽기, 알람 설계, 로그·트레이스, 장애 분석)이다.
+- **3~5개, 사례와 짧은 강좌 위주:**
+  - 우선: 실제 서비스의 운영·장애 사례(수치와 시행착오가 있는 글, 예: CNCF 블로그의 Atlassian 장애 감지 재구축), 개념을 풀어 주는 강좌·가이드(예: 그래프 읽는 법, 알람 설계), 바로 따라 해 볼 수 있는 실습형 글
+  - 국내 기술 블로그의 장애 회고와 관측성 글은 `kr_tech_blogs` 그룹에서 먼저 찾는다. 피드를 추가하거나 빼려면 `weekly_radar.py`의 `KR_TECH_FEEDS`를 고친다.
+  - 제외: 패치·마이너 릴리스, 보안 권고, 기능 발표 위주의 벤더 홍보 글. Go 메이저 버전이나 OpenTelemetry Go 자동 계측 v1처럼 직접 써 볼 만한 큰 변화만 예외로, "어떻게 써 보면 되는지" 중심으로 쓴다.
+  - 벤더 특화 글(예: ES|QL, Datadog 전용 기능)은 개념이 다른 스택에도 통할 때만 고른다.
+- **릴리스 체크 목록은 넣지 않는다.**
+- 요약은 무엇을 배울 수 있는지가 드러나게 쓴다: 배경, 핵심 개념이나 원인, 해결 방법, 일반화할 수 있는 교훈.
 - 테크 뉴스와 같은 소식은 한 섹션에만 싣는다. 모니터링 운영자에게 더 의미 있는 이야기(예: JDK 기본 GC 변경)면 이 섹션으로 보낸다.
 
 ### 📚 도서
@@ -152,7 +156,7 @@ tags: [weekly, dev-news, indie-radar, observability, books]
 
 - [📰 테크 뉴스 (10)](#tech-news) — {대표 주제 2~3개를 쉼표로}
 - [🚀 Indie Radar ({개수})](#indie-radar) — {대표 항목 1~2개를 짧게}
-- [📡 Observability Radar ({주요 소식 개수})](#observability) — {대표 소식 2개를 쉼표로}
+- [🔭 모니터링 사례 & 강좌 ({개수})](#observability) — {대표 글 2개를 쉼표로}
 - [📚 도서](#books) — 소설 · IT · 인문 베스트 새 진입과 신간
 
 ---
@@ -179,19 +183,14 @@ tags: [weekly, dev-news, indie-radar, observability, books]
 
 ---
 
-## 📡 Observability Radar
+## 🔭 모니터링 사례 & 강좌
 {: #observability}
 
-### [소식 제목](대표 링크)
+### [글 제목](원문 링크)
 
-2~4문장. 무엇이 바뀌었나, 운영자가 확인하거나 대응할 것.
+3~4문장. 어떤 상황·문제였나, 핵심 개념이나 원인, 어떻게 풀었나, 다른 환경에도 통하는 교훈.
 
 관련: [링크 이름](URL)
-
-#### 릴리스 체크
-
-- [제품 버전](릴리스 링크) · 한 줄 설명
-- [제품 버전 / 버전](릴리스 링크) · 보안 패치 (CVE-YYYY-NNNNN)
 
 ---
 
@@ -219,7 +218,7 @@ tags: [weekly, dev-news, indie-radar, observability, books]
 ### 작성 규칙
 
 - **섹션 앵커는 고정:** `{: #tech-news}`, `{: #indie-radar}`, `{: #observability}`, `{: #books}`는 바로가기 링크와 연결되므로 바꾸지 않는다.
-- **제목 링크:** 테크 뉴스와 Observability Radar는 가장 신뢰할 만한 원문(공식 발표 > 원 보도 > 요약)을 건다. 보조 소스는 "관련:" 줄로 보낸다. 관련 링크가 없으면 "관련:" 줄을 생략한다.
+- **제목 링크:** 테크 뉴스와 모니터링 사례 & 강좌는 가장 신뢰할 만한 원문(공식 발표 > 원 보도 > 요약)을 건다. 보조 소스는 "관련:" 줄로 보낸다. 관련 링크가 없으면 "관련:" 줄을 생략한다.
 - **본문 서식:** 제목 줄 외에는 볼드, 기울임 같은 인라인 강조를 넣지 않는다. 코드나 식별자 표기용 백틱은 써도 된다.
 - **넣지 않는 것:**
   - 에디터 코멘트나 인용 블록(`> 💬 ...` 같은 "얘깃거리" 줄). 사용자가 댓글처럼 보인다며 뺀 형식이다.
