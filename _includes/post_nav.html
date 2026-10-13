@@ -1,0 +1,32 @@
+{%- comment -%}
+  이전 글/다음 글 링크. 주간 뉴스는 주간 뉴스끼리, 나머지 글은 주간 뉴스를 빼고 이어진다.
+  site.posts는 최신순이므로 현재 글 바로 앞이 다음 글(newer), 바로 뒤가 이전 글(older).
+{%- endcomment -%}
+{%- assign is_weekly = false -%}
+{%- if page.tags contains "weekly" -%}{%- assign is_weekly = true -%}{%- endif -%}
+{%- assign newer = nil -%}
+{%- assign older = nil -%}
+{%- assign found = false -%}
+{%- for post in site.posts -%}
+  {%- assign post_weekly = false -%}
+  {%- if post.tags contains "weekly" -%}{%- assign post_weekly = true -%}{%- endif -%}
+  {%- if post_weekly != is_weekly -%}{%- continue -%}{%- endif -%}
+  {%- if found -%}
+    {%- assign older = post -%}
+    {%- break -%}
+  {%- elsif post.url == page.url -%}
+    {%- assign found = true -%}
+  {%- else -%}
+    {%- assign newer = post -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- if older or newer %}
+<nav class="post-nav">
+  {%- if older %}
+  <a class="post-nav-prev" href="{{ older.url | relative_url }}"><span>← 이전 글</span>{{ older.title }}</a>
+  {%- endif %}
+  {%- if newer %}
+  <a class="post-nav-next" href="{{ newer.url | relative_url }}"><span>다음 글 →</span>{{ newer.title }}</a>
+  {%- endif %}
+</nav>
+{%- endif %}

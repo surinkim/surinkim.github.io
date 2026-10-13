@@ -247,6 +247,10 @@ ul.post-list a:hover {
   color: var(--secondary);
 }
 
+.site-nav a.active {
+  color: var(--accent);
+}
+
 .site-nav a:hover {
   color: var(--accent);
   text-decoration: none;
@@ -271,6 +275,36 @@ ul.post-list a:hover {
 
 p.post-date {
   margin-bottom: 2em;
+}
+
+.post-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  margin: 2em 0;
+  padding-top: 1em;
+  border-top: 1px dashed var(--border);
+}
+
+.post-nav a {
+  flex: 1 1 0;
+  color: var(--text);
+}
+
+.post-nav a:hover {
+  color: var(--accent);
+}
+
+.post-nav span {
+  display: block;
+  font-family: $mono-font;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.post-nav-next {
+  margin-left: auto;
+  text-align: right;
 }
 
 .w {

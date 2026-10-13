@@ -10,16 +10,15 @@ layout: default
   <nav class="site-nav">
     {%- for item in site.data.menu -%}
       {%- if item.url %}
-    <a href="{{ item.url | relative_url }}" title="{{ item.title }}">[{{ item.nav | default: item.title }}]</a>
+    <a href="{{ item.url | relative_url }}" title="{{ item.title }}"{% if item.home %} class="active"{% endif %}>[{{ item.nav | default: item.title }}]</a>
       {%- endif -%}
     {%- endfor %}
   </nav>
 </header>
 
 {% for item in site.data.menu %}
-  {%- if item.post_list -%}
-<h2 class="section-title"># {{ item.title }}</h2>
-{% include post_list.html category=item.post_list.category limit=item.post_list.limit compact=true %}
+  {%- if item.home and item.post_list -%}
+{% include post_list.html category=item.post_list.category exclude_tag=item.post_list.exclude_tag limit=item.post_list.limit %}
   {%- endif -%}
 {% endfor %}
 

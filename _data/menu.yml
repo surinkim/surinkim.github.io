@@ -1,15 +1,11 @@
-- title: "최근 글"
-  post_list:
-    category: normal
-    limit: 10
-
-- title: "전체 글"
-  nav: "all"
-  url: /archive
-
+# home: true인 항목은 홈 메뉴에서 선택된 상태로 표시되고, post_list 목록이 홈 본문에 나온다.
 - title: "노트"
   nav: "notes"
   url: /notes
+  home: true
+  post_list:
+    category: normal
+    exclude_tag: weekly
 
 - title: "번역서"
   nav: "translations"
