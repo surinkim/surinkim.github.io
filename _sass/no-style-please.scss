@@ -266,6 +266,49 @@ ul.post-list a:hover {
 
 // -------------- POST --------------- //
 
+// 접기 영역: 본문 사이에서 눈에 띄도록 포인트 색 버튼 모양으로
+details {
+  margin: 0.8em 0 1.2em;
+}
+
+details > summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.3em 0.9em;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background-color: var(--tint);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+details > summary::-webkit-details-marker {
+  display: none;
+}
+
+details > summary::before {
+  content: "▸";
+  transition: transform 0.15s ease;
+}
+
+details[open] > summary::before {
+  transform: rotate(90deg);
+}
+
+details > summary:hover {
+  background-color: var(--accent);
+  color: var(--bg);
+}
+
+details[open] > summary {
+  margin-bottom: 0.8em;
+}
+
 .post-date {
   font-family: $mono-font;
   font-size: 0.8rem;

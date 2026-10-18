@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9aa3ad"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="520" rx="12" fill="#ffffff" stroke="#e3e3e3"/>
+  <text x="24" y="36" font-size="17" font-weight="700" fill="#222">Datadog의 서비스 중요도 시스템</text>
+  <text x="24" y="56" font-size="12" fill="#888">신호 4개를 모아 서비스마다 중요도와 신뢰도를 매기고, 배포와 머지 결정에 쓴다</text>
+
+  <!-- signals -->
+  <text x="24" y="80" font-size="11" fill="#888" font-weight="700">입력 신호</text>
+  <g font-size="12">
+    <rect x="24" y="88" width="230" height="52" rx="8" fill="#f6f7f9" stroke="#dde1e6"/>
+    <text x="36" y="109" font-weight="700" fill="#333">포스트모템 (SEV-1·2)</text>
+    <text x="36" y="128" font-size="11" fill="#666">LLM 분석 · 하루 안 · 약 $32</text>
+    <rect x="200" y="98" width="44" height="20" rx="10" fill="#e3f4ea"/><text x="222" y="112" font-size="11" fill="#22804e" text-anchor="middle" font-weight="700">↑ 올림</text>
+
+    <rect x="24" y="148" width="230" height="52" rx="8" fill="#f6f7f9" stroke="#dde1e6"/>
+    <text x="36" y="169" font-weight="700" fill="#333">에러 트레이스</text>
+    <text x="36" y="188" font-size="11" fill="#666">고객 경로의 에러에 엮인 서비스</text>
+    <rect x="200" y="158" width="44" height="20" rx="10" fill="#e3f4ea"/><text x="222" y="172" font-size="11" fill="#22804e" text-anchor="middle" font-weight="700">↑ 올림</text>
+
+    <rect x="24" y="208" width="230" height="52" rx="8" fill="#f6f7f9" stroke="#dde1e6"/>
+    <text x="36" y="229" font-weight="700" fill="#333">트래픽</text>
+    <text x="36" y="248" font-size="11" fill="#666">거의 0이면 낮춤 · 많아도 올리진 않음</text>
+    <rect x="200" y="218" width="44" height="20" rx="10" fill="#fcebeb"/><text x="222" y="232" font-size="11" fill="#b03a3a" text-anchor="middle" font-weight="700">↓ 만</text>
+
+    <rect x="24" y="268" width="230" height="52" rx="8" fill="#f6f7f9" stroke="#dde1e6"/>
+    <text x="36" y="289" font-weight="700" fill="#333">온콜 모니터</text>
+    <text x="36" y="308" font-size="11" fill="#666">당번 호출하면 올림 · 호출 없으면 낮춤</text>
+    <rect x="200" y="278" width="44" height="20" rx="10" fill="#fdf3e1"/><text x="222" y="292" font-size="11" fill="#b06d0b" text-anchor="middle" font-weight="700">↑↓</text>
+  </g>
+
+  <!-- arrows to aggregator -->
+  <g stroke="#9aa3ad" stroke-width="1.5" fill="none">
+    <path d="M254,114 C275,114 275,190 290,196" marker-end="url(#arr)"/>
+    <path d="M254,174 C272,174 272,198 290,200" marker-end="url(#arr)"/>
+    <path d="M254,234 C272,234 272,206 290,206" marker-end="url(#arr)"/>
+    <path d="M254,294 C275,294 275,214 290,210" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- aggregator -->
+  <rect x="292" y="172" width="120" height="64" rx="10" fill="#eef2fb" stroke="#bccaea"/>
+  <text x="352" y="198" font-size="13" font-weight="700" fill="#2b4f9e" text-anchor="middle">집계기</text>
+  <text x="352" y="216" font-size="11" fill="#55689a" text-anchor="middle">신호별 판정을 합산</text>
+
+  <!-- override -->
+  <rect x="292" y="270" width="120" height="50" rx="10" fill="#fffdf5" stroke="#e8d9a8" stroke-dasharray="4 3"/>
+  <text x="352" y="291" font-size="12" font-weight="700" fill="#8a6a12" text-anchor="middle">서비스 오너</text>
+  <text x="352" y="308" font-size="11" fill="#8a6a12" text-anchor="middle">사유 적고 덮어쓰기</text>
+  <path d="M352,270 V240" stroke="#c9b26a" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+
+  <!-- output -->
+  <path d="M412,204 H438" stroke="#9aa3ad" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <rect x="440" y="146" width="132" height="116" rx="10" fill="#0f7b6c"/>
+  <text x="506" y="170" font-size="11" fill="#cfece6" text-anchor="middle">중앙 API로 제공</text>
+  <text x="506" y="194" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">중요도</text>
+  <text x="506" y="212" font-size="11" fill="#e6f5f2" text-anchor="middle">high · low · unknown</text>
+  <text x="506" y="236" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">+ 신뢰도 점수</text>
+  <text x="506" y="252" font-size="11" fill="#e6f5f2" text-anchor="middle">근거가 얼마나 충분한가</text>
+
+  <!-- uses -->
+  <g stroke="#9aa3ad" stroke-width="1.5" fill="none">
+    <path d="M572,190 C588,190 588,128 600,124" marker-end="url(#arr)"/>
+    <path d="M572,204 H600" marker-end="url(#arr)"/>
+    <path d="M572,218 C588,218 588,280 600,284" marker-end="url(#arr)"/>
+  </g>
+  <text x="602" y="80" font-size="11" fill="#888" font-weight="700">쓰는 곳</text>
+  <g font-size="12">
+    <rect x="602" y="98" width="134" height="52" rx="8" fill="#f6f7f9" stroke="#dde1e6"/>
+    <text x="614" y="119" font-weight="700" fill="#333">배포 속도</text>
+    <text x="614" y="137" font-size="11" fill="#666">낮으면 더 빠르게 배포</text>
+    <rect x="602" y="178" width="134" height="52" rx="8" fill="#f6f7f9" stroke="#dde1e6"/>
+    <text x="614" y="199" font-weight="700" fill="#333">의존성 자동 머지</text>
+    <text x="614" y="217" font-size="11" fill="#666">중요 서비스는 사람이 검토</text>
+    <rect x="602" y="258" width="134" height="52" rx="8" fill="#f6f7f9" stroke="#dde1e6"/>
+    <text x="614" y="279" font-weight="700" fill="#333">신뢰성 투자</text>
+    <text x="614" y="297" font-size="11" fill="#666">중요한 곳에 SLO·작업 집중</text>
+  </g>
+
+  <!-- principles -->
+  <text x="24" y="362" font-size="14" font-weight="700" fill="#222">판정 원칙 두 가지</text>
+
+  <rect x="24" y="374" width="340" height="122" rx="10" fill="#f6f7f9"/>
+  <text x="40" y="398" font-size="13" font-weight="700" fill="#333">신호끼리 어긋나면</text>
+  <text x="40" y="422" font-size="12" fill="#444">등급은 그대로 두고 신뢰도만 낮춘다</text>
+  <text x="40" y="446" font-size="11" fill="#777">예: 장애 이력은 있는데 트래픽이 거의 0인 서비스</text>
+  <text x="40" y="466" font-size="11" fill="#777">→ 짚어 볼 만한 모순으로 드러냄</text>
+  <text x="40" y="486" font-size="11" fill="#777">두 신호가 같은 방향이면 근거가 더 강하다고 본다</text>
+
+  <rect x="380" y="374" width="356" height="122" rx="10" fill="#f6f7f9"/>
+  <text x="396" y="398" font-size="13" font-weight="700" fill="#333">일부러 "중요" 쪽으로 기운다</text>
+  <rect x="396" y="410" width="160" height="72" rx="8" fill="#fdf3e1"/>
+  <text x="476" y="430" font-size="11" fill="#8a5a08" text-anchor="middle" font-weight="700">중요하지 않은데 중요로 봄</text>
+  <text x="476" y="450" font-size="11" fill="#8a5a08" text-anchor="middle">필요 이상으로 조심</text>
+  <text x="476" y="470" font-size="12" fill="#8a5a08" text-anchor="middle" font-weight="700">비용 작음 → 허용</text>
+  <rect x="564" y="410" width="160" height="72" rx="8" fill="#fcebeb"/>
+  <text x="644" y="430" font-size="11" fill="#a32a2a" text-anchor="middle" font-weight="700">중요한데 안전으로 봄</text>
+  <text x="644" y="450" font-size="11" fill="#a32a2a" text-anchor="middle">성급한 배포로 고객 장애</text>
+  <text x="644" y="470" font-size="12" fill="#a32a2a" text-anchor="middle" font-weight="700">비용 큼 → 피함</text>
+</svg>

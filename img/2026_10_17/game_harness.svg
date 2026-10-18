@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 516" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f7b6c"/>
+    </marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#b0b6bd"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="516" rx="12" fill="#ffffff" stroke="#e3e3e3"/>
+  <text x="24" y="36" font-size="17" font-weight="700" fill="#222">게임이 곧 하네스: 에이전트가 직접 돌리고 검증하는 게임 구조</text>
+  <text x="24" y="56" font-size="12" fill="#888">코드만 보는 에이전트는 게임의 블랙박스를 못 연다 → 게임을 읽고 조작하고 잴 수 있게 짓는다</text>
+
+  <!-- before -->
+  <rect x="24" y="76" width="220" height="196" rx="10" fill="#f6f7f9" stroke="#e1e4e8"/>
+  <text x="40" y="100" font-size="13" font-weight="700" fill="#777">블랙박스 게임</text>
+  <rect x="40" y="114" width="80" height="34" rx="6" fill="#ffffff" stroke="#d5d9de"/>
+  <text x="80" y="136" font-size="12" fill="#555" text-anchor="middle">에이전트</text>
+  <path d="M120,131 H150" stroke="#b0b6bd" stroke-width="1.5" fill="none" marker-end="url(#g)"/>
+  <rect x="152" y="114" width="76" height="34" rx="6" fill="#ffffff" stroke="#d5d9de"/>
+  <text x="190" y="136" font-size="12" fill="#555" text-anchor="middle">코드만</text>
+  <rect x="40" y="162" width="188" height="56" rx="6" fill="#3a3f46"/>
+  <text x="134" y="186" font-size="12" fill="#e5e7ea" text-anchor="middle">에셋 · 상태 · 화면 · 수치</text>
+  <text x="134" y="204" font-size="11" fill="#aab0b8" text-anchor="middle">에이전트가 볼 수도, 재현할 수도 없음</text>
+  <text x="40" y="240" font-size="11" fill="#888">결과: 같은 상황 재현에 시간을 쓰고,</text>
+  <text x="40" y="256" font-size="11" fill="#888">변경이 맞았는지 판단하지 못함</text>
+
+  <path d="M252,174 H272" stroke="#b0b6bd" stroke-width="2" fill="none" marker-end="url(#g)"/>
+
+  <!-- loop -->
+  <text x="282" y="94" font-size="13" font-weight="700" fill="#0f7b6c">하네스가 된 게임: 수정 → 실행 → 측정 루프가 몇 초 안에</text>
+  <g font-size="12">
+    <rect x="436" y="108" width="150" height="44" rx="8" fill="#e6f5f2" stroke="#9fd6cb"/>
+    <text x="511" y="128" font-weight="700" fill="#0f6b5e" text-anchor="middle">① 에이전트가 수정</text>
+    <text x="511" y="144" font-size="11" fill="#3f6f67" text-anchor="middle">코드 · 데이터 · 명령</text>
+
+    <rect x="610" y="190" width="130" height="58" rx="8" fill="#e6f5f2" stroke="#9fd6cb"/>
+    <text x="675" y="212" font-weight="700" fill="#0f6b5e" text-anchor="middle">② 같은 상태로 실행</text>
+    <text x="675" y="228" font-size="11" fill="#3f6f67" text-anchor="middle">시드 · 저장 불러오기</text>
+    <text x="675" y="242" font-size="11" fill="#3f6f67" text-anchor="middle">명령 기록 재생</text>
+
+    <rect x="416" y="286" width="190" height="44" rx="8" fill="#e6f5f2" stroke="#9fd6cb"/>
+    <text x="511" y="306" font-weight="700" fill="#0f6b5e" text-anchor="middle">③ 숫자로 측정</text>
+    <text x="511" y="322" font-size="11" fill="#3f6f67" text-anchor="middle">이미지 diff "85% 유사" · 프로파일</text>
+
+    <rect x="282" y="190" width="130" height="58" rx="8" fill="#e6f5f2" stroke="#9fd6cb"/>
+    <text x="347" y="212" font-weight="700" fill="#0f6b5e" text-anchor="middle">④ 목표와 비교</text>
+    <text x="347" y="228" font-size="11" fill="#3f6f67" text-anchor="middle">차이가 줄었나?</text>
+    <text x="347" y="242" font-size="11" fill="#3f6f67" text-anchor="middle">아니면 다시 ①</text>
+  </g>
+  <g stroke="#0f7b6c" stroke-width="1.8" fill="none">
+    <path d="M586,130 C640,130 675,150 675,186" marker-end="url(#a)"/>
+    <path d="M675,248 C675,290 650,308 610,308" marker-end="url(#a)"/>
+    <path d="M416,308 C375,308 347,290 347,252" marker-end="url(#a)"/>
+    <path d="M347,190 C347,150 385,130 432,130" marker-end="url(#a)"/>
+  </g>
+
+  <!-- design pillars -->
+  <text x="24" y="368" font-size="14" font-weight="700" fill="#222">이 루프를 가능하게 하는 설계 다섯 가지</text>
+  <g font-size="12">
+    <rect x="24" y="380" width="136" height="116" rx="8" fill="#f6f7f9"/>
+    <text x="36" y="402" font-weight="700" fill="#333">결정론</text>
+    <text x="36" y="424" font-size="11" fill="#555">시드 있는 단일</text>
+    <text x="36" y="440" font-size="11" fill="#555">난수원으로 같은</text>
+    <text x="36" y="456" font-size="11" fill="#555">상태를 매번 재현</text>
+    <text x="36" y="502" font-size="11" fill="#999">→ ②</text>
+
+    <rect x="168" y="380" width="136" height="116" rx="8" fill="#f6f7f9"/>
+    <text x="180" y="402" font-weight="700" fill="#333">Thing 단일 타입</text>
+    <text x="180" y="424" font-size="11" fill="#555">모든 객체를 한 타입</text>
+    <text x="180" y="440" font-size="11" fill="#555">+ 종류 열거형으로,</text>
+    <text x="180" y="456" font-size="11" fill="#555">직렬화 경로도 하나</text>
+    <text x="180" y="502" font-size="11" fill="#999">→ ① ②</text>
+
+    <rect x="312" y="380" width="136" height="116" rx="8" fill="#f6f7f9"/>
+    <text x="324" y="402" font-weight="700" fill="#333">명령 패턴</text>
+    <text x="324" y="424" font-size="11" fill="#555">상태 변경을 명령</text>
+    <text x="324" y="440" font-size="11" fill="#555">객체로 기록·재생,</text>
+    <text x="324" y="456" font-size="11" fill="#555">실행 중에 주입도 가능</text>
+    <text x="324" y="502" font-size="11" fill="#999">→ ① ②</text>
+
+    <rect x="456" y="380" width="136" height="116" rx="8" fill="#f6f7f9"/>
+    <text x="468" y="402" font-weight="700" fill="#333">데이터 분리</text>
+    <text x="468" y="424" font-size="11" fill="#555">공격력·이동 속도 같은</text>
+    <text x="468" y="440" font-size="11" fill="#555">수치를 코드 밖으로,</text>
+    <text x="468" y="456" font-size="11" fill="#555">재컴파일 없이 수정</text>
+    <text x="468" y="502" font-size="11" fill="#999">→ ①</text>
+
+    <rect x="600" y="380" width="136" height="116" rx="8" fill="#f6f7f9"/>
+    <text x="612" y="402" font-weight="700" fill="#333">측정 도구</text>
+    <text x="612" y="424" font-size="11" fill="#555">UI·게임플레이 레이어별</text>
+    <text x="612" y="440" font-size="11" fill="#555">스크린샷, odiff 비교,</text>
+    <text x="612" y="456" font-size="11" fill="#555">시뮬레이션 분리</text>
+    <text x="612" y="502" font-size="11" fill="#999">→ ③ ④</text>
+  </g>
+</svg>

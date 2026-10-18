@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 600" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9aa3ad"/>
+    </marker>
+  </defs>
+  <rect x="0" y="0" width="760" height="600" rx="12" fill="#ffffff" stroke="#e3e3e3"/>
+  <text x="24" y="36" font-size="17" font-weight="700" fill="#222">Claude Code 팀에서 변경 한 건이 거치는 단계</text>
+  <text x="24" y="56" font-size="12" fill="#888">관문 하나 대신 여러 겹의 검사를 두고, 사람의 시간은 위험한 곳에만 쓴다</text>
+
+  <!-- row 1: automated layers -->
+  <text x="24" y="84" font-size="11" fill="#888" font-weight="700">자동 검사 (사람이 보기 전)</text>
+  <g font-size="12">
+    <rect x="24" y="92" width="164" height="96" rx="8" fill="#eef2fb" stroke="#c9d3ea"/>
+    <text x="36" y="114" font-weight="700" fill="#2b4f9e">① 작성자 쪽 검증</text>
+    <text x="36" y="136" font-size="11" fill="#444">Claude가 테스트·빌드·</text>
+    <text x="36" y="152" font-size="11" fill="#444">스크린샷으로 결과 제시</text>
+    <text x="36" y="172" font-size="11" fill="#666">하위 에이전트가 diff 리뷰</text>
+
+    <rect x="202" y="92" width="164" height="96" rx="8" fill="#eef2fb" stroke="#c9d3ea"/>
+    <text x="214" y="114" font-weight="700" fill="#2b4f9e">② AI 리뷰 (모든 PR)</text>
+    <text x="214" y="136" font-size="11" fill="#444">여러 에이전트가 버그 탐색</text>
+    <text x="214" y="152" font-size="11" fill="#444">→ 다른 에이전트들이 투표</text>
+    <text x="214" y="172" font-size="11" fill="#666">합의된 지적만 게시</text>
+
+    <rect x="380" y="92" width="164" height="96" rx="8" fill="#eef2fb" stroke="#c9d3ea"/>
+    <text x="392" y="114" font-weight="700" fill="#2b4f9e">③ 보안 리뷰</text>
+    <text x="392" y="136" font-size="11" fill="#444">버그·보안 지적이 하나라도</text>
+    <text x="392" y="152" font-size="11" fill="#444">열려 있으면 머지 불가</text>
+    <text x="392" y="172" font-size="11" fill="#666">고치거나 사유 적고 닫기</text>
+
+    <rect x="558" y="92" width="178" height="96" rx="8" fill="#eef2fb" stroke="#c9d3ea"/>
+    <text x="570" y="114" font-weight="700" fill="#2b4f9e">④ CI 검사</text>
+    <text x="570" y="136" font-size="11" fill="#444">lint·타입 검사·</text>
+    <text x="570" y="152" font-size="11" fill="#444">전 플랫폼 테스트·빌드</text>
+    <text x="570" y="172" font-size="11" fill="#666">CLI PR은 수십 개 검사</text>
+  </g>
+  <g stroke="#9aa3ad" stroke-width="1.5" fill="none">
+    <path d="M188,140 H200" marker-end="url(#a)"/>
+    <path d="M366,140 H378" marker-end="url(#a)"/>
+    <path d="M544,140 H556" marker-end="url(#a)"/>
+    <path d="M647,188 V204 H380 V218" marker-end="url(#a)"/>
+  </g>
+
+  <!-- row 2: human approval by risk -->
+  <rect x="24" y="222" width="712" height="128" rx="10" fill="#fdf8ee" stroke="#ecd9ae"/>
+  <text x="40" y="246" font-size="13" font-weight="700" fill="#8a5a08">⑤ 사람 승인: 위험도 분류기가 인원을 정한다 (작성자가 아니라 변경 내용 기준)</text>
+  <g font-size="12">
+    <rect x="40" y="258" width="216" height="62" rx="8" fill="#ffffff" stroke="#e6e9ee"/>
+    <text x="52" y="280" font-weight="700" fill="#22804e">낮음 → 0명</text>
+    <text x="52" y="298" font-size="11" fill="#555">문서, 문구, 사내 전용 기능,</text>
+    <text x="52" y="312" font-size="11" fill="#555">플래그 뒤에 추가하는 변경</text>
+
+    <rect x="272" y="258" width="216" height="62" rx="8" fill="#ffffff" stroke="#e6e9ee"/>
+    <text x="284" y="280" font-weight="700" fill="#b06d0b">중간 → 1명</text>
+    <text x="284" y="298" font-size="11" fill="#555">일반 제품 변경, 캐시·자동 업데이트·</text>
+    <text x="284" y="312" font-size="11" fill="#555">시스템 프롬프트 같은 민감 영역</text>
+
+    <rect x="504" y="258" width="216" height="62" rx="8" fill="#ffffff" stroke="#e6e9ee"/>
+    <text x="516" y="280" font-weight="700" fill="#b03a3a">높음 → 2명</text>
+    <text x="516" y="298" font-size="11" fill="#555">가장 위험한 코드, 항상</text>
+    <text x="516" y="312" font-size="11" fill="#555">두 명이 필요한 지정 경로</text>
+  </g>
+  <text x="40" y="340" font-size="11" fill="#8a5a08">에이전트 승인은 사람 승인으로 치지 않음 · 에이전트에게 시킨 사람이 리뷰어 한 명으로 계산됨</text>
+  <path d="M380,350 V366" stroke="#9aa3ad" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+
+  <!-- row 3: release and rollback -->
+  <g font-size="12">
+    <rect x="24" y="370" width="350" height="64" rx="8" fill="#eef8f2" stroke="#b9e0c8"/>
+    <text x="36" y="392" font-weight="700" fill="#22804e">⑥ 머지 큐 · 플래그 · 단계 배포</text>
+    <text x="36" y="412" font-size="11" fill="#444">main 기준으로 검사 재실행 → 사내 직원 먼저 →</text>
+    <text x="36" y="426" font-size="11" fill="#444">latest 채널 → stable 채널</text>
+
+    <rect x="386" y="370" width="350" height="64" rx="8" fill="#eef8f2" stroke="#b9e0c8"/>
+    <text x="398" y="392" font-weight="700" fill="#22804e">⑦ 빠른 탐지 · 빠른 롤백</text>
+    <text x="398" y="412" font-size="11" fill="#444">배포 없이 플래그 끄기, 주간 온콜 당번,</text>
+    <text x="398" y="426" font-size="11" fill="#444">장애 회고에서 "어느 단계가 잡았어야 했나"를 물음</text>
+  </g>
+  <path d="M374,402 H384" stroke="#9aa3ad" stroke-width="1.5" fill="none" marker-end="url(#a)"/>
+
+  <!-- feedback loop -->
+  <path d="M736,402 C752,402 752,140 738,140" stroke="#c9b26a" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#a)"/>
+
+  <rect x="24" y="450" width="430" height="128" rx="10" fill="#f6f7f9"/>
+  <text x="40" y="474" font-size="13" font-weight="700" fill="#333">리뷰어를 고치는 루프 (점선)</text>
+  <text x="40" y="498" font-size="12" fill="#444">· 과거 장애를 낸 PR을 평가 셋으로 만들어 매일 실행</text>
+  <text x="40" y="520" font-size="12" fill="#444">· 지적을 고쳤나, 틀렸다고 했나로 노이즈 측정</text>
+  <text x="40" y="542" font-size="12" fill="#444">· 리뷰·수정 50라운드 넘게 돈 PR도 있어</text>
+  <text x="52" y="562" font-size="12" fill="#444">3라운드 뒤엔 접근을 다시 생각하라고 요청</text>
+
+  <rect x="468" y="450" width="268" height="128" rx="10" fill="#0f7b6c"/>
+  <text x="484" y="474" font-size="13" font-weight="700" fill="#ffffff">결과</text>
+  <text x="484" y="504" font-size="12" fill="#e6f5f2">머지된 PR (6→9월)</text>
+  <text x="720" y="504" font-size="14" font-weight="700" fill="#ffffff" text-anchor="end">2배 넘게 ↑</text>
+  <text x="484" y="532" font-size="12" fill="#e6f5f2">revert 비율 (6→9월)</text>
+  <text x="720" y="532" font-size="14" font-weight="700" fill="#ffffff" text-anchor="end">40% 넘게 ↓</text>
+  <text x="484" y="560" font-size="11" fill="#cfece6">AI 리뷰 도입 후 실질 지적을 받은 PR 16% → 54%</text>
+</svg>
