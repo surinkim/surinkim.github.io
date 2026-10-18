@@ -149,6 +149,45 @@ KR_BLOG_KEYWORDS = re.compile(
     re.IGNORECASE,
 )
 
+# AI 엔지니어링: LLM 앱·에이전트를 만들고 운영하는 사례, AI를 운영·모니터링에 쓰는 사례
+# (피드 URL, 키워드 필터 적용 여부). 제품 발표가 많은 피드만 AI_ENG_KEYWORDS로 거른다
+# Anthropic Engineering 블로그는 RSS가 없어 HN·GeekNews 후보로 잡는다
+AI_FEEDS = {
+    "openai": ("https://openai.com/news/rss.xml", True),
+    "google_research": ("https://research.google/blog/rss/", True),
+    "huggingface": ("https://huggingface.co/blog/feed.xml", False),
+    "langchain": ("https://blog.langchain.com/rss.xml", False),
+    "simonwillison": ("https://simonwillison.net/atom/everything/", True),
+    "eugeneyan": ("https://eugeneyan.com/rss/", False),
+    "hamel": ("https://hamel.dev/index.xml", False),
+    "chiphuyen": ("https://huyenchip.com/feed.xml", False),
+    "latentspace": ("https://www.latent.space/feed", False),
+    "pragmatic_engineer": ("https://newsletter.pragmaticengineer.com/feed", True),
+}
+# 모델 발표 같은 일반 AI 뉴스는 테크 뉴스 섹션 몫이라, 만들고 운영하는 이야기에 가까운 표현만 본다
+AI_ENG_KEYWORDS = re.compile(
+    r"\beval|evaluation|평가 ?(셋|기준|체계)|benchmark harness|\brag\b|retrieval|임베딩|embedding|vector ?(db|database|search)|"
+    r"agent harness|하네스|context engineering|컨텍스트 엔지니어링|prompt caching|프롬프트 캐싱|guardrail|가드레일|"
+    r"llm ?(observability|ops|tracing|monitoring)|langfuse|langsmith|phoenix|\bmcp\b|tool ?use|tool calling|"
+    r"fine-?tun|파인튜닝|사후 ?학습|distill|inference (server|cost|optimi)|추론 (서버|비용|최적화)|vllm|sglang|serving|서빙|"
+    r"\baiops\b|incident|root cause|장애 분석|코딩 에이전트|coding agent|claude code|codex|"
+    r"in production|프로덕션|lessons learned|postmortem|case study|사례|회고",
+    re.IGNORECASE,
+)
+# AI 관련 글인지 가리는 표현. "사례", "incident"처럼 AI_ENG_KEYWORDS의 넓은 표현이
+# AI와 무관한 글에 걸리지 않도록, 뉴스 후보(HN·GeekNews·RSS)에는 두 조건을 함께 건다
+AI_TERMS = re.compile(
+    r"\bai\b|\bllms?\b|\bagents?\b|에이전트|인공지능|\bgpt|claude|gemini|anthropic|openai|"
+    r"language model|언어 ?모델|모델 학습|machine learning|머신러닝|deep learning|딥러닝",
+    re.IGNORECASE,
+)
+# 국내 기술 블로그에서 AI 활용·LLM 서비스 개발 글을 고르는 표현
+KR_AI_KEYWORDS = re.compile(
+    r"\bllm\b|\bai ?에이전트|에이전트|\brag\b|생성형|\bgpt|claude|gemini|프롬프트|\bmcp\b|"
+    r"파인튜닝|임베딩|챗봇|코딩 어시스턴트|바이브 ?코딩|copilot|cursor",
+    re.IGNORECASE,
+)
+
 # 뉴스 섹션에서 기존 RSS 소스 중 GitHub Trending은 Indie Radar로 보낸다
 NEWS_SOURCE_TYPES = {"rss", "atom", "json"}
 
@@ -511,23 +550,59 @@ def fetch_kr_tech_blogs(date_from: date, date_to: date) -> list[dict]:
     return items
 
 
-def collect_observability(date_from: date, date_to: date, news: dict) -> dict:
-    """릴리스·벤더 블로그를 모으고, 뉴스 후보(HN·GeekNews·RSS)에서 관련 글을 키워드로 골라낸다."""
-    def matches(it: dict) -> bool:
-        return bool(OBS_KEYWORDS.search(f"{it['title']} {it.get('summary', '')}"))
+def fetch_ai_feeds(date_from: date, date_to: date) -> list[dict]:
+    items = []
+    for name, (url, keyword_only) in AI_FEEDS.items():
+        for it in fetch_feed(url, date_from, date_to, limit=30):
+            if keyword_only and not AI_ENG_KEYWORDS.search(f"{it['title']} {it['summary']}"):
+                continue
+            it["source"] = f"{name} {it['date']}"
+            it["signals"] = {}
+            items.append(it)
+    return items
 
-    # 뉴스 섹션(점수 300 이상)보다 문턱을 낮춰 모니터링 관련 HN 글을 더 넓게 본다
-    hn = [h for h in fetch_hn("story", date_from, date_to, min_points=50, limit=100) if matches(h)]
-    geeknews = [g for g in fetch_geeknews_week(date_from, date_to) if matches(g)]
-    rss = [r for r in news.get("rss", []) if matches(r)]
+
+def fetch_kr_ai_blogs(date_from: date, date_to: date) -> list[dict]:
+    items = []
+    for name, url in KR_TECH_FEEDS.items():
+        for it in fetch_feed(url, date_from, date_to, limit=30):
+            if not KR_AI_KEYWORDS.search(f"{it['title']} {it['summary']}"):
+                continue
+            it["source"] = f"{name} {it['date']}"
+            it["signals"] = {}
+            items.append(it)
+    return items
+
+
+def collect_observability(date_from: date, date_to: date, news: dict) -> dict:
+    """엔지니어링 사례 & 강좌 후보: 모니터링·운영 쪽과 AI 엔지니어링 쪽을 함께 모은다.
+
+    릴리스·벤더·AI 블로그를 모으고, 뉴스 후보(HN·GeekNews·RSS)에서 관련 글을 키워드로 골라낸다.
+    """
+    def text(it: dict) -> str:
+        return f"{it['title']} {it.get('summary', '')}"
+
+    def is_ai_eng(it: dict) -> bool:
+        t = text(it)
+        return bool(AI_TERMS.search(t) and AI_ENG_KEYWORDS.search(t))
+
+    # 뉴스 섹션(점수 300 이상)보다 문턱을 낮춰 관련 HN 글을 더 넓게 본다
+    hn_all = fetch_hn("story", date_from, date_to, min_points=50, limit=100)
+    gn_all = fetch_geeknews_week(date_from, date_to)
+    rss_all = news.get("rss", [])
     return {
         "github_releases": fetch_github_releases(date_from, date_to),
         "go_vulns": fetch_go_vulns(date_from, date_to),
         "vendor_blogs": fetch_obs_feeds(date_from, date_to),
         "kr_tech_blogs": fetch_kr_tech_blogs(date_from, date_to),
-        "hn": hn[:30],
-        "geeknews": geeknews[:30],
-        "rss": rss[:30],
+        "hn": [h for h in hn_all if OBS_KEYWORDS.search(text(h))][:30],
+        "geeknews": [g for g in gn_all if OBS_KEYWORDS.search(text(g))][:30],
+        "rss": [r for r in rss_all if OBS_KEYWORDS.search(text(r))][:30],
+        "ai_blogs": fetch_ai_feeds(date_from, date_to),
+        "kr_ai_blogs": fetch_kr_ai_blogs(date_from, date_to),
+        "ai_hn": [h for h in hn_all if is_ai_eng(h)][:30],
+        "ai_geeknews": [g for g in gn_all if is_ai_eng(g)][:30],
+        "ai_rss": [r for r in rss_all if is_ai_eng(r)][:30],
     }
 
 
@@ -605,7 +680,7 @@ def render_section_md(data: dict, section: str) -> str:
     """스킬이 섹션별로 나눠 읽을 수 있도록 후보 목록을 Markdown으로 만든다."""
     titles = {
         "news": "테크 뉴스", "indie": "Indie Radar",
-        "observability": "Observability Radar", "books": "도서",
+        "observability": "엔지니어링 사례 & 강좌", "books": "도서",
     }
     lines = [f"# {titles[section]} 후보 {data['date_from']} ~ {data['date_to']}", ""]
     if section == "books":
@@ -633,7 +708,7 @@ def render_section_md(data: dict, section: str) -> str:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="주간 다이제스트 후보 수집 (뉴스/Indie Radar/Observability Radar/도서)"
+        description="주간 다이제스트 후보 수집 (뉴스/Indie Radar/엔지니어링 사례 & 강좌/도서)"
     )
     today = date.today()
     parser.add_argument("--from", dest="date_from", default=(today - timedelta(days=6)).isoformat())
