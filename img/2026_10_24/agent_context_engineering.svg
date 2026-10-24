@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 620" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9a9a9a"/>
+    </marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f7b6c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="759" height="619" rx="8" fill="#ffffff" stroke="#e6e6e6"/>
+  <text x="24" y="38" font-size="17" font-weight="700" fill="#1f1f1f">지우지 않고 컨텍스트 창 밖으로 옮기기</text>
+  <text x="24" y="58" font-size="12" fill="#8a8a8a">LangChain Deep Agents가 오래 도는 에이전트의 context rot을 막는 다섯 가지 방법</text>
+
+  <text x="24" y="96" font-size="11" font-weight="600" fill="#9a9a9a">모델이 보는 것</text>
+  <text x="440" y="96" font-size="11" font-weight="600" fill="#9a9a9a">창 밖 (필요하면 다시 읽음)</text>
+  <line x1="24" y1="104" x2="736" y2="104" stroke="#e2e2e2"/>
+
+  <!-- context window -->
+  <rect x="24" y="118" width="320" height="300" fill="none" stroke="#1f1f1f"/>
+  <text x="34" y="136" font-size="10" fill="#9a9a9a">컨텍스트 창</text>
+  <g font-size="12">
+    <rect x="36" y="146" width="296" height="46" fill="#ececec"/>
+    <text x="46" y="166" fill="#1f1f1f">시스템 프롬프트</text>
+    <text x="46" y="182" font-size="11" fill="#5f5f5f">+ 스킬 이름·설명 + 메모리 파일 내용</text>
+
+    <rect x="36" y="200" width="296" height="40" fill="#ececec"/>
+    <text x="46" y="224" fill="#1f1f1f">이전 대화 요약</text>
+
+    <rect x="36" y="248" width="296" height="40" fill="none" stroke="#b8b8b8"/>
+    <text x="46" y="272" fill="#1f1f1f">최근 메시지 (원문 그대로)</text>
+
+    <rect x="36" y="296" width="296" height="40" fill="none" stroke="#b8b8b8"/>
+    <text x="46" y="314" fill="#1f1f1f">큰 도구 결과의 미리보기</text>
+    <text x="46" y="330" font-size="11" fill="#5f5f5f">앞뒤 몇 줄 + 파일 경로</text>
+
+    <rect x="36" y="344" width="296" height="40" fill="none" stroke="#b8b8b8"/>
+    <text x="46" y="368" fill="#1f1f1f">하위 에이전트가 돌려준 결과 3줄</text>
+  </g>
+
+  <!-- outside -->
+  <g font-size="12">
+    <text x="440" y="130" fill="#1f1f1f">skills/…/SKILL.md 본문</text>
+    <text x="440" y="146" font-size="11" fill="#5f5f5f">관련 있을 때만 read_file로 읽음</text>
+
+    <text x="440" y="236" fill="#1f1f1f">/conversation_history/</text>
+    <text x="440" y="252" font-size="11" fill="#5f5f5f">85%에서 요약된 원문, 5만 토큰 넘는 메시지</text>
+
+    <text x="440" y="296" fill="#1f1f1f">/large_tool_results/</text>
+    <text x="440" y="312" font-size="11" fill="#5f5f5f">약 2만 토큰 넘는 도구 결과 전체</text>
+
+    <text x="440" y="356" fill="#1f1f1f">하위 에이전트</text>
+    <text x="440" y="372" font-size="11" fill="#5f5f5f">자기 컨텍스트에서 시끄러운 조사, 더 싼 모델도 가능</text>
+
+    <text x="440" y="190" fill="#1f1f1f">/memories/AGENTS.md</text>
+    <text x="440" y="206" font-size="11" fill="#5f5f5f">배운 선호를 저장, 모델을 바꿔도 유지</text>
+  </g>
+  <g stroke="#9a9a9a" fill="none" stroke-dasharray="3 3">
+    <path d="M432,140 H340" marker-end="url(#a)"/>
+    <path d="M432,198 L340,176" marker-end="url(#a)"/>
+    <path d="M432,244 L340,220" marker-end="url(#a)"/>
+    <path d="M432,304 H340" marker-end="url(#a)"/>
+  </g>
+  <path d="M432,364 H340" stroke="#0f7b6c" fill="none" marker-end="url(#g)"/>
+
+  <!-- five rules -->
+  <text x="24" y="460" font-size="11" font-weight="600" fill="#9a9a9a">하네스를 직접 만들 때도 지킬 것</text>
+  <line x1="24" y1="468" x2="736" y2="468" stroke="#e2e2e2"/>
+  <g font-size="12">
+    <text x="24" y="494" fill="#1f1f1f">큰 입력은 잘라 내지 말고 빼 둔다</text>
+    <text x="396" y="494" fill="#1f1f1f">요약은 되돌릴 수 있게 원문을 남긴다</text>
+    <text x="24" y="518" fill="#1f1f1f">작업별 지식은 필요할 때 불러온다</text>
+    <text x="396" y="518" fill="#1f1f1f">시끄러운 작업은 따로 떼어 낸다</text>
+    <text x="24" y="542" fill="#1f1f1f">메모리는 내가 가진 저장소에 둔다</text>
+    <text x="396" y="542" fill="#1f1f1f">임계값은 작업마다 바꿀 수 있게 둔다</text>
+  </g>
+  <line x1="24" y1="566" x2="736" y2="566" stroke="#e2e2e2"/>
+  <text x="24" y="592" font-size="11" fill="#5f5f5f">각 기법은 에이전트 루프의 특정 지점(실행 전, 모델 호출 전, 도구 호출 후)에 끼는 미들웨어로 구현된다.</text>
+</svg>
