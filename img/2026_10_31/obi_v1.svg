@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9a9a9a"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="759" height="519" rx="8" fill="#ffffff" stroke="#e6e6e6"/>
+  <text x="24" y="38" font-size="17" font-weight="700" fill="#1f1f1f">OBI v1.0: 코드를 고치지 않고 트레이스·메트릭 받기</text>
+  <text x="24" y="58" font-size="12" fill="#8a8a8a">Grafana Beyla를 기증받아 시작한 OpenTelemetry eBPF Instrumentation의 첫 안정 버전</text>
+
+  <text x="24" y="96" font-size="11" font-weight="600" fill="#9a9a9a">어디에 붙나 (개념도)</text>
+  <line x1="24" y1="104" x2="736" y2="104" stroke="#e2e2e2"/>
+
+  <!-- host -->
+  <rect x="24" y="122" width="430" height="190" fill="none" stroke="#cfcfcf"/>
+  <text x="36" y="142" font-size="11" fill="#9a9a9a">Linux 호스트 또는 Kubernetes 노드</text>
+  <g font-size="12">
+    <rect x="40" y="156" width="70" height="40" fill="#ffffff" stroke="#b8b8b8"/><text x="75" y="181" text-anchor="middle" fill="#5f5f5f">Go</text>
+    <rect x="120" y="156" width="70" height="40" fill="#ffffff" stroke="#b8b8b8"/><text x="155" y="181" text-anchor="middle" fill="#5f5f5f">Java</text>
+    <rect x="200" y="156" width="70" height="40" fill="#ffffff" stroke="#b8b8b8"/><text x="235" y="181" text-anchor="middle" fill="#5f5f5f">Python</text>
+    <rect x="280" y="156" width="70" height="40" fill="#ffffff" stroke="#b8b8b8"/><text x="315" y="181" text-anchor="middle" fill="#5f5f5f">Node.js</text>
+    <rect x="360" y="156" width="70" height="40" fill="#ffffff" stroke="#b8b8b8"/><text x="395" y="181" text-anchor="middle" fill="#5f5f5f">.NET</text>
+  </g>
+  <text x="40" y="216" font-size="11" fill="#9a9a9a">애플리케이션 프로세스 (소스 수정·재배포 없음)</text>
+  <line x1="40" y1="232" x2="438" y2="232" stroke="#0f7b6c" stroke-width="2"/>
+  <text x="40" y="254" font-size="12" font-weight="600" fill="#0f7b6c">eBPF + 런타임별 계측</text>
+  <text x="40" y="272" font-size="11" fill="#5f5f5f">MQTT·NATS·AMQP·MSSQL 등 프로토콜, 라우트 탐지, 런타임 메트릭</text>
+  <text x="40" y="290" font-size="11" fill="#5f5f5f">Go: OTel Trace API·Auto SDK로 만든 스팬도 수집</text>
+
+  <g font-size="12">
+    <text x="510" y="214" fill="#1f1f1f">OTel Collector</text>
+    <text x="510" y="232" font-size="11" fill="#5f5f5f">또는 OTLP 호환 백엔드</text>
+    <text x="510" y="270" font-size="11" fill="#9a9a9a">Collector receiver는 별도 v0 라인</text>
+  </g>
+  <path d="M456,220 H500" stroke="#9a9a9a" fill="none" marker-end="url(#a)"/>
+  <text x="462" y="210" font-size="10" fill="#9a9a9a">OTLP</text>
+
+  <!-- what v1 promises -->
+  <text x="24" y="352" font-size="11" font-weight="600" fill="#9a9a9a">v1.0이 약속하는 것과 아닌 것</text>
+  <line x1="24" y1="360" x2="736" y2="360" stroke="#e2e2e2"/>
+  <g font-size="12">
+    <text x="24" y="390" fill="#0f7b6c" font-weight="600">호환성 보장</text>
+    <text x="24" y="410" font-size="11" fill="#5f5f5f">Config v2와 생성 스키마,</text>
+    <text x="24" y="426" font-size="11" fill="#5f5f5f">문서화된 배포 인터페이스</text>
+    <line x1="230" y1="376" x2="230" y2="436" stroke="#e2e2e2"/>
+    <text x="250" y="390" fill="#1f1f1f">마이그레이션 경로</text>
+    <text x="250" y="410" font-size="11" fill="#5f5f5f">텔레메트리는 안정 컨벤션 기준으로 교정,</text>
+    <text x="250" y="426" font-size="11" fill="#5f5f5f">개발 중 컨벤션은 바뀔 수 있음</text>
+    <line x1="500" y1="376" x2="500" y2="436" stroke="#e2e2e2"/>
+    <text x="520" y="390" fill="#9a9a9a">동결</text>
+    <text x="520" y="410" font-size="11" fill="#5f5f5f">Config v1: 동작은 하지만</text>
+    <text x="520" y="426" font-size="11" fill="#5f5f5f">수정·새 기능 없음</text>
+  </g>
+  <text x="24" y="474" font-size="11" fill="#5f5f5f">옮겨 가기: obi config validate → obi config migrate. 런타임 메트릭은 아직 experimental.</text>
+  <text x="24" y="494" font-size="11" fill="#5f5f5f">애플리케이션 고유 맥락이 필요하면 언어 에이전트·수동 계측을 함께 쓰라고 권한다.</text>
+</svg>
