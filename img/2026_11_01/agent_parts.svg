@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 548" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9a9a9a"/>
+    </marker>
+    <marker id="g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#0f7b6c"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="759" height="547" rx="8" fill="#ffffff" stroke="#e6e6e6"/>
+  <text x="24" y="38" font-size="17" font-weight="700" fill="#1f1f1f">하네스와 Ollama는 따로 돌아가는 프로그램이다</text>
+  <text x="24" y="58" font-size="12" fill="#8a8a8a">첫 스텝에서 game-02의 지표를 요청하기까지. 둘은 HTTP 요청 하나로만 이어진다</text>
+
+  <!-- left process: harness -->
+  <rect x="24" y="84" width="300" height="368" fill="#ffffff" stroke="#cfcfcf"/>
+  <rect x="24" y="84" width="300" height="26" fill="#1f1f1f"/>
+  <text x="36" y="101" font-size="11" fill="#ffffff" font-family="SFMono-Regular, Menlo, Consolas, monospace">$ go run .</text>
+  <text x="312" y="101" font-size="11" fill="#bdbdbd" text-anchor="end">하네스 (main.go)</text>
+
+  <text x="48" y="132" font-size="11" font-weight="600" fill="#9a9a9a">messages (대화 배열)</text>
+  <g font-size="11" fill="#1f1f1f">
+    <rect x="48" y="140" width="260" height="24" fill="#ffffff" stroke="#cfcfcf"/>
+    <rect x="48" y="140" width="64" height="24" fill="#f4f4f4" stroke="#cfcfcf"/>
+    <text x="80" y="156" text-anchor="middle" font-size="10" font-family="SFMono-Regular, Menlo, Consolas, monospace" fill="#5f5f5f">system</text>
+    <text x="120" y="156">너는 서버 모니터링 담당자다. …</text>
+    <rect x="48" y="170" width="260" height="24" fill="#ffffff" stroke="#cfcfcf"/>
+    <rect x="48" y="170" width="64" height="24" fill="#f4f4f4" stroke="#cfcfcf"/>
+    <text x="80" y="186" text-anchor="middle" font-size="10" font-family="SFMono-Regular, Menlo, Consolas, monospace" fill="#5f5f5f">user</text>
+    <text x="120" y="186">나빠진 서버를 모두 찾고, …</text>
+  </g>
+
+  <text x="48" y="222" font-size="11" font-weight="600" fill="#9a9a9a">도구 함수 (평범한 Go 함수)</text>
+  <g font-size="11" fill="#1f1f1f" font-family="SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="48" y="242">list_servers()</text>
+    <text x="48" y="260">get_metrics(host)</text>
+    <text x="48" y="278">get_deploys()</text>
+  </g>
+
+  <text x="48" y="310" font-size="11" font-weight="600" fill="#9a9a9a">루프와 장치</text>
+  <text x="48" y="330" font-size="11" fill="#1f1f1f">최대 스텝 · 검증 · 중복 차단 · 결과 다듬기</text>
+  <text x="48" y="352" font-size="11" fill="#0f7b6c">⑤ 도구를 실행하고, 대화에 두 줄을 붙인다</text>
+  <g font-size="11" fill="#1f1f1f">
+    <rect x="48" y="360" width="260" height="24" fill="#ffffff" stroke="#0f7b6c" stroke-dasharray="4 3"/>
+    <text x="80" y="376" text-anchor="middle" font-size="10" font-family="SFMono-Regular, Menlo, Consolas, monospace" fill="#0f7b6c">assistant</text>
+    <text x="120" y="376" font-size="10" font-family="SFMono-Regular, Menlo, Consolas, monospace">get_metrics {host: game-02}</text>
+    <rect x="48" y="390" width="260" height="24" fill="#ffffff" stroke="#0f7b6c" stroke-dasharray="4 3"/>
+    <text x="80" y="406" text-anchor="middle" font-size="10" font-family="SFMono-Regular, Menlo, Consolas, monospace" fill="#0f7b6c">tool</text>
+    <text x="120" y="406" font-size="10" font-family="SFMono-Regular, Menlo, Consolas, monospace">game-02 CPU 98.0%, 평소 35.0%</text>
+  </g>
+  <path d="M48,402 H36 V182 H44" fill="none" stroke="#0f7b6c" stroke-width="1.2" marker-end="url(#g)"/>
+  <text x="48" y="436" font-size="10" fill="#0f7b6c">user 뒤에 붙어서, 다음 ①에서는 네 줄을 보낸다</text>
+
+  <!-- right process: ollama -->
+  <rect x="436" y="84" width="300" height="368" fill="#ffffff" stroke="#cfcfcf"/>
+  <rect x="436" y="84" width="300" height="26" fill="#1f1f1f"/>
+  <text x="448" y="101" font-size="11" fill="#ffffff" font-family="SFMono-Regular, Menlo, Consolas, monospace">$ ollama serve</text>
+  <text x="724" y="101" font-size="11" fill="#bdbdbd" text-anchor="end">localhost:11434</text>
+
+  <text x="452" y="132" font-size="11" font-weight="600" fill="#1f1f1f"><tspan fill="#0f7b6c">②</tspan> 템플릿이 프롬프트 텍스트 하나로 합친다</text>
+  <rect x="452" y="140" width="268" height="112" fill="#f7f7f7" stroke="#e6e6e6"/>
+  <g font-size="9" font-family="SFMono-Regular, Menlo, Consolas, monospace">
+    <text x="460" y="156" fill="#9a9a9a">&lt;|start_header_id|&gt;system&lt;|end_header_id|&gt;</text>
+    <text x="460" y="170" fill="#1f1f1f">너는 서버 모니터링 담당자다. …</text>
+    <text x="460" y="184" fill="#9a9a9a">&lt;|start_header_id|&gt;user&lt;|end_header_id|&gt;</text>
+    <text x="460" y="198" fill="#5f5f5f">Given the following functions, please …</text>
+    <text x="460" y="212" fill="#5f5f5f">{"type":"function","function":{"name":…</text>
+    <text x="460" y="226" fill="#1f1f1f">지금 평소와 다르게 나빠진 서버를 …</text>
+    <text x="460" y="240" fill="#9a9a9a">&lt;|start_header_id|&gt;assistant&lt;|end_header_id|&gt;</text>
+  </g>
+  <line x1="586" y1="254" x2="586" y2="270" stroke="#9a9a9a" marker-end="url(#a)"/>
+
+  <text x="452" y="288" font-size="11" font-weight="600" fill="#1f1f1f"><tspan fill="#0f7b6c">③</tspan> 모델은 이 뒤에 이어질 텍스트를 쓴다</text>
+  <rect x="452" y="296" width="268" height="40" fill="#f7f7f7" stroke="#e6e6e6"/>
+  <g font-size="9" font-family="SFMono-Regular, Menlo, Consolas, monospace" fill="#1f1f1f">
+    <text x="460" y="312">{"name": "get_metrics",</text>
+    <text x="460" y="326"> "parameters": {"host": "game-02"}}</text>
+  </g>
+  <line x1="586" y1="338" x2="586" y2="354" stroke="#9a9a9a" marker-end="url(#a)"/>
+
+  <text x="452" y="372" font-size="11" font-weight="600" fill="#1f1f1f"><tspan fill="#0f7b6c">④</tspan> 이 형식이면 tool_calls로 바꿔 돌려준다</text>
+  <rect x="452" y="380" width="268" height="54" fill="#f7f7f7" stroke="#e6e6e6"/>
+  <g font-size="9" font-family="SFMono-Regular, Menlo, Consolas, monospace" fill="#1f1f1f">
+    <text x="460" y="396">"tool_calls": [{"function": {</text>
+    <text x="460" y="410">  "name": "get_metrics",</text>
+    <text x="460" y="424">  "arguments": {"host": "game-02"}}}]</text>
+  </g>
+
+  <!-- http between processes -->
+  <line x1="326" y1="152" x2="432" y2="152" stroke="#0f7b6c" stroke-width="1.5" marker-end="url(#g)"/>
+  <text x="380" y="144" font-size="10" fill="#0f7b6c" text-anchor="middle">① POST /api/chat</text>
+  <text x="380" y="168" font-size="10" fill="#5f5f5f" text-anchor="middle">대화 전체 + tools</text>
+  <line x1="434" y1="372" x2="328" y2="372" stroke="#0f7b6c" stroke-width="1.5" marker-end="url(#g)"/>
+  <text x="380" y="364" font-size="10" fill="#0f7b6c" text-anchor="middle">응답 하나</text>
+  <text x="380" y="388" font-size="10" fill="#5f5f5f" text-anchor="middle">답 또는 tool_calls</text>
+
+  <line x1="24" y1="476" x2="736" y2="476" stroke="#e2e2e2"/>
+  <text x="24" y="500" font-size="11" fill="#5f5f5f">Ollama는 요청 하나에 응답 하나로 끝난다. 도구를 실행하지도, 지난 대화를 기억하지도 않는다.</text>
+  <text x="24" y="520" font-size="11" fill="#5f5f5f">그래서 하네스가 대화를 들고 있다가 ①부터 다시 보낸다. ollama run의 대화창, Claude Code, Cursor도 왼쪽에 해당한다.</text>
+</svg>
