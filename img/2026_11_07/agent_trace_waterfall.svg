@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 520" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <rect x="0.5" y="0.5" width="759" height="519" rx="8" fill="#ffffff" stroke="#e6e6e6"/>
+  <text x="24" y="38" font-size="17" font-weight="700" fill="#1f1f1f">10.10초 요청에서 모델 호출 세 번이 9.26초</text>
+  <text x="24" y="58" font-size="12" fill="#8a8a8a">LangChain 쇼핑 에이전트, OTel GenAI 계측 스팬 (invoke_agent · execute_tool · chat)</text>
+
+  <text x="24" y="96" font-size="11" font-weight="600" fill="#9a9a9a">상품 비교 질문 트레이스 하나 (1초 ≈ 59px, 순서는 원문의 호출 순서)</text>
+  <line x1="24" y1="104" x2="736" y2="104" stroke="#e2e2e2"/>
+
+  <!-- axis -->
+  <g font-size="10" fill="#9a9a9a">
+    <line x1="110" y1="120" x2="110" y2="300" stroke="#eeeeee"/><text x="110" y="316" text-anchor="middle">0s</text>
+    <line x1="229" y1="120" x2="229" y2="300" stroke="#eeeeee"/><text x="229" y="316" text-anchor="middle">2</text>
+    <line x1="348" y1="120" x2="348" y2="300" stroke="#eeeeee"/><text x="348" y="316" text-anchor="middle">4</text>
+    <line x1="466" y1="120" x2="466" y2="300" stroke="#eeeeee"/><text x="466" y="316" text-anchor="middle">6</text>
+    <line x1="585" y1="120" x2="585" y2="300" stroke="#eeeeee"/><text x="585" y="316" text-anchor="middle">8</text>
+    <line x1="704" y1="120" x2="704" y2="300" stroke="#eeeeee"/><text x="704" y="316" text-anchor="middle">10</text>
+  </g>
+
+  <g font-size="11">
+    <text x="24" y="138" fill="#1f1f1f">shop.request</text>
+    <rect x="110" y="126" width="600" height="16" fill="#cfcfcf"/>
+    <text x="704" y="138" text-anchor="end" fill="#1f1f1f">10.10s</text>
+
+    <text x="24" y="170" fill="#0f7b6c">chat 라우팅</text>
+    <rect x="110" y="158" width="113" height="16" fill="#0f7b6c"/>
+    <text x="229" y="170" fill="#0f7b6c">1.91s</text>
+
+    <text x="24" y="202" fill="#5f5f5f">execute_tool</text>
+    <rect x="223" y="190" width="293" height="16" fill="#e2e2e2"/>
+    <text x="510" y="202" text-anchor="end" fill="#5f5f5f">compare_products 4.93s</text>
+
+    <text x="36" y="234" fill="#5f5f5f">retrieve</text>
+    <rect x="223" y="222" width="41" height="16" fill="#b8b8b8"/>
+    <text x="270" y="234" fill="#5f5f5f">0.69s</text>
+
+    <text x="36" y="266" fill="#0f7b6c">chat Sol</text>
+    <rect x="264" y="254" width="250" height="16" fill="#0f7b6c"/>
+    <text x="508" y="266" text-anchor="end" fill="#ffffff">4.20s · in 680 / out 268 토큰</text>
+
+    <text x="24" y="298" fill="#0f7b6c">chat 최종 응답</text>
+    <rect x="516" y="286" width="187" height="16" fill="#0f7b6c"/>
+    <text x="698" y="298" text-anchor="end" fill="#ffffff">3.15s</text>
+  </g>
+
+  <g font-size="12">
+    <text x="24" y="356" font-size="22" font-weight="700" fill="#0f7b6c">91.7%</text>
+    <text x="24" y="374" font-size="11" fill="#5f5f5f">모델 호출이 차지한 시간</text>
+    <line x1="190" y1="338" x2="190" y2="380" stroke="#e2e2e2"/>
+    <text x="206" y="356" font-size="22" font-weight="700" fill="#b8b8b8">0.69s</text>
+    <text x="206" y="374" font-size="11" fill="#5f5f5f">검색: 튜닝해도 효과가 작음</text>
+  </g>
+
+  <text x="24" y="418" font-size="11" font-weight="600" fill="#9a9a9a">비교 모델을 Sol → Luna로 바꿔 본 실험 (질문 5개 × 3회 × 2안 = 30요청)</text>
+  <line x1="24" y1="426" x2="736" y2="426" stroke="#e2e2e2"/>
+  <g font-size="12">
+    <text x="24" y="458" fill="#1f1f1f">모델 비용</text>
+    <text x="24" y="474" font-size="10" fill="#9a9a9a">compact 질문, 1,000요청당</text>
+    <line x1="200" y1="462" x2="560" y2="462" stroke="#e2e2e2"/>
+    <line x1="263" y1="462" x2="520" y2="462" stroke="#cfcfcf" stroke-width="2"/>
+    <circle cx="520" cy="462" r="6" fill="#b8b8b8"/>
+    <circle cx="263" cy="462" r="6" fill="#0f7b6c"/>
+    <text x="532" y="466" fill="#5f5f5f">$4.465</text>
+    <text x="250" y="466" text-anchor="end" fill="#0f7b6c">$0.889</text>
+    <text x="600" y="466" fill="#1f1f1f">질문별 −76~83%</text>
+
+    <text x="24" y="500" fill="#1f1f1f">응답 시간</text>
+    <text x="600" y="504" fill="#1f1f1f">5개 중 4개는 더 느려짐</text>
+    <text x="200" y="504" font-size="11" fill="#5f5f5f">compact 질문 평균 8.89s → 8.54s, 정답 체크는 두 안 모두 통과</text>
+  </g>
+</svg>

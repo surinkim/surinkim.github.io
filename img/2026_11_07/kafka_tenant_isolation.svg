@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 560" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9a9a9a"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="759" height="559" rx="8" fill="#ffffff" stroke="#e6e6e6"/>
+  <text x="24" y="38" font-size="17" font-weight="700" fill="#1f1f1f">느린 테넌트 하나가 나머지를 멈추게 하던 경로</text>
+  <text x="24" y="58" font-size="12" fill="#8a8a8a">OTel Collector Kafka receiver → Elasticsearch exporter, 테넌트마다 클러스터가 다름</text>
+
+  <!-- before -->
+  <text x="24" y="96" font-size="11" font-weight="600" fill="#9a9a9a">전: 컨슈머 하나가 테넌트를 차례로 처리, 공유 sending queue</text>
+  <line x1="24" y1="104" x2="736" y2="104" stroke="#e2e2e2"/>
+  <g font-size="12">
+    <text x="24" y="134" fill="#1f1f1f">topic a</text>
+    <text x="24" y="156" fill="#5f5f5f">topic b</text>
+    <text x="24" y="178" fill="#5f5f5f">topic c</text>
+    <path d="M78,130 L128,150 M78,152 H128 M78,174 L128,154" stroke="#cfcfcf" fill="none"/>
+    <rect x="130" y="136" width="120" height="32" fill="#ffffff" stroke="#b8b8b8"/>
+    <text x="190" y="156" text-anchor="middle" fill="#5f5f5f">순차 루프 1개</text>
+    <path d="M252,152 H282" stroke="#9a9a9a" fill="none" marker-end="url(#a)"/>
+  </g>
+  <!-- queue slots before: all filled by A -->
+  <g>
+    <rect x="290" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="308" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="326" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="344" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="362" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="380" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="398" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="416" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="434" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="452" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="470" y="140" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="488" y="140" width="16" height="24" fill="#1f1f1f"/>
+  </g>
+  <text x="290" y="182" font-size="11" fill="#5f5f5f">a의 레코드로 큐가 가득 참 → 루프 정지</text>
+  <g font-size="12">
+    <path d="M508,152 H538" stroke="#9a9a9a" fill="none" marker-end="url(#a)"/>
+    <text x="546" y="140" fill="#1f1f1f">cluster a: 느림</text>
+    <text x="546" y="160" fill="#9a9a9a">cluster b: 정상인데 대기</text>
+    <text x="546" y="180" fill="#9a9a9a">cluster c: 정상인데 대기</text>
+  </g>
+
+  <!-- after -->
+  <text x="24" y="232" font-size="11" font-weight="600" fill="#9a9a9a">후: 파티션별 워커 + 테넌트별 슬롯 상한</text>
+  <line x1="24" y1="240" x2="736" y2="240" stroke="#e2e2e2"/>
+  <g font-size="12">
+    <text x="24" y="270" fill="#1f1f1f">topic a</text>
+    <text x="24" y="300" fill="#5f5f5f">topic b</text>
+    <text x="24" y="330" fill="#5f5f5f">topic c</text>
+    <rect x="130" y="256" width="120" height="22" fill="#ffffff" stroke="#b8b8b8"/>
+    <text x="190" y="271" text-anchor="middle" font-size="11" fill="#5f5f5f">워커 a (대기 중)</text>
+    <rect x="130" y="286" width="120" height="22" fill="#ffffff" stroke="#0f7b6c"/>
+    <text x="190" y="301" text-anchor="middle" font-size="11" fill="#0f7b6c">워커 b</text>
+    <rect x="130" y="316" width="120" height="22" fill="#ffffff" stroke="#0f7b6c"/>
+    <text x="190" y="331" text-anchor="middle" font-size="11" fill="#0f7b6c">워커 c</text>
+    <path d="M78,266 H128 M78,296 H128 M78,326 H128" stroke="#cfcfcf" fill="none"/>
+    <path d="M252,297 H282" stroke="#9a9a9a" fill="none" marker-end="url(#a)"/>
+  </g>
+  <g>
+    <rect x="290" y="284" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="308" y="284" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="326" y="284" width="16" height="24" fill="#1f1f1f"/>
+    <rect x="344" y="284" width="16" height="24" fill="#0f7b6c"/>
+    <rect x="362" y="284" width="16" height="24" fill="#0f7b6c"/>
+    <rect x="380" y="284" width="16" height="24" fill="#0f7b6c"/>
+    <rect x="398" y="284" width="16" height="24" fill="#0f7b6c"/>
+    <rect x="416" y="284" width="16" height="24" fill="#0f7b6c"/>
+    <rect x="434" y="284" width="16" height="24" fill="#0f7b6c"/>
+    <rect x="452" y="284" width="16" height="24" fill="none" stroke="#cfcfcf"/>
+    <rect x="470" y="284" width="16" height="24" fill="none" stroke="#cfcfcf"/>
+    <rect x="488" y="284" width="16" height="24" fill="none" stroke="#cfcfcf"/>
+  </g>
+  <line x1="324" y1="276" x2="324" y2="316" stroke="#1f1f1f" stroke-dasharray="3,2"/>
+  <text x="290" y="272" font-size="10" fill="#5f5f5f">a의 상한</text>
+  <text x="290" y="330" font-size="11" fill="#5f5f5f">검정 = a, 초록 = b·c, 빈칸 = 여유 (슬롯 수는 개념도)</text>
+  <g font-size="12">
+    <path d="M508,297 H538" stroke="#9a9a9a" fill="none" marker-end="url(#a)"/>
+    <text x="546" y="278" fill="#1f1f1f">cluster a: 느림</text>
+    <text x="546" y="298" fill="#0f7b6c">cluster b: 계속 전송</text>
+    <text x="546" y="318" fill="#0f7b6c">cluster c: 계속 전송</text>
+  </g>
+
+  <!-- adaptive cap -->
+  <text x="24" y="382" font-size="11" font-weight="600" fill="#9a9a9a">테넌트별 상한이 움직이는 방식 (개념도)</text>
+  <line x1="24" y1="390" x2="736" y2="390" stroke="#e2e2e2"/>
+  <line x1="60" y1="510" x2="460" y2="510" stroke="#cfcfcf"/>
+  <line x1="60" y1="410" x2="60" y2="510" stroke="#cfcfcf"/>
+  <text x="54" y="420" font-size="10" fill="#9a9a9a" text-anchor="end">상한</text>
+  <text x="460" y="526" font-size="10" fill="#9a9a9a" text-anchor="end">시간</text>
+  <polyline points="60,500 90,492 120,484 150,476 180,468 210,460 240,452 240,481 270,473 300,465 330,457 360,449 360,479 390,471 420,463 450,455" fill="none" stroke="#0f7b6c" stroke-width="2"/>
+  <text x="246" y="446" font-size="10" fill="#1f1f1f">느린 응답·재시도 오류 → 절반</text>
+  <text x="72" y="428" font-size="10" fill="#5f5f5f">성공할 때마다 조금씩 증가</text>
+  <g font-size="12">
+    <text x="490" y="420" fill="#1f1f1f">상한에 닿으면</text>
+    <text x="490" y="438" font-size="11" fill="#5f5f5f">그 파티션만 fetch를 멈춤 (backpressure)</text>
+    <text x="490" y="456" font-size="11" fill="#5f5f5f">레코드는 버리지 않음</text>
+    <text x="490" y="484" fill="#1f1f1f">max_in_flight</text>
+    <text x="490" y="502" font-size="11" fill="#5f5f5f">records: 파티션당 동시 처리 수</text>
+    <text x="490" y="518" font-size="11" fill="#5f5f5f">bytes: 메모리 상한</text>
+    <text x="490" y="536" font-size="11" fill="#9a9a9a">offset은 연속 구간만 커밋 → at-least-once</text>
+  </g>
+</svg>
