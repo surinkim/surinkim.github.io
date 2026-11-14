@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#232323"/>
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e8553a"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="759" height="469" rx="10" fill="#fffaf0" stroke="#232323" stroke-width="1.5"/>
+  <text x="24" y="38" font-size="17" font-weight="800" fill="#232323">Grafana Watchers는 어떻게 도나</text>
+
+  <!-- 1. calibration (once) -->
+  <rect x="236" y="70" width="250" height="64" rx="10" fill="#fffaf0" stroke="#232323" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <circle cx="236" cy="70" r="11" fill="#232323"/>
+  <text x="236" y="74" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">1</text>
+  <g stroke="#232323" stroke-width="2">
+    <path d="M261,82 V86 M269,82 V86 M277,82 V86 M261,116 V120 M269,116 V120 M277,116 V120"/>
+  </g>
+  <rect x="254" y="86" width="30" height="30" rx="5" fill="#e8553a" stroke="#232323" stroke-width="1.5"/>
+  <text x="269" y="105" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">LLM</text>
+  <text x="298" y="98" font-size="13" font-weight="700" fill="#232323">처음 한 번만, 큰 모델</text>
+  <text x="298" y="117" font-size="12" fill="#5a5048">정상 범위를 배워 둔다</text>
+  <path d="M300,136 V214" stroke="#232323" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a)"/>
+  <rect x="308" y="166" width="46" height="20" rx="10" fill="#ffd166" stroke="#232323"/>
+  <text x="331" y="180" font-size="11" font-weight="600" fill="#232323" text-anchor="middle">기준선</text>
+
+  <!-- clock -->
+  <circle cx="58" cy="262" r="22" fill="#ffffff" stroke="#232323" stroke-width="2"/>
+  <path d="M58,262 V248 M58,262 L68,268" stroke="#232323" stroke-width="2" stroke-linecap="round"/>
+  <text x="58" y="304" font-size="12" fill="#232323" text-anchor="middle">10분마다</text>
+  <path d="M84,262 H116" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- 2. data sources -->
+  <circle cx="120" cy="214" r="11" fill="#232323"/>
+  <text x="120" y="218" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">2</text>
+  <g fill="#ffd166" stroke="#232323" stroke-width="1.5">
+    <path d="M130,280 v14 a22,6 0 0 0 44,0 v-14"/><ellipse cx="152" cy="280" rx="22" ry="6"/>
+    <path d="M130,256 v14 a22,6 0 0 0 44,0 v-14"/><ellipse cx="152" cy="256" rx="22" ry="6"/>
+    <path d="M130,232 v14 a22,6 0 0 0 44,0 v-14"/><ellipse cx="152" cy="232" rx="22" ry="6"/>
+  </g>
+  <g font-size="11" fill="#232323">
+    <text x="182" y="246">지표</text>
+    <text x="182" y="270">로그</text>
+    <text x="182" y="294">배포</text>
+  </g>
+  <path d="M212,262 H244" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- code compare -->
+  <rect x="248" y="226" width="110" height="72" rx="10" fill="#cfe3ff" stroke="#232323" stroke-width="1.5"/>
+  <text x="303" y="258" font-size="18" font-weight="700" font-family="SFMono-Regular, Menlo, Consolas, monospace" fill="#232323" text-anchor="middle">{ }</text>
+  <text x="303" y="282" font-size="13" font-weight="600" fill="#232323" text-anchor="middle">코드로 비교</text>
+  <text x="303" y="318" font-size="11" fill="#5a5048" text-anchor="middle">LLM 없음</text>
+  <path d="M360,262 H392" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- digest doc -->
+  <path d="M396,234 h30 l10,10 v46 h-40 z" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <path d="M426,234 v10 h10" fill="none" stroke="#232323" stroke-width="1.5"/>
+  <path d="M403,256 h26 M403,265 h26 M403,274 h18" stroke="#232323" stroke-width="1.5"/>
+  <text x="416" y="318" font-size="11" fill="#5a5048" text-anchor="middle">요약 몇 줄</text>
+  <path d="M440,262 H472" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- 3. small model -->
+  <circle cx="476" cy="214" r="11" fill="#232323"/>
+  <text x="476" y="218" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">3</text>
+  <g stroke="#232323" stroke-width="2">
+    <path d="M486,232 V238 M500,232 V238 M514,232 V238 M486,286 V292 M500,286 V292 M514,286 V292"/>
+  </g>
+  <rect x="476" y="238" width="48" height="48" rx="7" fill="#e8553a" stroke="#232323" stroke-width="1.5"/>
+  <text x="500" y="266" font-size="11" font-weight="800" fill="#ffffff" text-anchor="middle">LLM</text>
+  <text x="500" y="318" font-size="11" font-weight="600" fill="#232323" text-anchor="middle">작은 모델 1회</text>
+  <path d="M528,262 H566" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- decision -->
+  <path d="M600,234 L628,262 L600,290 L572,262 z" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <text x="600" y="266" font-size="12" font-weight="600" fill="#232323" text-anchor="middle">이상?</text>
+  <path d="M630,262 H668" stroke="#e8553a" stroke-width="2" marker-end="url(#r)"/>
+  <text x="648" y="254" font-size="11" font-weight="600" fill="#e8553a" text-anchor="middle">예</text>
+  <path d="M600,292 V326" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="610" y="314" font-size="11" fill="#5a5048">아니오</text>
+  <text x="600" y="344" font-size="12" fill="#5a5048" text-anchor="middle">끝</text>
+
+  <!-- 4. bell -->
+  <circle cx="676" cy="214" r="11" fill="#232323"/>
+  <text x="676" y="218" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">4</text>
+  <path d="M686,276 c0,-20 4,-30 16,-30 c12,0 16,10 16,30 l5,6 h-42 z" fill="#ffd166" stroke="#232323" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M697,286 a5,5 0 0 0 10,0" fill="none" stroke="#232323" stroke-width="1.5"/>
+  <text x="702" y="318" font-size="11" font-weight="600" fill="#232323" text-anchor="middle">알림·조사</text>
+
+  <!-- cost -->
+  <line x1="24" y1="378" x2="736" y2="378" stroke="#232323" stroke-dasharray="2 4"/>
+  <text x="24" y="406" font-size="12" fill="#5a5048">watcher 하나의 월 비용</text>
+  <text x="250" y="416" font-size="22" font-weight="800" fill="#a39a90" text-anchor="middle">$2,400+</text>
+  <line x1="196" y1="409" x2="304" y2="409" stroke="#a39a90" stroke-width="2"/>
+  <text x="250" y="440" font-size="11" fill="#5a5048" text-anchor="middle">매번 에이전트가 조사한다면</text>
+  <text x="520" y="416" font-size="22" font-weight="800" fill="#e8553a" text-anchor="middle">$5 미만</text>
+  <text x="520" y="440" font-size="11" fill="#5a5048" text-anchor="middle">이 구조로 (사내 43개 중앙값)</text>
+</svg>

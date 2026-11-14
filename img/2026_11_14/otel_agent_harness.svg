@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#232323"/>
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e8553a"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="759" height="469" rx="10" fill="#fffaf0" stroke="#232323" stroke-width="1.5"/>
+  <text x="24" y="38" font-size="17" font-weight="800" fill="#232323">계측 코드를 짜는 에이전트 하네스</text>
+
+  <!-- team lead strip -->
+  <rect x="100" y="58" width="560" height="30" rx="15" fill="#ffd166" stroke="#232323" stroke-width="1.5"/>
+  <text x="380" y="78" font-size="12" font-weight="600" fill="#232323" text-anchor="middle">Team Lead 에이전트가 순서를 지휘 · 사람은 언제든 끼어들 수 있음</text>
+
+  <!-- repo folder -->
+  <path d="M28,206 h18 l5,6 h25 v38 h-48 z" fill="#ffffff" stroke="#232323" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="52" y="272" font-size="11" fill="#5a5048" text-anchor="middle">프레임워크</text>
+  <text x="52" y="286" font-size="11" fill="#5a5048" text-anchor="middle">저장소</text>
+  <path d="M80,230 H106" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- 1 research -->
+  <circle cx="112" cy="184" r="11" fill="#232323"/>
+  <text x="112" y="188" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">1</text>
+  <g stroke="#232323" stroke-width="2"><path d="M120,202 V208 M130,202 V208 M140,202 V208 M120,252 V258 M130,252 V258 M140,252 V258"/></g>
+  <rect x="110" y="208" width="40" height="44" rx="6" fill="#e8553a" stroke="#232323" stroke-width="1.5"/>
+  <text x="130" y="234" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">조사</text>
+  <text x="130" y="276" font-size="11" fill="#5a5048" text-anchor="middle">훅 위치 찾기</text>
+  <path d="M154,230 H180" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- 2 plan doc + human -->
+  <circle cx="186" cy="184" r="11" fill="#232323"/>
+  <text x="186" y="188" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">2</text>
+  <path d="M186,206 h32 l10,10 v40 h-42 z" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <path d="M218,206 v10 h10" fill="none" stroke="#232323" stroke-width="1.5"/>
+  <path d="M193,226 h26 M193,235 h26 M193,244 h18" stroke="#232323" stroke-width="1.5"/>
+  <text x="207" y="276" font-size="11" fill="#5a5048" text-anchor="middle">실행 계획</text>
+  <!-- person -->
+  <circle cx="207" cy="122" r="8" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <path d="M193,150 a14,14 0 0 1 28,0 z" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <text x="228" y="140" font-size="11" font-weight="600" fill="#232323">사람 검토</text>
+  <path d="M207,154 V200" stroke="#232323" stroke-width="1.5" stroke-dasharray="3 3" marker-end="url(#a)"/>
+  <path d="M232,230 H262" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- 3 coding <-> review -->
+  <circle cx="268" cy="184" r="11" fill="#232323"/>
+  <text x="268" y="188" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">3</text>
+  <g stroke="#232323" stroke-width="2"><path d="M276,202 V208 M286,202 V208 M296,202 V208 M276,252 V258 M286,252 V258 M296,252 V258"/></g>
+  <rect x="266" y="208" width="40" height="44" rx="6" fill="#e8553a" stroke="#232323" stroke-width="1.5"/>
+  <text x="286" y="234" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">코딩</text>
+  <g stroke="#232323" stroke-width="2"><path d="M352,202 V208 M362,202 V208 M372,202 V208 M352,252 V258 M362,252 V258 M372,252 V258"/></g>
+  <rect x="342" y="208" width="40" height="44" rx="6" fill="#e8553a" stroke="#232323" stroke-width="1.5"/>
+  <text x="362" y="234" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">리뷰</text>
+  <path d="M308,222 H338" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+  <path d="M340,240 H310" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="300" y="276" font-size="11" fill="#5a5048">통과까지 핑퐁</text>
+  <path d="M386,230 H418" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- 4 weaver gate -->
+  <circle cx="424" cy="184" r="11" fill="#232323"/>
+  <text x="424" y="188" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">4</text>
+  <rect x="422" y="200" width="104" height="60" rx="10" fill="#cfe3ff" stroke="#232323" stroke-width="1.5"/>
+  <text x="474" y="224" font-size="13" font-weight="700" fill="#232323" text-anchor="middle">Weaver</text>
+  <text x="474" y="244" font-size="11" fill="#232323" text-anchor="middle">규격 대조 · exit code</text>
+  <text x="474" y="276" font-size="11" fill="#5a5048" text-anchor="middle">LLM 아님</text>
+  <path d="M528,230 H554" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- 5 soak -->
+  <circle cx="560" cy="184" r="11" fill="#232323"/>
+  <text x="560" y="188" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">5</text>
+  <rect x="558" y="200" width="84" height="60" rx="10" fill="#cfe3ff" stroke="#232323" stroke-width="1.5"/>
+  <text x="600" y="224" font-size="13" font-weight="700" fill="#232323" text-anchor="middle">k8s</text>
+  <text x="600" y="244" font-size="11" fill="#232323" text-anchor="middle">장시간 실행</text>
+  <text x="600" y="276" font-size="11" fill="#5a5048" text-anchor="middle">누수·회귀 확인</text>
+  <path d="M644,230 H670" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- PR -->
+  <rect x="674" y="214" width="58" height="32" rx="16" fill="#ffd166" stroke="#232323" stroke-width="1.5"/>
+  <text x="703" y="235" font-size="13" font-weight="800" fill="#232323" text-anchor="middle">PR</text>
+  <text x="703" y="276" font-size="11" fill="#5a5048" text-anchor="middle">사람 최종 검토</text>
+
+  <!-- back loops -->
+  <path d="M474,286 V318 H286 V262" fill="none" stroke="#e8553a" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#r)"/>
+  <path d="M600,286 V318 H474" fill="none" stroke="#e8553a" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="380" y="338" font-size="12" font-weight="600" fill="#e8553a" text-anchor="middle">규격 위반 · 성능 회귀 → 다시 코딩</text>
+
+  <!-- swap -->
+  <line x1="24" y1="378" x2="736" y2="378" stroke="#232323" stroke-dasharray="2 4"/>
+  <text x="24" y="406" font-size="12" fill="#5a5048">통과 판정을 누가 하나</text>
+  <text x="250" y="416" font-size="18" font-weight="800" fill="#a39a90" text-anchor="middle">리뷰 모델의 승인</text>
+  <line x1="180" y1="410" x2="320" y2="410" stroke="#a39a90" stroke-width="2"/>
+  <text x="250" y="440" font-size="11" fill="#5a5048" text-anchor="middle">규격에 안 맞는 출력도 통과시켰다</text>
+  <text x="520" y="416" font-size="18" font-weight="800" fill="#e8553a" text-anchor="middle">레지스트리 비교 + exit code</text>
+  <text x="520" y="440" font-size="11" fill="#5a5048" text-anchor="middle">위반이면 루프가 멈춘다</text>
+</svg>

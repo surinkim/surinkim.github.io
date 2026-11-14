@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 470" font-family="-apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#232323"/>
+    </marker>
+    <marker id="r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#e8553a"/>
+    </marker>
+  </defs>
+  <rect x="0.5" y="0.5" width="759" height="469" rx="10" fill="#fffaf0" stroke="#232323" stroke-width="1.5"/>
+  <text x="24" y="38" font-size="17" font-weight="800" fill="#232323">사람 리뷰 없이 머지하는 루프에서 리뷰가 간 곳</text>
+
+  <!-- 1 done criteria -->
+  <circle cx="40" cy="128" r="11" fill="#232323"/>
+  <text x="40" y="132" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">1</text>
+  <rect x="40" y="146" width="92" height="74" rx="10" fill="#ffd166" stroke="#232323" stroke-width="1.5"/>
+  <g stroke="#232323" stroke-width="1.8" fill="none">
+    <path d="M52,166 l4,4 l7,-8"/><path d="M52,186 l4,4 l7,-8"/><path d="M52,206 l4,4 l7,-8"/>
+  </g>
+  <path d="M72,166 h48 M72,186 h48 M72,206 h36" stroke="#232323" stroke-width="1.5"/>
+  <text x="86" y="242" font-size="11" fill="#5a5048" text-anchor="middle">완료 조건 ·</text>
+  <text x="86" y="256" font-size="11" fill="#5a5048" text-anchor="middle">앱별 검증 스킬</text>
+  <path d="M134,183 H166" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- coding agent -->
+  <g stroke="#232323" stroke-width="2"><path d="M180,155 V161 M192,155 V161 M204,155 V161 M180,205 V211 M192,205 V211 M204,205 V211"/></g>
+  <rect x="170" y="161" width="44" height="44" rx="6" fill="#e8553a" stroke="#232323" stroke-width="1.5"/>
+  <text x="192" y="187" font-size="10" font-weight="800" fill="#ffffff" text-anchor="middle">작성</text>
+  <text x="192" y="142" font-size="11" fill="#5a5048" text-anchor="middle">코딩 에이전트</text>
+  <path d="M218,183 H250" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- PR -->
+  <rect x="254" y="167" width="52" height="32" rx="16" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <text x="280" y="188" font-size="13" font-weight="800" fill="#232323" text-anchor="middle">PR</text>
+  <path d="M308,183 H340" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- 2 verifier -->
+  <circle cx="346" cy="128" r="11" fill="#232323"/>
+  <text x="346" y="132" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">2</text>
+  <rect x="344" y="150" width="112" height="66" rx="10" fill="#cfe3ff" stroke="#232323" stroke-width="1.5"/>
+  <path d="M360,170 l14,9 l-14,9 z" fill="#232323"/>
+  <text x="384" y="176" font-size="12" font-weight="700" fill="#232323">검증 에이전트</text>
+  <text x="384" y="194" font-size="11" fill="#232323">사용자처럼 실행</text>
+  <text x="400" y="242" font-size="11" font-weight="600" fill="#232323" text-anchor="middle">작성자 ≠ 판정자</text>
+  <text x="400" y="256" font-size="11" fill="#5a5048" text-anchor="middle">CI 통과만으론 안 됨</text>
+  <path d="M458,183 H490" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+
+  <!-- decision -->
+  <path d="M526,155 L554,183 L526,211 L498,183 z" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <text x="526" y="187" font-size="11" font-weight="700" fill="#232323" text-anchor="middle">PASS?</text>
+  <path d="M556,183 H640" stroke="#232323" stroke-width="1.5" marker-end="url(#a)"/>
+  <text x="598" y="175" font-size="11" fill="#232323" text-anchor="middle">예</text>
+  <rect x="644" y="167" width="80" height="32" rx="16" fill="#ffd166" stroke="#232323" stroke-width="1.5"/>
+  <text x="684" y="188" font-size="13" font-weight="800" fill="#232323" text-anchor="middle">머지</text>
+  <!-- fail back -->
+  <path d="M526,213 V282 H192 V209" fill="none" stroke="#e8553a" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#r)"/>
+  <text x="360" y="302" font-size="12" font-weight="600" fill="#e8553a" text-anchor="middle">FAIL → 다시 작성</text>
+
+  <!-- 3 review comments sorting -->
+  <line x1="24" y1="330" x2="736" y2="330" stroke="#232323" stroke-dasharray="2 4"/>
+  <circle cx="40" cy="362" r="11" fill="#232323"/>
+  <text x="40" y="366" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">3</text>
+  <text x="60" y="367" font-size="12" font-weight="700" fill="#232323">여러 모델의 리뷰 지적은 나눠서 처리</text>
+  <g font-size="12" font-weight="600" fill="#232323" text-anchor="middle">
+    <rect x="60" y="384" width="64" height="28" rx="14" fill="#ffffff" stroke="#232323" stroke-width="1.5"/><text x="92" y="403">고치기</text>
+    <rect x="134" y="384" width="64" height="28" rx="14" fill="#ffffff" stroke="#232323" stroke-width="1.5"/><text x="166" y="403">검토</text>
+    <rect x="208" y="384" width="64" height="28" rx="14" fill="#ffffff" stroke="#232323" stroke-width="1.5"/><text x="240" y="403">기록</text>
+    <rect x="282" y="384" width="64" height="28" rx="14" fill="#ffffff" stroke="#232323" stroke-width="1.5"/><text x="314" y="403">기각</text>
+  </g>
+  <!-- person for security -->
+  <circle cx="392" cy="388" r="7" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <path d="M380,412 a12,12 0 0 1 24,0 z" fill="#ffffff" stroke="#232323" stroke-width="1.5"/>
+  <text x="412" y="397" font-size="12" font-weight="600" fill="#232323">보안·데이터는</text>
+  <text x="412" y="413" font-size="12" font-weight="600" fill="#232323">사람에게</text>
+
+  <!-- 4 repeated -> lint -->
+  <circle cx="530" cy="362" r="11" fill="#232323"/>
+  <text x="530" y="366" font-size="12" font-weight="700" fill="#fffaf0" text-anchor="middle">4</text>
+  <text x="550" y="367" font-size="12" font-weight="700" fill="#232323">반복되는 지적은</text>
+  <rect x="550" y="384" width="170" height="28" rx="8" fill="#cfe3ff" stroke="#232323" stroke-width="1.5"/>
+  <text x="635" y="403" font-size="12" font-weight="600" fill="#232323" text-anchor="middle">린트 · 타입 · CI 규칙으로</text>
+  <text x="635" y="440" font-size="11" fill="#5a5048" text-anchor="middle">같은 실수는 사람 대신 도구가 막는다</text>
+</svg>
