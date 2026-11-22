@@ -51,9 +51,22 @@ theme_config:
   date_format: "%Y-%m-%d"
   show_description: false
 
+# 숨김 주간 레이더: 목록·피드·sitemap에 나오지 않고 /pekr/ 주소로만 본다
+collections:
+  radar:
+    output: true
+    permalink: /pekr/:name/
+
 defaults:
   - scope:
       path: ""
       type: "posts"
     values:
       comments: true
+  - scope:
+      path: ""
+      type: "radar"
+    values:
+      layout: radar
+      comments: false
+      noindex: true

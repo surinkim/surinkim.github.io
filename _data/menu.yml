@@ -11,10 +11,6 @@
   nav: "translations"
   url: /book
 
-- title: "주간 테크 뉴스"
-  nav: "tech news"
-  url: /weekly
-
 - title: "소개"
   nav: "about"
   url: /about
